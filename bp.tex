@@ -1,0 +1,957 @@
+\documentclass[11pt,oneside]{fithesis2}
+\usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref} 
+\usepackage[slovak]{babel}
+\usepackage[cp1250]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{enumitem}
+
+
+\usepackage{amsmath} 	%math
+\usepackage{alltt}		%text formatting
+\setcounter{secnumdepth}{3}		%subsubsection
+
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+
+\bibliographystyle{czechiso}
+
+\thesistitle{Implementácia poèítania v koneèných poliach v jazyku Java}
+\thesissubtitle{Bakalárska práca}
+\thesisstudent{Jakub Lipèák}
+\thesiswoman{false}
+\thesisfaculty{fi}
+\thesisyear{jar 2014}
+\thesisadvisor{Mgr. Dušan Klinec}
+
+
+\begin{document}
+\FrontMatter
+\ThesisTitlePage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter*{Prehlásenie}
+%\DeclarationText
+Prehlasujem, že táto bakalárska práca je mojim pôvodným autorským dielom, ktoré som vypracoval samostatne. 
+Všetky zdroje, pramene a literatúru, ktoré som pri vypracovaní používal alebo z nich èerpal, v práci riadne 
+citujem s uvedením úplného odkazu na príslušný zdroj.
+\AdvisorName
+
+\chapter*{Poïakovanie}
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum."
+
+\chapter*{Zhrnutie}
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum."
+
+\chapter*{K¾úèové slová}
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum."
+
+\MainMatter
+\tableofcontents
+
+\chapter {Úvod}
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum."
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter {Polia v abstraktnej algebre}
+Táto kapitola obsahuje struèný úvod do teórie polí a koneèných polí
+s popisom základných aritmetických operácií definovaných nad týmito poliami.
+Taktiež obsahuje preh¾ad matematických knižníc, ktoré poskytujú funkcionalitu pre poèítanie v koneèných poliach.
+
+\section {Definícia}
+Pod pojmom pole v abstraktnej algebre chápeme algebraickú štruktúru, ktorá sa skladá z množiny prvkov a dvoch 
+binárnych operácií definovaných na tejto množine. Znaèíme ho ako usporiadanú trojicu: (F, +, ·), kde 
+F je množina prvkov po¾a spoloène s aditívnou a multiplikatívnou binárnou operáciou~\cite{Introduction}.
+
+
+\section {Axiómy polí v abstraktnej algebre}
+Pole v abstraktnej algebre je definované ako množina reálnych èísel F, na ktorej je definovaná aditívna a 
+multiplikatívna operácia. Aby sme ale túto štruktúru mohli považova za pole, musia tieto operácie spåòa
+nasledujúce axiómy~\cite{Calculus} : \\
+
+\begin{itemize}
+
+  \item Aditívna aj multiplikatívna operácia nad všetkými prvkami množiny F sp¾òa zákony asociativity, 
+  komutativity a distributivity.
+  
+  \item Pre všetky prvky ${}x$ s množiny ${}F$ existuje neutrálny prvok ${}e \in F$ s vlastnosami: 
+  ${}e + x = x 
+  \qquad  e$ · ${}x = x$
+  
+  \item Pre všetky nenulové prvky ${}x$ s množiny ${}F$ existuje inverzný prvok ${}y \in F$ s vlastnosou:
+  ${}x$ · ${}y = 1$
+  
+  \item Pre všetky prvky ${}x$ s množiny ${}F$ existuje opaèný prvok ${}y \in F$ s vlastnosou:
+  ${}x + y = 0$
+  
+\end{itemize}
+
+
+
+\section {Koneèné polia}
+Koneèné polia, taktiež oznaèované ako Galoisove polia(pod¾a francúzskeho matematika Evariste Galoisa), sú polia
+obsahujúce koneèný poèet prvkov. Jedná sa o algebraické štruktúry s množstvom zaujímavých vlastností, vïaka ktorým
+nachádzajú teoretické aj praktické využitie v rôznych odvetviach matematiky.
+
+\subsection {Rád koneèného po¾a}
+Každé koneèné pole, ako vyplýva už zo samotného názvu tejto štruktúry, obsahuje len koneèný poèet prvkov. 
+Tento poèet sa nazýva rád koneèného po¾a. Koneèné pole ${}F$ rádu ${}q$ existuje len vtedy, ak ${}q = p^n$, kde
+${}p$ je prvoèíslo a ${}n$ kladné celé èíslo.    
+Pre každé ${}q$ existuje práve jedno koneèné pole. Pod¾a rádu dané pole 
+znaèíme ako GF(p${}^{n}$), prípadne F$_{{p}^{n}}$. Èíslu ${}p$ hovoríme, že je charakteristické pre dané pole
+ ~\cite{FiniteFieldWolfram}. 
+
+ 
+
+\subsection {Ireducibilný polynóm koneèného po¾a}
+Pre koneèné pole GF(p), ktorého rád je rovný prvoèíslu p, sú všetky operácie vykonávané modulo toto
+prvoèíslo. Takéto pole nazývame prvoèíselné a všetky jeho prvky sú zvyškové triedy modulo prvoèíslo p.
+Pre všetky prvky tohto po¾a platí: ${} x = y \Leftrightarrow x \equiv y \ (mod \ p) $.		\\
+\mbox{}
+\qquad Pre koneèné polia GF(p${}^{n}$) je ale situácia zložitejšia a je potrebné zvoli si pre dané pole
+charakteristický ireducibilný polynóm ${}f$. 
+Ireducibilný polynóm koneèného po¾a GF(p${}^{n}$) musí by stupòa n s koeficientami v GF(p). 
+Taký ireducibilný polynóm existuje pre každé ${} n \geq 1 $ a vieme ho efektívne nájs ~\cite{AbstractAlgebra}. 
+Prvky takého po¾a sú polynómy stupòa najviac ${n - 1}$ s koeficientami 
+${a}_{i} \in GF(p)$~\cite{SpringerCurveCryptography} : 
+${}GF({p}^{n})$ = {\{a${}_{n-1}$x${}^{n-1}$ + a${}_{n-2}$x${}^{n-2}$ + ... + 
+a${}_{2}$x${}^{2}$ + a${}_{1}$x + a${}_{0}$\}	}.\\ 
+Pre všetky tieto prvky po¾a platí: 
+ ${} x = y \Leftrightarrow x \equiv y \ (mod \ f) $. \\
+ 
+
+
+
+\subsection {Aritmetické operácie nad koneènými poliami}
+Poèítanie v koneèných poliach je závislé od rádu daného po¾a a taktiež od zvoleného ireducibilného polynómu
+pre dané koneèné pole.
+Všetky aritmetické operácie nad takým po¾om sú vykonávané modulo tento redukèný polynóm 
+(prípadne modulo rád po¾a pre prvoèíselné polia). Pre každé koneèné pole je definovaná len aditívna a 
+multiplikatívna operácia, ostatné operácie sú vykonávané ich špecifickým aplikovaním.
+V nasledujúcej èasti je predstavená aritmetika základnych operácií pre poèítanie v koneèných poliach~\cite{SpringerCurveCryptography}.
+Budeme predpoklada, že ${}p$ je ¾ubovo¾né prvoèíslo a ${}n$ celé èíslo väèšie ako 1.  
+
+\begin{itemize}
+	\item \textbf{Sèítanie: } \\
+	Nech máme pole GF(p) a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$. 
+	Výsledok výrazu ${x + y}$ je definovaný ako: ${(x + y)\ mod \ p}$. \\
+	Pre pole GF(p${}^{n}$) s prvkami ${x \in}$ GF(p${}^{n}$) a ${y \in}$ GF(p${}^{n}$)
+	sa na prvky po¾a musíme pozera ako na polynómy a výsledok
+	výrazu ${x + y}$ dostaneme sèítaním ich koeficientov.
+	
+	
+	\item \textbf{Odèítanie: } \\
+	Operácia odèítania je definovaná na základe aditívnej operácie.
+	Nech máme pole GF(p) a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$.  \\
+	Potom: ${x - y}$ = ${x + (-y)}$, kde prvok ${-y}$ je opaèný k prvku ${y}$,
+	a teda platí: ${y + (-y) = 0}$	\\
+	
+	
+	\item \textbf{Násobenie: } \\
+	Nech máme pole GF(p) a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$. 
+	Výsledok výrazu ${x}$·${y}$ je definovaný ako: $({x}$ · ${y})$${\ mod \ p}$. \\
+	Ïalej si zvolíme pole GF(p${}^{n}$) s prvkami ${x \in}$ GF(p${}^{n}$) a ${y \in}$ GF(p${}^{n}$)
+	a redukèný polynóm ${f}$ pre toto pole.
+	Výsledok výrazu ${x}$ · ${y}$ je v tomto prípade definovaný ako: ${x}$ · ${y}$${\ mod \ f}$. \\
+	
+	\item \textbf{Delenie: } \\
+	Operácia delenia je definovaná na základe multiplikatívnej operácie. \\
+	Výsledok výrazu ${x / y}$ pre nenulové y je definovaný ako: ${x}$ · ${y}^{-1}$, kde prvok ${y}^{-1}$ 
+	je inverzný k prvku ${y}$, a teda platí: ${y}$ · ${y^{-1} = 1}$	\\
+	\mbox{}
+	\qquad
+	Na vykonanie tejto operácie ale musíme pozna inverzný prvok menovate¾a. Spôsobov ako ho nájs 
+	je nieko¾ko. Môžme napríklad využi vlastnos, že pre každý prvok ${x} \in GF(m)$ platí: \\
+	${x}^{m} = x$, to znamená že ${x}^{-1} = {x}^{m-2}$ ~\cite{FiniteFieldWolfram}. 
+	
+
+\end{itemize}
+
+
+\subsection {Využite koneèných polí}
+Koneèné polia majú zaujímavé matematické vlastnosti, vïaka èomu nachádzajú široké využitie v mnohých 
+aplikácách modernej algebry v reálnom svete. Využívajú sa napríklad v afínnej a projekènej geometrii. Taktiež
+sa používajú na riešenie niektorých problémov v kombinatorike, a ich vlastnosti sa dajú aplikova aj pri 
+generovaní pseudonáhodných sekvencií èísel.  \\
+\mbox{\qquad }
+V dnešnej dobe ohromného rozvoja informaèných technológií sa kladie ve¾ký dôraz na zabezpeèenie
+rýchlej, bezpeènej a spolahlivej komunikácie so zachovaním integrity a správnosti prenášaných dát. Na zabezpeèenie 
+niektorých týchto vlastností sa využívajú vlastnosti koneèných polí. Sú dôležitou súèasou teórie kódovania, ktorá
+sa zaoberá kódovaním informácií a minimalizovaním vzniku chyby pri ich prenose. Koneèné polia su ve¾mi významné taktiež pre
+kryptografiu a sú dôležitou súèasou mnohých kryptografických algoritmov ~\cite{Introduction2}.
+
+
+\section {Knižnice pre poèítanie v koneèných poliach}
+Táto sekcia zobrazuje preh¾ad knižníc, ktoré poskytujú funkcionalitu pre poèítanie v koneèných poliach. Väèšinou
+sa jedná o ve¾mi rozsiahle knižnice s širokým spektrom funkcií. Nie je tu preto detailný rozbor toho, èo všetko 
+dané knižnice zvládajú. Jedná sa skôr o základný preh¾ad ich vlastností s možnosami ich využitia.
+
+
+\subsection { NTL }
+NTL~\cite{NTL} je matematická knižnica napísaná v jazyku C++. Jej autorom je profesor pôsobiaci na New York University, Victor Shoup.
+NTL sa vïaka svojej rýchlosti a efektivite stala uznávanou a používanou knižnicou.  
+Jej inštalácia je jednoduchá, platformovo nezávislá a funguje na strojoch s 32 aj s 64-bitovou architektúrou.
+Je to vo¾ne dostupná knižnica, ktorá môže by používaná pod¾a pravidiel licencie: GNU General Public License.\\
+
+Knižnica NTL poskytuje funkcie pre:
+
+\begin{itemize}
+  \item 
+  Poèítanie s èíslami neobmedzenej dåžky. Je tu implementovaná aritmetika reálnych aj celých èísel, ktorých dåžka nie je
+  knižnicou nijak obmedzená. Kým to pamäové nároky dovolia, je táto knižnica schopná poèíta s neobmedzene ve¾kými èíslami.
+  V tomto smere je vhodná na použitie do projektov, ktorým pre èísla nepostaèujú štandardné primitívne dátové typy.
+  
+  \item 
+  Poèítanie s rôznymi matematickými štruktúrami v celých èíslach aj v koneèných poliach. Poèítanie v koneèných poliach
+  je implementované pre polia GF(${2}^{n}$), ktoré sú najvhodnejšie pre výpoèty na poèítaèi.
+  
+  \item 
+  Poèítanie s rôznymi matematickými objektami ako sú èísla, vektory, matice a polynómy. 
+  
+  \item 
+  Mimoriadne efektívne poèítanie s polynómami ve¾kých stupòov. Implementovaných je množstvo funkcií, ako napríklad:
+  základná aritmetika polynómov, najväèší spoloèný delite¾, faktorizácia polynómov, testovanie ireducibility polynómov,
+  generovanie ireducibilných polynómov, a množstvo ïalších. Preto je táto knižnica vhodná na riešenie problémov, kde
+  je potrebné vykonáva komplikované výpoèty s polynómami ve¾kých stupòov. Môže sa napríklad jedna o testovanie ireducibility
+  polynómov pri vytváraní redukèného polynómu pre ve¾ké koneèné polia. Taktiež je knižnica NTL ve¾mi efektívna pri faktorizácii
+  polynómov. Ïalšie využitie môže nájs pri poèítaní s eliptickými krivkami nad koneènými poliami, 
+  ktoré sa využívajú napríklad v kryptografii.
+  
+  \item 
+  Špecifické problémy, pre ktoré existuje len ve¾mi málo dostupných riešení. NTL napríklad ponúka implementáciu 
+  mriežkovej redukcie (z anglického Lattice reduction). Podobných algoritmov existuje len ve¾mi málo. 
+ 
+\end{itemize}
+
+Knižnica NTL má množstvo zaujímavej funkcionality, ktorá môžu by využitá pre rôzne iné projekty. Vïaka implementácii
+v jazyku C++ a dobrému objektovému návrhu je táto knižnica dobre škálovatelná. Tieto vlastnosti sú dôvodom, preèo
+je využívaná v mnohých projektoch. Ponúka rozhranie, ktoré umožòuje využi jej funkcie pre množstvo 
+ïalších algoritmov bez straty výkonu.	\\
+
+\mbox{\qquad } Všetká funkcionalita, ktorú táto knižnica poskytuje, je napísaná efektívne s dôrazom na rýchlos výpoètov,
+èo ju zaraïuje medzi najlepšie matematické knižnice pre danú problematiku. Ak sa jej dá nieèo vytknú, je to možno nedostatok
+dokumentácie. Každá trieda knižnice NTL poskytuje množstvo metód, ktoré sú len ve¾mi struène zdokumentované. Samotný kód
+je bez jeho hlbšej štúdie ažko èítatelný a takmer bez komentárov. Pomohla by bližšia špecifikácia použitých algoritmov
+a zdôvodnenie v nich použitých krokov.
+Taktiež by bolo dobré, keby bolo súèasou dokumentácie nieko¾ko
+ukážkových kódov využívajúcich funkcionalitu knižnice.
+
+
+\subsection { Givaro }
+Givaro~\cite{Givaro} je matematická knižnica napísaná v jazyku C++ urèená primárne pre operaèný systém Linux. 
+Je spravovaná týmom francúzskych programátorov a je licencovaná pod licenciou: CeCILL-B. 	\\
+
+Ponúka funkcie pre:
+\begin{itemize}
+  \item 
+  Poèítanie s èíslami neobmedzenej dåžky. Neponúka vlastnú implementáciu tejto funkcionality, ale
+  využíva vo¾ne dostupnú knižnicu GMP. Táto knižnica poskytuje aritmetiku pre poèítanie s celými,
+  racionálnymi a reálnymi èíslami neobmedzenej dåžky.
+  
+  \item 
+  Poèítanie nad rôznymi algebraickými štruktúrami ako sú koneèné polia, koneèné okruhy, algebraické èísla a klasické èisla.
+  
+  \item 
+  Poèítanie s rôznymi matematickými objektami ako sú polynómy, vektory a matice. Na výpoèty v lineárnej algebre je využitá
+  externá knižnica LinBox.
+  
+  \item 
+  Poèítanie vo viacerých vláknach. Knižnica Givaro je plne kompatibilná s externou knižnicou XKAAPI, ktorá umožòuje
+  multivláknové poèítanie s dátovou synchronizáciou medzi jednotlivými vláknami.
+  
+  \item 
+  Rôzne zaujímavé výpoèty z teórie èísel. Knižnica Givaro disponuje modulmi, ktoré implementujú napríklad: testovanie prvoèísiel,
+  faktorizáciu eliptických kriviek, šifrovanie RSA, výpoèet èínskej zvyškovej triedy, faktorizáciu polynómov, a mnoho iného.
+ 
+\end{itemize}
+
+Givaro je zaujímavý nástroj, ktorého výhodou je práca s niektorými externými knižnicami. To významne zvyšuje jej využitelnos.
+V spolupráci s knižnicou GMP je Givaro vhodné na vývoj rôznych kryptografických a bezpeènostných aplikácii.
+S využitím knižnice LinBox je zas možné vyvíja matematické systémy so zameraním na operácie v lineárnej algebre.
+Nevýhodou knižnice Givaro je, že práca s òou na iných operaèných systémoch ako Linux môže by problematická.
+
+\subsection { Crypto++ }
+Medzi ïalšie knižnice schopné poèíta s koneènými poliami patrí knižnica Crypto++ ~\cite{Crypto++}. Ako vyplýva už zo samotného názvu tejto 
+knižnice, je zameraná na kryptografické algoritmy. Táto knižnica je napísaná v jazyku C++ a je distribuovaná pod licenciou
+Boost Software License 1.0. Bez problémov funguje na všetkých širšie používaných operaèných systémoch.
+Z oblasti poèítania v koneèných poliach ponúka táto knižnica základnú aritmetiku pre poèítanie
+s prvoèíselnými poliami a s poliami GF(${2}^{n}$). Nie je to ale knižnica urèená primárne na poskytovanie funkcií pre
+poèítanie v koneèných poliach. Je urèená najmä na praktickú aplikáciu mnohých, prevažne kryptografických algoritmov, ktoré 
+sú touto knižnicou implementované. Je preto vhodná do projektov, ktoré pri svojej práci potrebujú využíva
+kryptografické algoritmy poskytované knižnicou Crypto++. Medzi ne patria napríklad: AES, DES, RSA, DSA, ElGamal,
+Panama, Diffie-Hellman a mnoho ïalších.
+
+
+\subsection { Fast Galois Field Arithmetic Library in C/C++ }
+Knižnicu Fast Galois Field Arithmetic Library in C/C++~\cite{FastGalois} vyvinul profesor James S. Plank pôsobiaci na University of Tennessee.
+Jedná sa o knižnicu napísanú v jazyku C. Svojou ve¾kosou sa nemôže rovna ostatným knižniciam spomenutým v tejto sekcii.
+Ponúka len základné operácie pre poèítanie v poli GF(${2}^{n}$). Pre niektoré projekty môže by ale táto knižnica ideálnym
+riešením. Ak daný projekt nepotrebuje pokroèilejšie funkcie, poskytne mu táto knižnica jednoduché a rýchle poèítanie v
+koneènom poli GF(${2}^{n}$).
+
+\subsection { Ïalšie knižnice }
+Pre poèítanie v koneèných poliach existuje množstvo ïalších knižníc, z ktorých mnohé vedia poèíta rýchlo a efektívne.
+Medzi ne patrí napríklad knižnica FLINT~\cite{Flint} napísaná v jazyku C. Vïaka svojej rýchlosti je využívaná v mnohých matematických
+projektoch zameraných na teóriu èísel a poèítanie s rôznymi matematickými štruktúrami. Ïalšiou zaujímavou knižnicou je 
+projekt MPFQ~\cite{MPFQ} napísaný v jazyku Perl, ktorý bol vyvinutý pre rýchlu aritmetiku nad koneènými poliami.	\\
+\mbox{\qquad } 
+Pre poèítanie v koneèných poliach existuje pomerne široká škála rôznych knižníc. Väèšina z nich je napísaná v jazykoch
+C a C++. Dôvodom je, že pri matematických operáciách dosahujú tieto jazyky 
+najlepšie výkonnostné, rýchlostné aj pamäové výsledky~\cite{Cecko}.
+Pre iné programovacie jazyky môže by ale problematické nájs vhodné nástroje schopné poèíta v tejto oblasti.
+Aj preto bolo cie¾om tejto bakalárskej práce vyvinú knižnicu pre poèítanie v koneèných poliach v jazyku Java, pre 
+ktorý neexistuje dostatok podobných nástrojov.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter {AES}
+Súèasou tejto bakalárskej práce bola aj implementácia symetrického
+šifrovacieho algoritmu AES (Advanced Encryption Standard), ktorý
+vykonáva niektoré operácie v koneènom poli GF(${2}^{n}$).
+ Táto kapitola obsahuje základné informácie o tomto
+ algoritme. Èiastoène je tu popísaná história tohto algoritmu a motivácia
+pre vznik nového šifrovacieho štandardu. Ïalej sa táto kapitola venuje
+popisu krokov potrebných pre šifrovanie a dešifrovanie, rôznym dåžkam
+šifrovacieho klúèa a taktiež jeho expanzii vykonávanej v algoritme AES.
+
+
+\section {História}
+V 70, rokoch minulého storoèia zaèala v USA vznika požiadavka na vznik národného 
+šifrovacieho štandardu. Algoritmus mal by dostupný pre širokú verejnos a súkromný sektor. 
+Spoloènos IBM vtedy vyvinula algoritmus DES (Data Encryption Standard), ktorý 
+spåòal potrebné požiadavky. Americká organizácia NIST(National Institute of Standards and Technology) následne
+v roku 1976 vyhlásila tento algoritmus za národný šifrovací štandard. DES sa tak stal prvým
+široko rozšíreným šifrovacím algoritmom ~\cite{SANSInstitute}. \\
+\mbox{\qquad }
+Koncom 20. storoèia už ale bolo známych nieko¾ko útokov, ktoré dokázali tento algoritmus
+efektívne prelomi s relatívne nízkymi nákladmi. Aj preto vznikla potreba vyvinú algoritmus,
+ktorý by bol schopný takýmto útokom odola. V roku 1997 vyhlásila organizácia NIST verejnú súaž 
+na nový šifrovací algoritmus pod názvom AES. 
+Po dôkladnom testovaní bol vybratý algoritmus Rijndael, vyvinutý belgickými
+kryptológmi Vincentom Rijmenom a Joanom Daemenom. Dnes je Rijndael považovaný za spolahlivý
+šifrovací štandard schopný spåòa aktuálne bezpeènostné požiadavky ~\cite{AESSpringer1}. 
+
+\section {Popis algoritmu AES}
+Algoritmus AES je symetrický blokový šifrovací algoritmus. Využíva k¾úèe velkosti 128, 192, alebo 256 bitov.
+Keïže sa jedná o symetrický šifrovací algoritmus, na šifrovanie aj dešifrovanie je použitý ten istý k¾úè.
+Vstupné aj výstupné dáta tohto algoritmu sú bloky dát ve¾kosti 128 bitov. Tieto bloky sú organizované v matici
+bajtov ve¾kosti 4x4, ktorej hovoríme State Array. Algoritmus AES spracúva každý blok dát v tzv. rundách 
+(z anglického rounds). Poèet rúnd je 10, 12, alebo 14 v závislosti od dåžky použitého k¾uèa~\cite{AESSpringer2}.
+Obrázok ~\ref{fig:AesBasic} graficky znázoròuje proces šifrovania a dešifrovania algoritmom AES. Všetky znázornené operácie
+sú v tejto kapitole vysvetlené. 
+ 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=115mm]{AESGraf.jpg}
+\caption{Šifrovanie a dešifrovanie algoritmom AES ~\cite{AesGraf}.}
+\label{fig:AesBasic}
+\end{figure} 
+
+
+\section {Expanzia klúèa} 
+Pri spracovaní bloku dát v rundách si algoritmus AES vytvára jedineèný k¾úè pre každú rundu. Expanzia k¾úèa
+(z anglického Key expansion) je proces, pri ktorom sa z pôvodného šifrovacieho k¾úèa vytvoria rundové k¾úèe pre
+všetky rundy. Expanzia k¾úèa pracuje so slovami dåžky 4 bajty a každý rundový k¾úè je tvorený zo 4 takých slov.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=115mm]{KeyExpansion.jpg}
+\caption{Ukážka expanzie k¾úèa pre rôzne dåžky k¾úèov ~\cite{AesGraf}.}
+\label{fig:AesKeyExpansion}
+\end{figure} 
+
+Na Obrázku ~\ref{fig:AesKeyExpansion} je znázornená expanzia k¾úèa pre rôzne dåžky vstupného šifrovacieho k¾úèa. 
+Vstupom pre zaèiatok výpoètu rundových k¾úèov je pôvodný šifrovací k¾úè. Všetky ïalšie kroky závisia na výpoètoch
+z predchádzajúceho kroku. V každom kroku expanzie sa vygeneruje sekvencia slov ve¾kosti šifrovacieho k¾úèa.
+Prvé slovo každého kroku expanzie je vypoèítané aplikovaním týchto funkcií:
+
+\begin{enumerate}[noitemsep]
+  \item Iniciálny stav pre nové slovo je vždy posledné slovo z predchadzajúceho kroku (prípadne zo šifrovacieho
+  k¾úèa v prvom kroku). Toto slovo si oznaèíme ako ${w}$.
+  
+  \item Pre slovo ${w}$ sa vykoná operácia Rotácia slova (z anglického RotWord). Pri tejto operácií sa všetky bajty
+  slova ${w}$ cyklicky posunú do¾ava tak, ako to je znázornené na Obrázku ~\ref{fig:RotWord}.
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=90mm]{rotWord.jpg}
+	\caption{Operácia RotWord.}
+	\label{fig:RotWord}
+\end{figure} 
+
+
+\begin{enumerate}[noitemsep]
+  \setcounter{enumi}{2}
+  \item Na slovo ${w}$ sa aplikuje substitúcia slova (z anglického SubWord). Všetky bajty slova ${w}$ sú v tomto kroku 
+	nahradené novými bajtami pod¾a substituènej tabu¾ky ~S-Box\footnote{Spôsob výpoètu substituènej tabu¾ky
+	S-Box je uvedený v sekcii ~\ref{sec:SubstTables}}.
+	
+	\item Ïalej sa na slovo ${w}$ aplikuje operácia XOR so slovom z tabu¾ky Rcon
+	\footnote{Spôsob výpoètu substituènej tabu¾ky Rcon je uvedený v sekcii ~\ref{sec:SubstTables}}. 
+	V tejto tabu¾ke sú konštantné hodnoty a vyberajú sa pod¾a toho, v ktorom kroku expanzie sa práve nachádzame.
+	
+	\item Posledná èas získavania prvého slova aktuálneho kroku expanzie spoèíva v tom, že sa na slovo ${w}$ aplikuje 
+	operácia XOR s prvým slovom predchádzajúceho kroku expanzie.
+\end{enumerate}
+
+Pre 128 a 192-bitový k¾úè sa každé ïalšie slovo ${w_i}$ aktuálneho kroku expanzie vypoèíta tak, 
+že sa aplikuje operácia XOR na slovo ${w_i}$ z predchádzajúceho kroku so slovom ${w_{i-1}}$ aktuálneho kroku. Pre 256-bitový
+k¾úè je postup podobný. Výnimkou je len slovo ${w_5}$, pri výpoète ktorého sa v operácii XOR použije namiesto slova ${w_{4}}$
+aktuálneho kroku slovo SubWord(${w_{4}}$), teda je nahradené pod¾a tabulky S-Box. Celý tento postup je graficky znázornený na
+Obrázku ~\ref{fig:AesKeyExpansion} ~\cite{AESDoc}.
+
+\section { AddRoundKey }
+Operácia AddRoundKey (Pridanie rundového k¾úèa) je súèasou procesu šifrovania aj dešifrovania bloku. 
+Najskôr je vždy potrebné vykona expanziu k¾úèa, ktoreh výstupom sú rundové k¾úèe dåžky 128 bitov pre každú rundu šifrovania. 
+Operácia AddRoundKey vykonáva operáciu XOR medzi príslušným rundovým k¾úèom a šifrovaným blokom. Táto operácia
+je jednoduchá a prebehne rýchlo. Zároveò ale ovplyvní každý bajt výslednej šifry~\cite{AESDoc2}.
+
+
+\section { Šifrovanie }
+Šifrovanie dát algoritmom AES sa vykonáva aplikovaním 4 operácií: SubBytes, ShiftRows, MixColumns a AddRoundKey.
+Najskôr sa vykoná operácie XOR medzi vstupným blokom a šifrovacím k¾úèom.
+Následne sú tieto 4 operácie v nieko¾kých rundách aplikované na vstupný blok dát tak, ako to opisuje Obrázok 
+~\ref{fig:AesBasic}~\cite{AESDoc}.
+
+\subsection { SubBytes }
+Prvým krokom každej rundy je aplikovanie operácie SubBytes(Substitúcia bajtov). Ide o tú istú operáciu, ktorá bola vysvetlená už
+pri expanzii k¾úèa. Každý bajt bloku sa nahradí novým bajtom pod¾a substituènej tabu¾ky S-Box. Tabu¾ka S-Box 
+je navrhnutá tak, aby touto substitúciou bola zabezpeèená nelineárnos výslednej šifry. 
+Po tejto operácii bude minimalizovaná korelácia medzi vstupnými a výstupnými bajtami.
+Cie¾om tohto kroku je zabráni známym
+kryptoanalytickým útokom a zabezpeèi, aby sa výsledok šifrovania nedal popísa jednoduchou matematickou funkciou ~\cite{AESDoc2}. 
+
+\subsection { ShiftRows }
+Blok šifrovaných dát je organizovaný v matici bajtov, ktorej hovoríme State Array. Operácia ShiftRows (Riadkový posun) vykonáva 
+jednoduchý cyklický posun posledných 3 riadkov tejto matice tak, ako je to zobrazené na Obrázku ~\ref{fig:ShiftRows}. 
+Týmto krokom sa bajty v State Array presunú do stavu, kedy každý ståpec obsahuje jeden bajt z ostatných troch ståpcov.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=90mm]{shiftRows.jpg}
+	\caption{Operácia ShiftRows.~\cite{AESDoc}}
+	\label{fig:ShiftRows}
+\end{figure} 
+
+
+\subsection { MixColumns }
+Operácia MixColumns (Miešanie ståpcov) využíva na šifrovanie aritmetiku koneèných polí. State Array šifrovaného bloku je v tejto
+operácií transformovaný tak, že každý bajt ståpca sa stane funkciou všetkých bajtov v príslušnom ståpci vstupného bloku. 
+Táto transformácia je vykonaná násobením matíc v koneènom poli GF(${2}^{8}$) s redukèným polynómom 
+${x}^{8} + {x}^{4} + {x}^{3} + {x} + 1$ ~\cite{AESDoc2}:
+
+\begin{center}
+$$
+\stackrel{\mbox{Nový State Array}}{
+\begin{pmatrix}
+  &{s'}_{0,0} & {s'}_{0,1} & {s'}_{0,2} & {s'}_{0,3} \\
+  &{s'}_{1,0} & {s'}_{1,1} & {s'}_{1,2} & {s'}_{1,3} \\
+  &{s'}_{2,0} & {s'}_{2,1} & {s'}_{2,2} & {s'}_{2,3} \\
+  &{s'}_{3,0} & {s'}_{3,1} & {s'}_{3,2} & {s'}_{3,3} \\
+ \end{pmatrix}
+ }
+ =
+\begin{pmatrix}
+  02 & 03 & 01 & 01 \\
+  01 & 02 & 03 & 01 \\
+  01 & 01 & 02 & 03 \\
+  03 & 01 & 01 & 02 \\
+ \end{pmatrix}
+ \times
+ \stackrel{\mbox{State Array}}{
+ \begin{pmatrix}
+  {s}_{0,0} & {s}_{0,1} & {s}_{0,2} & {s}_{0,3} \\
+  {s}_{1,0} & {s}_{1,1} & {s}_{1,2} & {s}_{1,3} \\
+  {s}_{2,0} & {s}_{2,1} & {s}_{2,2} & {s}_{2,3} \\
+  {s}_{3,0} & {s}_{3,1} & {s}_{3,2} & {s}_{3,3} \\
+ \end{pmatrix}
+ }
+$$
+\end{center}
+ 
+\section { Dešifrovanie }
+Dešifrovanie dát algoritmom AES prebieha podobne ako šifrovanie. 
+Najskôr sa vykoná operácia XOR medzi vstupným blokom a šifrovacím k¾úèom.
+Potom sú postupne v nieko¾kých rundách aplikované tieto 4 operácie: InvShiftRows, InvSubBytes, AddRoundKey, InvMixColumns.
+Celý tento postup je znázornený na Obrázku ~\ref{fig:AesBasic}~\cite{AESDoc}.
+
+
+\subsection { InvSubBytes }
+InvSubBytes(Inverzná substitúcia bajtov) je inverzná operácia k operácii SubBytes. Tak ako v operácii SubBytes,
+aj tu prebieha substitúcia každého bajtu šifrovaného bloku novým bajtom. Tu sa bajty nahrádzajú pod¾a tabu¾ky
+S-Box pre inverznú substitúciu \footnote{Spôsob výpoètu substituènej tabu¾ky
+	S-Box pre inverznú substitúciu je uvedený v sekcii ~\ref{sec:SubstTables}}~\cite{AESDoc}.
+
+
+\subsection { InvShiftRows }
+Inverzná operácia k operácii ShiftRows, podobne ako operácia ShiftRows, vykonáva jednoduchý cyklický posun posledných 3 riadkov.
+Tu sa ale riadky posúvajú opaèným smerom, doprava. Tento postup je znázornený na Obrázku ~\ref{fig:InvShiftRows} ~\cite{AESDoc}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=90mm]{InvShiftRows.jpg}
+	\caption{Operácia InvShiftRows ~\cite{AESDoc}.}
+	\label{fig:InvShiftRows}
+\end{figure} 
+
+
+\subsection { InvMixColumns }
+Operácia MixColumns (Inverzné miešanie ståpcov) transformuje každý bajt ståpca State Array na novú hodnotu, ktorá je funkciou
+všetkých bajtov príslušného ståpca. Postup je rovnaký ako v operácii MixColumns, jedná sa o násobenie matíc s prvkami v
+GF(${2}^{8}$) s redukèným polynómom ${x}^{8} + {x}^{4} + {x}^{3} + {x} + 1$. Rozdiel je len v matici,
+ktorá násobí State Array ~\cite{AESDoc}:
+\begin{center}
+$$
+\stackrel{\mbox{Nový State Array}}{
+\begin{pmatrix}
+  &{s'}_{0,0} & {s'}_{0,1} & {s'}_{0,2} & {s'}_{0,3} \\
+  &{s'}_{1,0} & {s'}_{1,1} & {s'}_{1,2} & {s'}_{1,3} \\
+  &{s'}_{2,0} & {s'}_{2,1} & {s'}_{2,2} & {s'}_{2,3} \\
+  &{s'}_{3,0} & {s'}_{3,1} & {s'}_{3,2} & {s'}_{3,3} \\
+ \end{pmatrix}
+ }
+ =
+\begin{pmatrix}
+  0E & 0B & 0D & 09 \\
+  09 & 0E & 0B & 0D \\
+  0D & 09 & 0E & 0B \\
+  0B & 0D & 09 & 0E \\
+ \end{pmatrix}
+ \times
+ \stackrel{\mbox{State Array}}{
+ \begin{pmatrix}
+  {s}_{0,0} & {s}_{0,1} & {s}_{0,2} & {s}_{0,3} \\
+  {s}_{1,0} & {s}_{1,1} & {s}_{1,2} & {s}_{1,3} \\
+  {s}_{2,0} & {s}_{2,1} & {s}_{2,2} & {s}_{2,3} \\
+  {s}_{3,0} & {s}_{3,1} & {s}_{3,2} & {s}_{3,3} \\
+ \end{pmatrix}
+ }
+$$
+\end{center}
+
+
+\section {Substituèné tabu¾ky}
+\label{sec:SubstTables}
+Niektoré operácie algoritmu AES nahrádzajú bajty blokov a k¾úèov pod¾a na to urèených substituèných tabuliek.
+Táto sekcia opisuje výpoèet týchto tabuliek.
+\begin{itemize}
+
+\item \textbf{ S-box: }  \\
+S-box je substituèná tabu¾ka, ktorú algoritmus AES využíva pri expanzii k¾úèa a v operácii SubBytes.
+Pre každý substituovaný bajt je jej výpoèet nasledujúci:	\\
+\begin{center}
+$$
+\begin{pmatrix}
+  z_0 \\
+  z_1 \\
+  z_2 \\
+  z_3 \\
+  z_4 \\
+  z_5 \\
+  z_6 \\
+  z_7 \\
+ \end{pmatrix}
+ =
+\begin{pmatrix}
+  1 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+  1 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+  1 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+  1 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+  1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+  0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+  0 & 0 & 1 & 1 & 1 & 1 & 1 & 0\\
+  0 & 0 & 0 & 1 & 1 & 1 & 1 & 1\\
+ \end{pmatrix}
+ \times
+ \begin{pmatrix}
+  x_0 \\
+  x_1 \\
+  x_2 \\
+  x_3 \\
+  x_4 \\
+  x_5 \\
+  x_6 \\
+  x_7 \\
+ \end{pmatrix}
+ +
+ \begin{pmatrix}
+  1 \\
+  1 \\
+  0 \\
+  0 \\
+  0 \\
+  1 \\
+  1 \\
+  0 \\
+ \end{pmatrix}
+ $$
+ \end{center}
+ kde:	\\
+ Všetky výpoèty prebiehajú v koneènom poli $GF({2}^{8})$ s redukèným polynómom 
+ ${x}^{8} + {x}^{4} + {x}^{3} + x + 1$.	\\
+ $[{x}_{0}, ..., {x}_{7}]$ sú koeficienty polynomiálnej reprezentácie prvku $x \in GF({2}^{8})$.
+ Prvok $x$ je inverzný k bajtu, ktorý chceme substituova.	\\
+ $[{z}_{0}, ..., {z}_{7}]$ sú koeficienty polynomiálnej reprezentácie výsledného bajtu.
+ 
+ 
+\item \textbf{ Inverzný S-box: }  \\
+ Inverzný S-box je substituèná tabu¾ka využívaná v operácii InvSubBytes.
+ Výpoèet pre každý substituovaný bajt je nasledujúci:	\\
+\begin{center}
+$$
+\begin{pmatrix}
+  z_0 \\
+  z_1 \\
+  z_2 \\
+  z_3 \\
+  z_4 \\
+  z_5 \\
+  z_6 \\
+  z_7 \\
+ \end{pmatrix}
+ =
+\begin{pmatrix}
+  0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+  1 & 0 & 0 & 1 & 0 & 0 & 1 & 0\\
+  0 & 1 & 0 & 0 & 1 & 0 & 0 & 1\\
+  1 & 0 & 1 & 0 & 0 & 1 & 0 & 0\\
+  0 & 1 & 0 & 1 & 0 & 0 & 1 & 0\\
+  0 & 0 & 1 & 0 & 1 & 0 & 0 & 1\\
+  1 & 0 & 0 & 1 & 0 & 1 & 0 & 0\\
+  0 & 1 & 0 & 0 & 1 & 0 & 1 & 0\\
+ \end{pmatrix}
+ \times
+ \begin{pmatrix}
+  x_0 \\
+  x_1 \\
+  x_2 \\
+  x_3 \\
+  x_4 \\
+  x_5 \\
+  x_6 \\
+  x_7 \\
+ \end{pmatrix}
+ +
+ \begin{pmatrix}
+  1 \\
+  0 \\
+  1 \\
+  0 \\
+  0 \\
+  0 \\
+  0 \\
+  0 \\
+ \end{pmatrix}
+ $$
+ \end{center}
+ kde:	\\
+ Všetky výpoèty prebiehajú v koneènom poli $GF({2}^{8})$ s redukèným polynómom 
+ ${x}^{8} + {x}^{4} + {x}^{3} + x + 1$.	\\
+ $[{x}_{0}, ..., {x}_{7}]$ sú koeficienty polynomiálnej reprezentácie prvku $x \in GF({2}^{8})$.
+ Prvok $x$ je inverzný k bajtu, ktorý chceme substituova.	\\
+ $[{z}_{0}, ..., {z}_{7}]$ sú koeficienty polynomiálnej reprezentácie výsledného bajtu.
+ 
+ 
+ \item \textbf{ Rcon: }  \\
+ Tabu¾ku Rcon využíva algoritmus AES pri expanzii k¾úèa a pre každý bajt $e \in GF({2}^{8})$ je
+ jeho substitúcia $s \in GF({2}^{8})$ vypoèítaná ako: 	\\
+ \begin{center}
+ $s = {x}^{(e-1)} \ mod \ {x}^{8} + {x}^{4} + {x}^{3} + x + 1$
+ \end{center}
+ 
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter { Implementácia }
+Táto kapitola sa venuje implementaènej èasti tejto práce. Jej cie¾om bolo v jazyku Java navrhnú a implementova knižnicu 
+pre poèítanie v koneèných poliach. Ako praktická aplikácia knižnice bol implementovaný
+symetrický šifrovací algoritmus AES využívajúci funkcionalitu tejto knižnice. 
+\mbox{\qquad } Na vývoj výslednej aplikácie bolo použité vývojové prostredie Netbeans\footnote{https://netbeans.org/}
+a celý jej zdrojový kód bol zdokumentovaný formou Javadoc-ových komentárov.
+V tejto èasti je predstavený návrh, algoritmy a postupy využité pri implementácii výslednej aplikácie. 
+
+\section { Knižnica pre poèítanie v GF(${2}^{n}$) }
+Hlavným cie¾om praktickej èasti tejto bakalárskej práce bolo implementova funkcionalitu pre poèítanie s prvkami v GF(${2}^{n}$),
+s vektormi s prvkami v GF(${2}^{n}$), s polynómami s prvkami v GF(${2}^{n}$), a taktiež s maticami s prvkami v GF(${2}^{n}$).
+Ku každej tejto štruktúre bolo implementovaných nieko¾ko funkcií pre poèítanie s nimi. V nasledujúcej èasti budú tieto
+funkcie vymenované, niektoré z nich aj detailnejšie popísané. Ako inšpirácia pre túto knižnicu slúžila knižnica NTL. Metódy
+sú preto navrhnuté tak, aby ich výstupy boli totožné s výstupmi podobných metód knižnice NTL.
+
+
+\subsection { Poèítanie s prvkami v GF(${2}^{n}$) } 
+Pre poèítanie s prvkami v GF(${2}^{n}$) bola navrhnutá trieda GF2N. Táto trieda implementuje rozhranie GaloisFieldArithmetic,
+ktoré špecifikuje poskytovanú funkcionalitu tejto knižnice pre poèítanie s prvkami v GF(${2}^{n}$). Pre poèítanie s prvkami 
+v GF(${2}^{n}$) je najskôr potrebné vytvori objekt triedy GF2N. V konštruktore musí by špecifikovaný redukèný polynóm pre koneèné
+pole, v ktorom chceme poèíta. Pre polynóm stupòa ${n}$ sa vytvorí pole GF(${2}^{n-1}$). Každý prvok po¾a, ako aj jeho redukèný
+polynóm, je reprezentovaný primitívnym dátovým typom Long.	\\
+Trieda GF2N disponuje nasledujúcimi funkciami: \\
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  Pre polia GF(${2}^{n}$) sú tieto operácie totožné a sú implementované ako jednoduchý bitový XOR.
+  
+  \item \textbf{Násobenie: } \\
+  Využíva bitové posuny na násobenie v poli a bitový XOR na delenie redukèným polynómom.
+  
+  \item \textbf{Delenie: } \\
+  Využíva implementáciu násobenia a inverzie prvku.
+  
+  \item \textbf{Inverzia prvku: } \\
+   Pri h¾adaní inverzie je využitá vlastnos, že pre každý prvok ${x} \in GF({2}^{n})$ platí: 
+   ${x}^{-1} = {x}^{{2}^{n}-2}$ ~\cite{FiniteFieldWolfram}. Preto je pri h¾adaní inverzných prvkov po¾a
+   využitá operácia umocòovania.
+   
+   \item \textbf{Umocòovanie prvku: } \\
+   Keïže je na h¾adanie inverzie prvku (a preto aj pri operácii delenie) potrebné umocòovanie daného prvku na ve¾ké exponenty,
+   bolo nutné implementova rýchly spôsob výpoètu mocniny prvku. Na túto úlohu bol zvolený algoritmus 
+   Square and Multiply~\cite{Square}. Ten pri výpoète prvku ${x}^{{2}^{n}-2}$ využíva nasledujúci rozklad: 
+   
+   \begin{center}
+     ${x}^{{2}^{n}-2}$ $=$ ${x}^{{2}({2}^{n-1}-1)}$ $=$ $(x^{(2^{n-1}-1)})^{2}$		
+	 $=$ $(x^{(2^{n-1}-2+1)})^{2}$ \\ 
+	 $=$ $(x \times x^{(2^{n-1}-2)})^{2}$
+	 $=$ $(x \times x^{2(2^{n-2}-1)})^{2}$ $=$ $(x \times (x^{(2^{n-2}-1)})^{2})^{2}$
+	 \\ 
+	 ··· \\
+	 $=$ $(x \times (x \times (x \times (...x \times (x \times x^{2})^{2}...)^{2}$
+    \end{center}
+	
+	\mbox{\qquad } Tento spôsob významne zrýchli výpoèet mocniny prvku. Pri výpoète ${x}^{{2}^{n}-2}$ nie je
+	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
+	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kých exponentoch je tento spôsob
+	mnohonásobne rýchlejsí.
+   
+   \item \textbf{Testovanie ireducibility polynómov: } \\
+   Pri vytváraní koneèného po¾a GF(${2}^{n}$) je potrebné špecifikova ireducibilný polynóm pre dané pole.
+   Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
+   Na tento test je použitá metóda Rabínov test ireducibility ~\cite{Irreducible}, ktorá hovorí: 
+   
+   \mbox{\qquad } Polynóm $f$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilný len vtedy, ak platí:
+   $gcd(f, x^{2^{{n}/{p_{i}}}} - x) = 1$ pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele
+   èísla n. Zároveò musí plati: $x^{2^{n}} - x \equiv 0 \ mod \ f$.
+	 
+
+\end{enumerate}
+
+
+\subsection { Poèítanie s polynómami s prvkami v GF(${2}^{n}$) } 
+Pre poèítanie s polynómami s prvkami v GF(${2}^{n}$) bola navrhnutá trieda PolynomialGF2N. Jej verejné metódy
+sú popísané rozhraním GaloisFieldPolynomialArithmetic, ktoré je touto triedou implementované. Táto trieda pracuje
+s objektami typu Polynomial, ktoré slúžia na objektovú reprezentáciu polynómov. Trieda PolynomialGF2N poskytuje
+nasledujúce funkcie: 
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  Jednoduché sèítanie a odèítanie koeficientov polynómov.
+  
+  \item \textbf{Násobenie a delenie: } \\
+  Násobenie a delenie polynómov. Delenie je možné aj so získaním zvyšku po delení.
+  
+  \item \textbf{Najväèší spoloèný delite¾: } \\
+   Trieda PolynomialGF2N poskytuje metódu gcd (skratka z anglického greatest common divisor), ktorá slúži na
+   výpoèet najväèšieho spoloèného delite¾a dvoch polynómov. Pri výpoète je použitý
+   Euklidov algoritmus, ktorý výsledok získava postupným delením polynómov a ich zvyžkov.
+   
+   \item \textbf{Inverzia polynómu: } \\
+   Pre výpoèet inverzného polynómu s prvkami v poli GF(${2}^{n}$) je potrebné špecifikova 2 polynómy.
+   Polynóm $f$ stupòa $n$, pre ktorý chceme spoèíta inverziu. Taktiež je potrebné špecifikova polynóm $m$
+   stupòa aspoò $n + 1$, modulo ktorý budeme inverzný polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
+   ktorý platí: $(f \times {f}^{-1}) mod \ m = 1$.
+   \mbox{\qquad } Na výpoèet inverzného polynómu je použitý Rozšírený Euklidov algoritmus. Jeho výstupom sú okrem najväèšieho
+   spoloèného delite¾a polynómov ${f}$ a ${m}$ aj tzv. koeficienty Bezoutovej identity ${a}$ a ${b}$. 
+   Sú to polynómy, pre ktoré platí: 
+   $a \times f + b \times m = gcd(f, m)$. Ak platí, že $gcd(f, m) = 1$, potom h¾adaným inverzným polynómom je polynóm $a$.
+   
+   \item \textbf{Umocòovanie.} \\
+   
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s vektormi s prvkami v GF(${2}^{n}$) } 
+S vektormi v koneèných poliach v tejto knižnici poèíta trieda VectorGF2N implementujúca rozhranie GaloisFieldVectorArithmetic. 
+Na objektovú reprezentáciu vektorov bola vytvorená trieda Vector. Pre poèítanie s vektormi sú implementované nasledujúce funkcie:
+\begin{enumerate}
+  \item \textbf{Sèítanie.} 
+  \item \textbf{Odèítanie.}
+  \item \textbf{Násobenie skalárom.} 
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s maticami s prvkami v GF(${2}^{n}$) }
+Na poèítanie s maticami s prvkami v GF(${2}^{n}$) bola vytvorená trieda \\ MatrixGF2N. Táto trieda poèíta s objektami typu Matrix
+a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasledujúce funkcie: 
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie.} 
+  
+  \item \textbf{Násobenie: }	\\
+  Implementované je násobenie matíc maticami, násobenie matíc vektormi, a taktiež násobenie matíc skalárnymi hodnotami.
+  
+  \item \textbf{Inverzia: }  \\
+  Výpoèet inverznej matice prebieha postupnými transformáciami riadkov pôvodnej matice, ktoré sú aplikované aj na k nej 
+  vytvorenú jednotkovú maticu. Pôvodná matica je postupne upravovaná na jednotkovú maticu, zatia¾ èo z jednotkovej matice
+  vznikne výsledná inverzná matica.
+  
+  \item \textbf{Determinant: }  \\
+  Implementácia výpoètu determinantu matíc využíva Laplaceov rozvoj~\cite{Laplace}. Ten hovorí, že pre maticu $n \times n$ sa jej determinant
+  dá vypoèíta ako: \\
+  
+  \begin{center}
+     $\det A = \sum\limits_{j=1}^n {(-1)^{i+j} a_{i,j} C_{i,j}}$	\\
+  \end{center}
+  kde:	\\
+  ${i}$ je index ¾ubovolne zvoleného riadku(alebo ståpca), pod¾a ktorého budeme rozvoj poèíta.	\\
+  ${j}$ je index ståpca (ak poèítame rozvoj pod¾a riadku) alebo riadku (ak poèítame rozvoj pod¾a ståpca).	\\
+  $a_{i,j}$ je prvok matice urèený indexami ${i}$ a ${j}$.	\\
+  $C_{i,j}$ je kofaktor matice, teda determinant matice bez riadku a ståpca, na ktorom sa nachádza prvok $a_{i,j}$.  
+  
+  \mbox{\qquad } Metóda triedy MatrixGF2N na výpoèet determinantu využíva Laplaceov rozvoj pod¾a prvého riadku matice.
+  
+  \item \textbf{Gaussova eliminácia: }  \\
+  Trieda MatrixGF2N ponúka metódu, ktorá pre vstupnú maticu vykoná Gaussovu elimináciu. Po rade riadkových úprav
+  je výsledná matica v tzv. stupòovitom riadkovom tvare(z anglického row echelon form)~\cite{Echelon}, pre ktorý platí:
+  \begin{itemize}  
+	\item Všetky nulové riadky sú na spodku matice.
+	\item Pivot každého riadku matice je napravo od pivota riadku nad ním.
+	\item Pivot každého nenulového riadku je 1.
+	\item Ståpec pod pivotom každého riadku je nulový.
+  \end{itemize}
+
+  \item \textbf{Riešenie lineárneho systému rovníc: }  \\
+   Trieda MatrixGF2N ponúka implementáciu riešenia lineárneho systému rovníc v koneènom poli GF(${2}^{n}$).
+   Pre maticu ${A}$ a vektor ${y}$ h¾adáme vektor ${x}$ tak, aby platilo: $ A \times x = y$	
+  
+  \item \textbf{Hodnos: }  \\
+  Výpoèet poètu lineárne nezávislých riadkov v matici.
+  
+  \item \textbf{Jadro: }  \\
+  Jadro matice je množina vektorov, ktorých súèin s danou maticou z¾ava dáva nulový vektor.
+  Výsledkom metódy kernel v triede MatrixGF2N je matica, ktorej súèin so vstupnou maticou vráti nulovú maticu.
+  
+  
+  \item \textbf{Obraz.}  \\
+  Výsledkom metódy image v triede MatrixGF2N je matica stupòovitom riadkovom tvare, ktorá je vypoèítaná ako
+  báza vektorového priestoru vstupnej matice.
+  
+  \item \textbf{Umocòovanie.}  \\
+  
+  
+\end{enumerate}  
+
+\section { AES }
+Súèasou praktickej èasti tejto bakalárskej práce bola aj implementácia šifrovacieho algoritmu AES. Niektoré 
+jeho operácie vykonávajú výpoèty v koneènom poli GF(${2}^{n}$). Cie¾om teda nebola len správna implementácia
+tohto algoritmu, ale taktiež praktické využitie knižnice pre poèítanie v koneèných poliach a overenie správnosti
+jej výpoètov.	\\
+\mbox{\qquad } Pre tento úèel bola navrhnutá trieda AES, ktorá ponúka metódy pre šifrovanie a dešifrovanie
+dát s 128, 192, aj s 256-bitovým k¾úèom. 
+Pri vytváraní objektu tejto triedy je najskôr potrebné vytvori substituèné tabu¾ky využívané algoritmom AES.
+Jednou z možností by bolo uloženie konštantných hodnôt týchto tabuliek do atribútov tejto triedy. Keïže ale
+bolo cie¾om aj overenie správnosti knižnice pre poèítanie v koneèných poliach, sú tieto tabu¾ky vypoèítané
+pri vzniku objektu typu AES pod¾a špecifikácie algoritmu AES.	\\
+\mbox{\qquad } Pri vytváraní objektu typu AES je taktiež možné špecifikova mód blokovej šifry, ktorý bude
+pri šifrovaní a dešifrovaní dát použitý. Trieda AES podporuje štyri módy: ECB, CBC, CFB, a OFB.
+Ak mód blokovej šifry špecifikovaný nie je, bude šifrovanie a dešifrovanie implicitne prebieha v jednoduchom
+ECB móde.
+
+
+\section { Testy }
+Súèasou praktickej èasti tejto práce sú aj testovacie triedy.
+Všetky verejné metódy triedy AES aj knižnice pre poèítanie v koneèných poliach boli úspešne otestované týmito triedami.
+Na testovanie je použitý testovací framework pre jednotkové testy JUnit.
+Pre každú testovanú triedu je vytvorená aspoò jedna samostatná testovacia trieda.
+Testovacie triedy mojej aplikácie sú rozdelené do dvoch balíkov:
+
+\begin{enumerate}
+\item \textbf{Balík GaloisFieldsValidityTesting:}	\\
+Slúži na testovanie správnosti výstupov knižnice pre poèítanie v koneèných poliach.
+Testovacie dáta sú vygenerované pri každom testovaní náhodne. Oèakávané výstupy
+sú odvodené od matematických vlastností, ktoré musia by pre dané operácie vždy splnené.
+
+\item \textbf{Balík AESTesting:}	\\
+Slúži na testovanie správnosti výstupov triedy AES. Pre každý mód blokovej šifry je vytvorená
+samostatná testovacia trieda, ktorá šifrovanie v tomto móde testuje. Testovacie dáta sú
+pri každom testovaní rovnaké. Jedná sa o  testovacie vektory z dôveryhodných zdrojov,
+ktoré pre zadaný k¾úè a blok dát (prípadne aj inicializaèný vektor v inom móde ako ECB)
+definujú, ako má vyzera výsledný zašifrovaný text. Rovnako sa postupuje aj pri dešifrovaní dát.  
+  
+\end{enumerate}  
+
+\section { Možné rozšírenia }
+TODO
+\begin{enumerate}
+\item Long -> Special Long
+\item  Better algorithms
+\item  Better Exceptions
+\item  Better world
+\item  ...
+  
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter { Záver }
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum."
+
+
+\newpage
+
+\bibliography{bp_biblio} % soubor s citovanými
+                           % položkami bibliografie 
+	
+\nocite{*}	
+%\printindex						   
+
+\end{document}
