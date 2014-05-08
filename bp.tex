@@ -242,15 +242,21 @@ Pre skonštruovanie po¾a $GF({p}^{n})$ vyuijeme postup opísanı v sekcii ~\ref{se
 	Nech máme koneèné pole $GF(m)$ s redukènım polynómom ${f(x)}$ a prvky ${x \in GF(m)}$ a ${y \in GF(m)}$. 
 	Vısledok vırazu ${x / y}$ pre nenulové $y$ je definovanı ako: ${x}$ · ${y}^{-1}$, kde prvok ${y}^{-1}$ 
 	je inverznı k prvku ${y}$, a teda platí: ${y}$ · ${y^{-1} = 1}$	\\
-	\mbox{}\qquad
-	Na vykonanie tejto operácie ale musíme pozna inverznı prvok menovate¾a. Spôsobov ako ho nájs 
-	je nieko¾ko. Môme napríklad vyui vlastnos, e pre kadı prvok ${y} \in GF(m)$ platí: \\
-	${y}^{m} = y$, to znamená e ${y}^{-1} = {y}^{m-2}$ ~\cite{FiniteFieldWolfram}. 
-	
-	\mbox{}\qquad Pre ve¾ké koneèné polia je ale tento spôsob neefektívny a na nájdenie inverzného prvku ${y}^{-1}$ sa
-	pouíva Rozšírenı Euklidov algoritmus. Jeho vıstupom sú prvky ${a, b \in GF(m)}$, pre ktoré platí: \\
+	\mbox{}\qquad Na vykonanie tejto operácie ale musíme pozna inverznı prvok menovate¾a. Spôsobov ako ho nájs 
+	je nieko¾ko. Môme napríklad vyui vlastnos, e pre kadı prvok ${y} \in GF(m)$ platí: 
+	${y}^{m} = y$, to znamená e ${y}^{-1} = {y}^{m-2}$ ~\cite{FiniteFieldWolfram}. \\
+	\mbox{}\qquad Pre ve¾ké koneèné polia je ale tento spôsob neefektívny a pouíva sa postup vychádzajúci
+	z Bezoutovej rovnosti, ktorá hovorí~\cite{RoughMath}: \\
+	\textit {Nech $GF(m)$ je pole a prvky ${x, y \in GF(m)}$. Potom existuje ich najväèší spoloènı delite¾ $h$,
+	ktorı je a na násobok nenulovım skalárom urèenı jednoznaène. Zároveò existujú prvky ${a, b \in GF(m)}$
+	také, e: ${a}$ · ${x} + {b}$ · ${y} = h$
+	} \\
+	\mbox{}\qquad Na nájdenie koeficientov Bezoutovej rovnosti ${a}$ a ${b}$ sa pouíva Rozšírenı Euklidov algoritmus.
+	Ten postupnım delením vstupnıch polynómov a ich zvyškov a ich následnımi úpravami získa tieto koeficienty aj
+	najväèší spoloènı delite¾ vstupnıch prvkov. Ak teda h¾adáme inverznı prvok ${y^{-1}}$ v koneènom poli s 
+	redukènım polynómom ${f(x)}$, Rozšírenım Euklidovım algoritmom získame nasledujúcu rovnos: \\
 	${a}$ · ${y} + {b}$ · ${f(x)} = 1$, z èoho vyplıva: ${y^{-1} = a}$.
-
+	
 \end{itemize}
 
 
@@ -305,7 +311,7 @@ Kninica NTL poskytuje funkcie pre:
 	\item faktorizácia polynómov
 	\item interpolácia polynómov
 	\item testovanie ireducibility polynómov
-	\item generovanie ireducibilnıch polynómov
+	\item generovanie ireducibilnıch polynómov, a mnoho iného.
   \end{itemize}
   \mbox{\qquad } Vïaka ve¾mi vysokej rıchlosti pri práci s polynómami je táto kninica vhodná na riešenie problémov, kde
   je potrebné vykonáva komplikované vıpoèty s polynómami ve¾kıch stupòov. Môe sa napríklad jedna o testovanie ireducibility
@@ -345,8 +351,10 @@ Pre všetky tieto typy poskytuje mnostvo rôznych aritmetickıch a logickıch funkc
 \mbox{\qquad } Jej vyuitie je teda vhodné v prípadoch, kde je potrebné ma prístupné dátové typy s neobmedzenou dåkou 
 a ve¾kú rıchlos pri práci s nimi. Vyuíva sa najmä v rôznych kryptografickıch a bezpeènostnıch aplikáciách. Taktie je
 urèená na vıvoj rôznych algebraickıch matematickıch systémov. Bola pouitá pri vıvoji niektorıch známych matematickıch
-projektov, ako napríklad Maple, Mathematica èi Sage. O jej dôleitosti svedèí aj 506 682 vısledkov vyh¾adávania vırazu GMP
-v kódoch projektov na GitHube. 
+projektov, ako napríklad Maple, Mathematica èi Sage. \\
+\mbox{\qquad } O jej dôleitosti svedèí aj 506 682 vısledkov vyh¾adávania vırazu GMP
+v kódoch projektov na GitHube. Väèšina tıchto projektov je napísaná v jazyku C. Pre kninicu GMP ale existujú
+zaobalenia, ktoré jej rozhranie sprístupòujú aj pre ïa¾šie programovacie jazyky, ako napríklad Java, C\# èi Python.
 
 
 \subsection { Givaro }
@@ -357,7 +365,7 @@ Ponúka funkcie pre:
 \begin{itemize}
   \item 
   Poèítanie s èíslami neobmedzenej dåky. Neponúka vlastnú implementáciu tejto funkcionality, ale
-  vyuíva vo¾ne dostupnú kninicu GMP\footnote{https://gmplib.org/}. Táto kninica poskytuje aritmetiku pre poèítanie s celımi,
+  vyuíva vo¾ne dostupnú kninicu GMP. Táto kninica poskytuje aritmetiku pre poèítanie s celımi,
   racionálnymi a reálnymi èíslami neobmedzenej dåky.
   
   \item 
@@ -373,8 +381,15 @@ Ponúka funkcie pre:
   multivláknové poèítanie s dátovou synchronizáciou medzi jednotlivımi vláknami.
   
   \item 
-  Rôzne zaujímavé vıpoèty z teórie èísel. Kninica Givaro disponuje modulmi, ktoré implementujú napríklad: testovanie prvoèíselnosti,
-  faktorizáciu eliptickıch kriviek, šifrovanie RSA, vıpoèet èínskej zvyškovej vety, faktorizáciu polynómov, a mnoho iného.
+  Rôzne zaujímavé vıpoèty z teórie èísel. Kninica Givaro disponuje modulmi, ktoré implementujú napríklad:\\
+  \begin{itemize}
+	\item faktorizáciu eliptickıch kriviek
+	\item faktorizáciu polynómov
+	\item šifrovanie RSA
+	\item vıpoèet èínskej zvyškovej vety
+	\item testovanie prvoèíselnosti
+	\item riešenie lineárneho systému rovníc, a mnoho iného.
+  \end{itemize} 
  
 \end{itemize}
 
@@ -386,8 +401,8 @@ Pouitie kninice Givaro na GitHube bolo nájdené 651 krát.
 \subsection { Crypto++ }
 Medzi ïalšie kninice schopné poèíta s koneènımi poliami patrí kninica Crypto++ ~\cite{Crypto++}. Ako vyplıva u zo samotného názvu tejto 
 kninice, je zameraná na kryptografické algoritmy. Táto kninica je napísaná v jazyku C++ a je distribuovaná pod licenciou
-Boost Software License 1.0. Bez problémov funguje na všetkıch širšie pouívanıch operaènıch systémoch.
-Z oblasti poèítania v koneènıch poliach ponúka táto kninica základnú aritmetiku pre poèítanie
+Boost Software License 1.0. Bez problémov funguje na všetkıch širšie pouívanıch operaènıch systémoch.	\\
+\mbox{\qquad } Z oblasti poèítania v koneènıch poliach ponúka táto kninica základnú aritmetiku pre poèítanie
 s prvoèíselnımi poliami a s poliami $GF({2}^{n})$. Nie je to ale kninica urèená primárne na poskytovanie funkcií pre
 poèítanie v koneènıch poliach. Je urèená najmä na praktickú aplikáciu mnohıch, prevane kryptografickıch algoritmov, ktoré 
 sú touto kninicou implementované. Medzi ne patria napríklad: AES, DES, RSA, DSA, ElGamal,
@@ -407,7 +422,8 @@ koneènom poli $GF({2}^{n})$. Na GitHube bola v takıch projektoch nájdená táto kn
 Kninica Bouncy Castle ~\cite{BouncyCastle} je vyvíjaná austrálskou skupinou programátorov Legion of the Bouncy Castle Inc.
 Je to kryptografická kninica licencovaná pod¾a pravidiel: MIT license.
 Väèšina tejto kninice ja napísaná v programovacom jazyku Java, niektoré jej èasti sú prepísané aj do jazyka C\#.  
-Jedná sa o nástroj urèenı pre kryptografiu. \\
+Jedná sa o nástroj urèenı najmä pre kryptografiu. Obsahuje mnostvo symetrickıch a asymetrickıch šifrovacích
+algoritmov a pridáva aj niektoré svoje vlastné, ako napríklad IDEA. \\
 \mbox{\qquad }  Vıpoèty mnohıch algoritmov tejto kninice prebiehajú v koneènıch poliach. 
 Pre tieto úèely disponuje kninica Bouncy Castle balíkom linearalgebra, ktorı ponúka jednu z mála dobrıch
 implementácií poèítania v koneènıch poliach pre jazyk Java. Obsahuje triedy pre poèítanie
@@ -419,7 +435,7 @@ Vïaka dobrému objektovému návrhu je ale balík linearalgebra ve¾mi dobre škálovat
 \mbox{\qquad } Nevıhodou tohto balíka je, e pri práci s ním môe by potrebné zasahova priamo do
 jeho kódu. Jeho objektovı návrh toti nepovoluje prístup k niektorım metódam, ktoré by mohli by uitoèné.
 Ako verejné sú oznaèené len tie metódy, ktoré sú priamo vyuívané ostatnımi súèasami kninice.
-Pri jeho samostatnom pouití je ale tento prístup kontraproduktivnı a núti tak programátora meni
+Pri jeho samostatnom pouití je ale tento prístup kontraproduktívny a núti tak programátora meni
 jednotlivé špecifikátory prístupu. Jedná sa napríklad o jeden z konštruktorov triedy GF2mMatrix a GF2nPolynomial, metódy na
 h¾adanie koreòov polynómov, metódy na redukciu polynómov, metódy na náhodné h¾adanie ireducibilnıch polynómov a mnoho
 ïa¾ších.	\\
@@ -450,7 +466,7 @@ Vo vıh¾adávaní na GitHube bola kninica Apache Commons Math zaznamenaná a 286 1
 
 
 \subsection { Ïalšie kninice }
-Pre poèítanie v koneènıch poliach existuje mnostvo ïalších kniníc, z ktorıch mnohé vedia poèíta rıchlo a efektívne.
+Pre poèítanie v koneènıch poliach existuje mnostvo ïalších kniníc, z ktorıch mnohé ponúkajú zaujímavé a efektívne implementácie.
 Medzi ne patrí napríklad kninica FLINT~\cite{Flint} napísaná v jazyku C. Vïaka svojej rıchlosti je vyuívaná v matematickıch
 projektoch zameranıch na teóriu èísel a poèítanie s rôznymi matematickımi štruktúrami. Ïalšiou zaujímavou kninicou je 
 projekt MPFQ~\cite{MPFQ} napísanı v jazyku Perl, ktorı bol vyvinutı pre rıchlu aritmetiku nad koneènımi poliami.	\\
@@ -830,7 +846,7 @@ $$
 \label{chap:ChapImpl}
 Táto kapitola sa venuje implementaènej èasti tejto práce. Jej cie¾om bolo v jazyku Java navrhnú a implementova kninicu 
 pre poèítanie v koneènıch poliach. Ako praktická aplikácia kninice bol implementovanı
-symetrickı šifrovací algoritmus AES vyuívajúci funkcionalitu tejto kninice. 
+symetrickı šifrovací algoritmus AES vyuívajúci funkcionalitu tejto kninice. \\
 \mbox{\qquad } Na vıvoj vıslednej aplikácie bolo pouité vıvojové prostredie Netbeans\footnote{https://netbeans.org/}
 a celı jej zdrojovı kód bol zdokumentovanı formou Javadoc-ovıch komentárov.
 Poèas celého vıvoja boli jednotlivé revízie aplikácie verzované v systéme 
@@ -956,18 +972,9 @@ Trieda GF2N disponuje nasledujúcimi funkciami: \\
   
   \item \textbf{Násobenie: } \\
   Vyuíva bitové posuny na násobenie v poli a bitovı XOR na delenie redukènım polynómom.
-  
-  \item \textbf{Delenie: } \\
-  Vyuíva implementáciu násobenia a inverzie prvku.
-  
-  \item \textbf{Inverzia prvku: } \\
-   Pri h¾adaní inverzie je vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí: 
-   ${x}^{-1} = {x}^{{2}^{n}-2}$ ~\cite{FiniteFieldWolfram}. Preto je pri h¾adaní inverznıch prvkov po¾a
-   vyuitá operácia umocòovania.
-   
+
    \item \textbf{Umocòovanie prvku: } \\
-   Keïe je na h¾adanie inverzie prvku (a preto aj pri operácii delenie) potrebné umocòovanie daného prvku na ve¾ké exponenty,
-   bolo nutné implementova rıchly spôsob vıpoètu mocniny prvku. Na túto úlohu bol zvolenı algoritmus 
+   Na poèítanie mocnín prvku bol zvolenı algoritmus 
    Square and Multiply~\cite{Square}. Ten pri vıpoète prvku ${x}^{{2}^{n}-2}$ vyuíva nasledujúci rozklad: 
    
    \begin{center}
@@ -984,13 +991,49 @@ Trieda GF2N disponuje nasledujúcimi funkciami: \\
 	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
 	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kıch exponentoch je tento spôsob
 	mnohonásobne rıchlejší.
+	
+	\item \textbf{Delenie: } \\
+    Vyuíva implementáciu násobenia a inverzie prvku.
+  
+   \item \textbf{Inverzia prvku: } \\
+   Poèas vıvoja aplikácie bola inverzia poèítaná
+   viacerımi spôsobmi. Najskôr bola vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí: 
+   ${x}^{-1} = {x}^{{2}^{n}-2}$ ~\cite{FiniteFieldWolfram}. Pri tomto spôsobe bolo potrebné mnohonásobné
+   umocòovanie daného prvku. To pôvodne prebiehalo štandardnım násobením, neskôr rıchlejšie vïaka 
+   implementácii algoritmu Square and Multiply. V súèasnej verzii vyuíva kninica na nájdenie inverzného prvku
+   Rozšírenı Euklidov algoritmus. \\
+   \mbox{\qquad } Tabu¾ka ~\ref{tab:inverse} zobrazuje èasovú nároènos tıchto algoritmov.
+   Na testovanie boli pouité koneèné polia $GF(2^{10})$, $GF(2^{30})$ a $GF(2^{60})$. Pre kadé z nich bola h¾adaná
+   inverzia náhodnıch prvkov 100 000 krát. Vısledky meraní sú v tabu¾ke zobrazené v sekundách.
+   
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie algoritmov pri h¾adaní inverzie v $GF{2}^{n}$.}
+\label{tab:inverse}
+\begin{tabular}{ |c|c|c|c| }
+\hline
+Redukènı polynóm &  $x + 1$ & ${x}^{30} + x + 1$ & ${x}^{60} + x + 1$  \\
+\hline
+Štandardné násobenie & $ 11,1 $ & $ N/A $ & $ N/A $   \\
+\hline
+Square and Multiply & $ 0,21 $ & $ 4,23 $ & $ 41,36 $   \\
+\hline
+Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
+\hline
+\end{tabular}
+\end {table}
+
+	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
+	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
+	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
+	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ v praxi nepouitelnı.
    
    \item \textbf{Testovanie ireducibility polynómov: } \\
    Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
    Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
    Na tento test je pouitá metóda Rabínov test ireducibility ~\cite{Irreducible}, ktorá hovorí: 
    
-   \mbox{\qquad } Polynóm $f$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:
+   \mbox{\qquad } Polynóm $f$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:	\\
    $gcd(f, x^{2^{{n}/{p_{i}}}} - x) = 1$ pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele
    èísla n. Zároveò musí plati: $x^{2^{n}} - x \equiv 0 \ mod \ f$.
 	 
@@ -1020,11 +1063,7 @@ nasledujúce funkcie:
    Pre vıpoèet inverzného polynómu s prvkami v poli $GF({2}^{n})$ je potrebné špecifikova 2 polynómy.
    Polynóm $f$ stupòa $n$, pre ktorı chceme spoèíta inverziu. Taktie je potrebné špecifikova polynóm $m$
    stupòa aspoò $n + 1$, modulo ktorı budeme inverznı polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
-   ktorı platí: $(f \times {f}^{-1}) mod \ m = 1$.
-   \mbox{\qquad } Na vıpoèet inverzného polynómu je pouitı Rozšírenı Euklidov algoritmus. Jeho vıstupom sú okrem najväèšieho
-   spoloèného delite¾a polynómov ${f}$ a ${m}$ aj tzv. koeficienty Bezoutovej identity ${a}$ a ${b}$. 
-   Sú to polynómy, pre ktoré platí:
-   $a \times f + b \times m = gcd(f, m)$. Ak platí, e $gcd(f, m) = 1$, potom h¾adanım inverznım polynómom je polynóm $a$.
+   ktorı platí: $(f \times {f}^{-1}) mod \ m = 1$. Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
    
    \item \textbf{Umocòovanie.} \\
    
@@ -1099,6 +1138,7 @@ a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasled
   ktorá je vypoèítaná ako báza vektorového priestoru vstupnej matice.
   
   \item \textbf{Umocòovanie.}  \\
+  Je implementované pomocou algoritmu Square and Multiply.
 
 \end{enumerate}  
 
@@ -1321,20 +1361,27 @@ ve¾kos by tak u nebola obmedzená. Ïalšie moné riešene by bolo vyuitie inej k
 Vyuitie lepších a rıchlejších algoritmov. Porovnanie s kninicou NTL ukázali, e mnostvo metód
 by mohlo fungova rıchlejšie pri zvolení iného prístupu. Preto by bola do budúcna vhodná hlbšia
 analıza riešenıch problémov a nájdenie efektívnejších matematickıch postupov pre ich riešenie.
-Súèasné riešenia sa zameriavajú najmä na správnos vısledku, nie vdy aj na rıchlos cesty k nemu.
+Súèasné riešenia sa zameriavajú najmä na správnos vısledku, nie vdy aj na rıchlos cesty k nemu.	\\
+\mbox{\qquad } Mohlo by ís napríklad o pouitie algoritmu Karatsuba pri násobení polynómov.
+Ïalej by bolo vhodné poui inú metódu na poèítanie determinantu. Súèastnı Laplaceov rozvoj so
+zloitosou \textrm O$({2}^{n}n)$ ~\cite{DeterminantEfficient} by sa dal nahradi napríklad metódou LU dekompozície, 
+ktorej zloitos je \textrm O$({n}^{3})$ ~\cite{DeterminantEfficient}.
+
 
 \item
 Pridanie ïalšej funkcionality. Súèasná verzia kninice dokáe pracova s nieko¾kımi matematickımi objektami
 a pre kadı z nich zvláda nieko¾ko operácií. Ich poèet je ale obmedzenı a existuje mnostvo ïalších zaujímavıch
 funkcií, ktoré by bolo dobré v budúcnosti do kninice prida. Mohlo by sa jedna napríklad o generovanie
-ireducibilnıch polynómov (pozn. : mono bude v èase odovzdanie doplnené), funkcie pre minimálne polynómy,
+ireducibilnıch polynómov, funkcie pre minimálne polynómy,
 modulárnu kompozíciu, faktorizáciu polynómov, a mnoho iného. Taktie by mohli by pridané ïalšie algoritmy
 (tak ako algoritmus AES), ktoré vyuívajú funkcionalitu kninice. Mohlo by ís napríklad o algoritmy pre
 kryptografiu nad eliptickımi krivkami.
 
 \item
-Lepšia práca s vınimkami. Reagova na chyby aj pod¾a typu vınimky, nie len pod¾a error message...
-(pozn.: asi radšej zapracujem do aplikácie, ako by som o tom písal)...
+Zlepšenie objektového návrhu kninice. Pri práci na kninici v budúcnosti by bolo dobré zaèa úpravou tried
+a rozhraní do podoby, ktorá by zabezpeèovala lepšiu rozšíritelnos. Tento cie¾ by sa dal dosiahnu èastejším
+vyuívaním rozhraní, abstraktnıch tried a dediènosti.
+Ako inšpirácia by mohol slúi balík linearalgebra kninice Bouncy Castle, ktorı tieto zásady dodruje. 
 
   
 \end{enumerate}
