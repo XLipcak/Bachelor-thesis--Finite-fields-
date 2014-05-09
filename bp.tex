@@ -280,7 +280,13 @@ dané kninice zvládajú. Jedná sa skôr o základnı preh¾ad ich vlastností s monos
 Taktie je pri kniniciach porovnaná ich pouívanos v ïalších projektoch zistená vïaka vısledkom vyh¾adávania v kóde projektov
 v systéme GitHub\footnote{https://github.com/}.
 Pri popise kadej z kniníc bola ako zdroj informácií vyuitá len oficiálna dokumentácia k danej kninici 
-(odkaz na òu je vdy uvedenı na zaèiatku jej popisu za názvom danej kninice).
+(odkaz na òu je vdy uvedenı na zaèiatku jej popisu za názvom danej kninice).	\\
+\mbox{\qquad } Pre poèítanie v koneènıch poliach existuje pomerne široká škála rôznych kniníc. Väèšina z nich je napísaná v jazykoch
+C a C++. Dôvodom je, e pri matematickıch operáciách dosahujú tieto jazyky 
+najlepšie vıkonnostné, rıchlostné aj pamäové vısledky~\cite{Cecko}.
+Pre iné programovacie jazyky môe by ale problematické nájs vhodné nástroje schopné poèíta v tejto oblasti.
+Aj preto bolo cie¾om tejto bakalárskej práce vyvinú kninicu pre poèítanie v koneènıch poliach v jazyku Java, pre 
+ktorı neexistuje dostatok podobnıch nástrojov.
 
 
 \subsection { NTL }
@@ -354,7 +360,7 @@ urèená na vıvoj rôznych algebraickıch matematickıch systémov. Bola pouitá pri v
 projektov, ako napríklad Maple, Mathematica èi Sage. \\
 \mbox{\qquad } O jej dôleitosti svedèí aj 506 682 vısledkov vyh¾adávania vırazu GMP
 v kódoch projektov na GitHube. Väèšina tıchto projektov je napísaná v jazyku C. Pre kninicu GMP ale existujú
-zaobalenia, ktoré jej rozhranie sprístupòujú aj pre ïa¾šie programovacie jazyky, ako napríklad Java, C\# èi Python.
+portácie, ktoré jej rozhranie sprístupòujú aj pre ïa¾šie programovacie jazyky, ako napríklad Java, C\# èi Python.
 
 
 \subsection { Givaro }
@@ -403,7 +409,9 @@ Medzi ïalšie kninice schopné poèíta s koneènımi poliami patrí kninica Crypto+
 kninice, je zameraná na kryptografické algoritmy. Táto kninica je napísaná v jazyku C++ a je distribuovaná pod licenciou
 Boost Software License 1.0. Bez problémov funguje na všetkıch širšie pouívanıch operaènıch systémoch.	\\
 \mbox{\qquad } Z oblasti poèítania v koneènıch poliach ponúka táto kninica základnú aritmetiku pre poèítanie
-s prvoèíselnımi poliami a s poliami $GF({2}^{n})$. Nie je to ale kninica urèená primárne na poskytovanie funkcií pre
+s prvoèíselnımi poliami a s poliami $GF({2}^{n})$. Pri vıpoètoch vyuíva vlastnú implementáciu rıchlej aritmetiky nad
+ponynómami a taktie s èíslami neobmedzenej dåky.	\\
+\mbox{\qquad } Nie je to ale kninica urèená primárne na poskytovanie funkcií pre
 poèítanie v koneènıch poliach. Je urèená najmä na praktickú aplikáciu mnohıch, prevane kryptografickıch algoritmov, ktoré 
 sú touto kninicou implementované. Medzi ne patria napríklad: AES, DES, RSA, DSA, ElGamal,
 Panama, Diffie-Hellman a mnoho ïalších. Vyuitie tejto kninice na GitHube bolo vo vısledkoch vyh¾adávania nájdené 16 710 krát.
@@ -416,6 +424,30 @@ Ponúka len základné operácie pre poèítanie v poli $GF({2}^{n})$ ako sèítanie, od
 Pre niektoré projekty môe by ale táto kninica ideálnym riešením. 
 Ak danı projekt nepotrebuje pokroèilejšie funkcie, poskytne mu táto kninica jednoduché a rıchle poèítanie v
 koneènom poli $GF({2}^{n})$. Na GitHube bola v takıch projektoch nájdená táto kninica 446 krát.
+
+
+\subsection { FLINT }
+Kninica FLINT~\cite{Flint} je napísaná v jazyku C a môe by šírená pod¾a pravidiel licencie GPL v2+.
+Je zameraná na teóriu èísel. \\
+Vie pracova napríklad s:
+
+\begin{itemize}
+	\item racionálnymi a celımi èíslami neobmedzenej dåky
+	\item P-adickımi èíslami a celımi èíslami modulo $n$
+	\item koneènımi poliami
+	\item reálnymi a komplexnımi èíslami.
+  \end{itemize} 
+
+\mbox{\qquad } Vïaka svojej funkcionalite je táto kninica zaujímavá pre rôzne matematické projekty.
+Bola napríklad vyuitá pre vıskumy nároènıch problémov z teórie èísel. Taktie ju vyuíva matematickı 
+software Sage a pracuje sa aj na jej zapracovaní do projektov Singular a Macaulay2. 
+
+
+\subsection { MPFQ }
+Ïalšou zaujímavou kninicou je projekt MPFQ~\cite{MPFQ} napísanı v jazyku Perl, ktorı bol vyvinutı pre rıchlu 
+aritmetiku nad koneènımi poliami. Hlavnım cie¾om vıvojárov tejto kninice je poskytova aritmetiku pre 
+Galoisove polia $GF(2^n)$ a $GF(p)$, kde $p$ je prvoèíslo. V zdrojovıch kódoch projektov na GitHube bolo
+pouitie kninice MPFQ zaznamenané 908 krát.
 
 
 \subsection { Bouncy Castle }
@@ -435,7 +467,7 @@ Vïaka dobrému objektovému návrhu je ale balík linearalgebra ve¾mi dobre škálovat
 \mbox{\qquad } Nevıhodou tohto balíka je, e pri práci s ním môe by potrebné zasahova priamo do
 jeho kódu. Jeho objektovı návrh toti nepovoluje prístup k niektorım metódam, ktoré by mohli by uitoèné.
 Ako verejné sú oznaèené len tie metódy, ktoré sú priamo vyuívané ostatnımi súèasami kninice.
-Pri jeho samostatnom pouití je ale tento prístup kontraproduktívny a núti tak programátora meni
+Pri jeho samostatnom pouití je ale tento prístup silného zapúzdrenia kontraproduktívny a núti tak programátora meni
 jednotlivé špecifikátory prístupu. Jedná sa napríklad o jeden z konštruktorov triedy GF2mMatrix a GF2nPolynomial, metódy na
 h¾adanie koreòov polynómov, metódy na redukciu polynómov, metódy na náhodné h¾adanie ireducibilnıch polynómov a mnoho
 ïa¾ších.	\\
@@ -463,20 +495,6 @@ Ak nám ale na poèítanie v koneènıch poliach postaèuje hotová funkcionalita inej 
 nie je Apache Commons Math tá ideálna vo¾ba. 	\\
 \mbox{\qquad } Celkovo sa ale jedná o jednu z najpouívanejších kniníc na podporu matematickıch vıpoètov pre projekty v jazyku Java.
 Vo vıh¾adávaní na GitHube bola kninica Apache Commons Math zaznamenaná a 286 194 krát.
-
-
-\subsection { Ïalšie kninice }
-Pre poèítanie v koneènıch poliach existuje mnostvo ïalších kniníc, z ktorıch mnohé ponúkajú zaujímavé a efektívne implementácie.
-Medzi ne patrí napríklad kninica FLINT~\cite{Flint} napísaná v jazyku C. Vïaka svojej rıchlosti je vyuívaná v matematickıch
-projektoch zameranıch na teóriu èísel a poèítanie s rôznymi matematickımi štruktúrami. Ïalšiou zaujímavou kninicou je 
-projekt MPFQ~\cite{MPFQ} napísanı v jazyku Perl, ktorı bol vyvinutı pre rıchlu aritmetiku nad koneènımi poliami.	\\
-\mbox{\qquad } 
-Pre poèítanie v koneènıch poliach existuje pomerne široká škála rôznych kniníc. Väèšina z nich je napísaná v jazykoch
-C a C++. Dôvodom je, e pri matematickıch operáciách dosahujú tieto jazyky 
-najlepšie vıkonnostné, rıchlostné aj pamäové vısledky~\cite{Cecko}.
-Pre iné programovacie jazyky môe by ale problematické nájs vhodné nástroje schopné poèíta v tejto oblasti.
-Aj preto bolo cie¾om tejto bakalárskej práce vyvinú kninicu pre poèítanie v koneènıch poliach v jazyku Java, pre 
-ktorı neexistuje dostatok podobnıch nástrojov.
 
 
 
@@ -858,7 +876,10 @@ Hlavnım cie¾om praktickej èasti tejto bakalárskej práce bolo implementova funkc
 s vektormi s prvkami v $GF({2}^{n})$, s polynómami s prvkami v $GF({2}^{n})$, a taktie s maticami s prvkami v $GF({2}^{n})$.
 Ku kadej tejto štruktúre bolo implementovanıch nieko¾ko funkcií pre poèítanie s nimi. V nasledujúcej èasti budú tieto
 funkcie vymenované, niektoré z nich aj detailnejšie popísané. Ako inšpirácia pre túto kninicu slúila kninica NTL. Metódy
-sú preto navrhnuté tak, aby ich vıstupy boli totoné s vıstupmi podobnıch metód kninice NTL.
+sú preto navrhnuté tak, aby ich vıstupy boli totoné s vıstupmi podobnıch metód kninice NTL.	\\
+\mbox{\qquad } Kninica pre poèítanie v $GF({2}^{n})$ je v mojom projekte súèasou balíka gf2n. Obsahuje triedy,
+rozhrania a vınimky rozdelené do ïalších samostatnıch balíkov. Na chybové vstupy kninica reaguje
+pomocou vınimiek. Má definované svoje vlastné vınimky. Ich podoba bola inšpirovaná kninicou Apache Commons Math.
 
 
 \subsection { Diagram tried } 
@@ -1026,7 +1047,8 @@ Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
 	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
 	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
 	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
-	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ v praxi nepouitelnı.
+	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ pre väèšie polia
+	v praxi nepouitelnı.
    
    \item \textbf{Testovanie ireducibility polynómov: } \\
    Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
@@ -1066,6 +1088,7 @@ nasledujúce funkcie:
    ktorı platí: $(f \times {f}^{-1}) mod \ m = 1$. Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
    
    \item \textbf{Umocòovanie.} \\
+   Je implementované pomocou algoritmu Square and Multiply.
    
 \end{enumerate}
 
