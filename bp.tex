@@ -8,6 +8,9 @@
 \usepackage[section]{placeins}
 \usepackage{enumitem}
 \usepackage{multirow}
+\usepackage{dtklogos}
+
+\usepackage[titletoc]{appendix}
 
 % no widows and orphans
 \clubpenalty=9996
@@ -49,6 +52,7 @@
   tabsize=3
 }
 %% </JAVA code package>
+
 
 
 \usepackage{amsmath} 	%math
@@ -188,17 +192,24 @@ znaèíme ako $GF({p}^{n})$, prípadne F$_{{p}^{n}}$. Èíslu $p$ hovoríme, e je cha
 
 \subsection {Konštrukcia koneèného po¾a}
 \label{sec:IrredPoly}
-Pre koneèné pole $GF(p)$, ktorého rád je rovnı prvoèíslu $p$, sú všetky operácie vykonávané modulo toto
+Majme ¾ubovo¾né prvoèíslo $p$ a koneèné pole $GF(p)$.
+Pre koneèné pole $GF(p)$ sú všetky operácie vykonávané modulo toto
 prvoèíslo. Také pole nazıvame prvoèíselné a všetky jeho prvky sú zvyškové triedy modulo $p$.
-Pre všetky prvky $x, y \in GF(p)$ platí: ${} x = y \Leftrightarrow x \equiv y \ (mod \ p) $.		\\
+Pre všetky prvky $x, y \in GF(p)$ platí: 
+\begin{align*}
+x = y \Leftrightarrow x \equiv y \ (mod \ p) .		\\
+\end{align*}
 
 \mbox{\qquad } Nech $p$ je ¾ubovo¾né prvoèíslo a $n$ celé èíslo väèšie ako 1.
 Jednou z moností, ako skonštruova pole $GF({p}^{n})$, je vyui polynomiálnu reprezentáciu prvkov.
 Najskôr je potrebné zvoli si pre toto pole charakteristickı ireducibilnı polynóm $f(x)$ stupòa $n$ s koeficientami v $GF(p)$.
-Takı ireducibilnı polynóm existuje pre kadé $p$ a $n$ a vieme ho efektívne nájs ~\cite{AbstractAlgebra}. 
+Takı ireducibilnı polynóm existuje pre kadé $p$ a $n$ a vieme ho efektívne nájs~\cite{AbstractAlgebra}. 
 Prvky po¾a $GF({p}^{n})$ sú potom polynómy stupòa najviac ${n - 1}$, ktorıch koeficienty patria do po¾a $GF(p)$
 ~\cite{SpringerCurveCryptography, Massachusetts}. 
-Pre všetky prvky $x, y \in GF(p^n)$ platí: $ x = y \Leftrightarrow x \equiv y \ (mod \ f(x)) $ ~\cite{FiniteFieldWolfram}. \\
+Pre všetky prvky $x, y \in GF(p^n)$ platí ~\cite{FiniteFieldWolfram}: 
+\begin{align*}
+ x = y \Leftrightarrow x \equiv y \ (mod \ f(x)). \\
+\end{align*}
  
 
 
@@ -206,7 +217,7 @@ Pre všetky prvky $x, y \in GF(p^n)$ platí: $ x = y \Leftrightarrow x \equiv y \ 
 \subsection {Aritmetické operácie nad koneènımi poliami}
 Poèítanie v koneènıch poliach je závislé od rádu daného po¾a a taktie od zvoleného ireducibilného redukèného polynómu
 pre dané koneèné pole.
-Všetky aritmetické operácie nad po¾om $GF(m)$ s redukènım polynómom $f(x)$ sú vykonávané modulo polynóm $f(x)$
+Všetky aritmetické operácie nad po¾om $GF(p^n)$ s redukènım polynómom $f(x)$ sú vykonávané modulo polynóm $f(x)$
 (prípadne modulo rád po¾a pre prvoèíselné polia). Pre kadé koneèné pole je definovaná len aditívna a 
 multiplikatívna operácia.	\\
 \mbox{\qquad } V nasledujúcej èasti je predstavená aritmetika základnych operácií pre poèítanie v koneènıch poliach~\cite{SpringerCurveCryptography}.
@@ -216,46 +227,70 @@ Pre skonštruovanie po¾a $GF({p}^{n})$ vyuijeme postup opísanı v sekcii ~\ref{se
 \begin{itemize}
 	\item \textbf{Sèítanie: } \\
 	Nech máme pole $GF(p)$ a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$. 
-	Vısledok vırazu ${x + y}$ je definovanı ako: ${(x + y)\ mod \ p}$. \\
+	Pre operáciu sèítania v tomto poli platí:
+	\begin{align*}
+		x + y = (x + y)\ mod \ p
+	\end{align*}
 	\mbox{\qquad } Pre pole $GF({p}^{n})$ s prvkami ${x \in}$ $GF({p}^{n})$ a ${y \in}$ $GF({p}^{n})$
 	dostaneme vısledok vırazu ${x + y}$ sèítaním jednotlivıch koeficientov polynomiálnej reprezentácie tıchto prvkov.
 	
 	
 	\item \textbf{Odèítanie: } \\
 	Operácia odèítania je definovaná na základe aditívnej operácie.
-	Nech máme pole $GF(p)$ a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$.  \\
-	Potom: ${x - y}$ = ${x + (-y)}$, kde prvok ${-y}$ je opaènı k prvku ${y}$,
-	a teda platí: ${y + (-y) = 0}$	\\
+	Nech máme pole $GF(p)$ a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$.  
+	Potom platí: 
+	\begin{align*}
+		x - y = x + (-y)
+	\end{align*}
+	kde prvok ${-y}$ je opaènı k prvku ${y}$, a teda platí: ${y + (-y) = 0}$.	\\
 	\mbox{\qquad } Pre pole $GF({p}^{n})$ s prvkami ${x \in}$ $GF({p}^{n})$ a ${y \in}$ $GF({p}^{n})$
 	dostaneme vısledok vırazu ${x - y}$ odèítaním jednotlivıch koeficientov polynomiálnej reprezentácie tıchto prvkov.
 	
 	
 	\item \textbf{Násobenie: } \\
 	Nech máme pole $GF(p)$ a prvky ${x \in GF(p)}$ a ${y \in GF(p)}$. 
-	Vısledok vırazu ${x}$·${y}$ je definovanı ako: $({x}$ · ${y})$${\ mod \ p}$. \\
+	Pre multiplikatívnu operáciu platí: 
+	\begin{align*}
+		x \cdot y = (x \cdot y)\ mod \ p
+	\end{align*}
 	\mbox{\qquad } Ïalej si zvolíme pole $GF({p}^{n})$ s prvkami ${x \in}$ $GF({p}^{n})$ a ${y \in}$ $GF({p}^{n})$
 	a redukènı polynóm ${f(x)}$ pre toto pole.
-	Vısledok vırazu ${x}$ · ${y}$ je definovanı ako: ${x}$ · ${y}$${\ mod \ f(x)}$. \\
+	Pre multiplikatívnu operáciu v poli $GF({p}^{n})$ platí:
+	\begin{align*}
+		x \cdot y = (x \cdot y)\ mod \ f(x)
+	\end{align*}
 	
 	\item \textbf{Delenie: } \\
-	Operácia delenia je definovaná na základe multiplikatívnej operácie. \\
-	Nech máme koneèné pole $GF(m)$ s redukènım polynómom ${f(x)}$ a prvky ${x \in GF(m)}$ a ${y \in GF(m)}$. 
-	Vısledok vırazu ${x / y}$ pre nenulové $y$ je definovanı ako: ${x}$ · ${y}^{-1}$, kde prvok ${y}^{-1}$ 
-	je inverznı k prvku ${y}$, a teda platí: ${y}$ · ${y^{-1} = 1}$	\\
+	Operácia delenia je definovaná na základe multiplikatívnej operácie. Nech máme koneèné pole $GF(p^n)$ pre $n \geq 1$.
+	Pre toto pole si zvolíme redukènı polynóm ${f(x)}$, prvok ${x \in GF(p^n)}$ a nenulovı prvok ${y \in GF(p^n)}$. 
+	Pre operáciu delenia v tomto polí platí:
+	\begin{align*}
+		x / y = x \cdot {y}^{-1}
+	\end{align*}
+	kde prvok ${y}^{-1}$ je inverznı k prvku ${y}$, a teda platí: ${y}$ · ${y^{-1} = 1}$.	\\
 	\mbox{}\qquad Na vykonanie tejto operácie ale musíme pozna inverznı prvok menovate¾a. Spôsobov ako ho nájs 
-	je nieko¾ko. Môme napríklad vyui vlastnos, e pre kadı prvok ${y} \in GF(m)$ platí: 
-	${y}^{m} = y$, to znamená e ${y}^{-1} = {y}^{m-2}$ ~\cite{FiniteFieldWolfram}. \\
+	je nieko¾ko. Môme napríklad vyui vlastnos, e pre kadı prvok ${y} \in GF(p^n)$ 
+	platí ${y}^{p^n} = y$, z èoho vyplıva~\cite{FiniteFieldWolfram}:
+	\begin{align*}
+		{y}^{-1} = {y}^{p^n-2}. \\
+	\end{align*}	
 	\mbox{}\qquad Pre ve¾ké koneèné polia je ale tento spôsob neefektívny a pouíva sa postup vychádzajúci
 	z Bezoutovej rovnosti, ktorá hovorí~\cite{RoughMath}: \\
-	\textit {Nech $GF(m)$ je pole a prvky ${x, y \in GF(m)}$. Potom existuje ich najväèší spoloènı delite¾ $h$,
-	ktorı je a na násobok nenulovım skalárom urèenı jednoznaène. Zároveò existujú prvky ${a, b \in GF(m)}$
+	\textbf{Veta 2.2.1} \emph{(Bezoutova rovnos)}.
+	Nech $GF(p^n)$ je pole a prvky ${x, y \in GF(p^n)}$. Potom existuje ich najväèší spoloènı delite¾ $h$,
+	ktorı je a na násobok nenulovım skalárom urèenı jednoznaène. Zároveò existujú prvky ${a, b \in GF(p^n)}$
 	také, e: ${a}$ · ${x} + {b}$ · ${y} = h$
-	} \\
+	 \\
 	\mbox{}\qquad Na nájdenie koeficientov Bezoutovej rovnosti ${a}$ a ${b}$ sa pouíva Rozšírenı Euklidov algoritmus.
 	Ten postupnım delením vstupnıch polynómov a ich zvyškov a ich následnımi úpravami získa tieto koeficienty aj
 	najväèší spoloènı delite¾ vstupnıch prvkov. Ak teda h¾adáme inverznı prvok ${y^{-1}}$ v koneènom poli s 
 	redukènım polynómom ${f(x)}$, Rozšírenım Euklidovım algoritmom získame nasledujúcu rovnos: \\
-	${a}$ · ${y} + {b}$ · ${f(x)} = 1$, z èoho vyplıva: ${y^{-1} = a}$.
+	\begin{align*}
+		{a} \cdot {y} + {b} \cdot {f(x)} = 1
+		\intertext{z èoho vyplıva:}
+		 {y^{-1} = a}.
+	\end{align*}
+	 
 	
 \end{itemize}
 
@@ -420,8 +455,8 @@ Panama, Diffie-Hellman a mnoho ïalších. Vyuitie tejto kninice na GitHube bolo 
 \subsection { Fast Galois Field Arithmetic Library in C/C++ }
 Kninicu Fast Galois Field Arithmetic Library in C/C++ ~\cite{FastGalois} vyvinul profesor James S. Plank pôsobiaci na University of Tennessee.
 Jedná sa o kninicu napísanú v jazyku C. Svojou ve¾kosou sa nemôe rovna ostatnım kniniciam spomenutım v tejto sekcii.
-Ponúka len základné operácie pre poèítanie v poli $GF({2}^{n})$ ako sèítanie, odèítanie, delenie a násobenie. 
-Pre niektoré projekty môe by ale táto kninica ideálnym riešením. 
+Ponúka len základné operácie pre poèítanie v poli $GF({2}^{n})$ ako sèítanie, odèítanie, delenie a násobenie. \\
+\mbox{\qquad } Pre niektoré projekty môe by ale táto kninica ideálnym riešením. 
 Ak danı projekt nepotrebuje pokroèilejšie funkcie, poskytne mu táto kninica jednoduché a rıchle poèítanie v
 koneènom poli $GF({2}^{n})$. Na GitHube bola v takıch projektoch nájdená táto kninica 446 krát.
 
@@ -467,7 +502,7 @@ Vïaka dobrému objektovému návrhu je ale balík linearalgebra ve¾mi dobre škálovat
 \mbox{\qquad } Nevıhodou tohto balíka je, e pri práci s ním môe by potrebné zasahova priamo do
 jeho kódu. Jeho objektovı návrh toti nepovoluje prístup k niektorım metódam, ktoré by mohli by uitoèné.
 Ako verejné sú oznaèené len tie metódy, ktoré sú priamo vyuívané ostatnımi súèasami kninice.
-Pri jeho samostatnom pouití je ale tento prístup silného zapúzdrenia kontraproduktívny a núti tak programátora meni
+Pri jeho samostatnom pouití je ale tento princíp silného zapúzdrenia kontraproduktívny a núti tak programátora meni
 jednotlivé špecifikátory prístupu. Jedná sa napríklad o jeden z konštruktorov triedy GF2mMatrix a GF2nPolynomial, metódy na
 h¾adanie koreòov polynómov, metódy na redukciu polynómov, metódy na náhodné h¾adanie ireducibilnıch polynómov a mnoho
 ïa¾ších.	\\
@@ -728,6 +763,13 @@ Niektoré operácie algoritmu AES nahrádzajú bajty blokov a k¾úèov pod¾a na to urè
 Táto sekcia opisuje vıpoèet tıchto tabuliek.
 \begin{itemize}
 
+ \item \textbf{ Rcon: }  \\
+ Tabu¾ku Rcon vyuíva algoritmus AES pri expanzii k¾úèa a pre kadı bajt $e \in GF({2}^{8})$ je
+ jeho substituovaná hodnota $s \in GF({2}^{8})$ vypoèítaná ako: 	\\
+ \begin{center}
+ $s = {x}^{(e-1)} \ mod \ {x}^{8} + {x}^{4} + {x}^{3} + x + 1$
+ \end{center}
+
 \item \textbf{ S-box: }  \\
 S-box je substituèná tabu¾ka, ktorú algoritmus AES vyuíva pri expanzii k¾úèa a v operácii SubBytes.
 Pre kadı substituovanı bajt je jej vıpoèet nasledujúci:	\\
@@ -842,15 +884,7 @@ $$
  $[{x}_{0}, ..., {x}_{7}]$ sú koeficienty polynomiálnej reprezentácie prvku $x \in GF({2}^{8})$.
  Prvok $x$ je inverznı k bajtu, ktorı chceme substituova.	\\
  $[{z}_{0}, ..., {z}_{7}]$ sú koeficienty polynomiálnej reprezentácie vısledného bajtu.
- 
- 
- \item \textbf{ Rcon: }  \\
- Tabu¾ku Rcon vyuíva algoritmus AES pri expanzii k¾úèa a pre kadı bajt $e \in GF({2}^{8})$ je
- jeho substituovaná hodnota $s \in GF({2}^{8})$ vypoèítaná ako: 	\\
- \begin{center}
- $s = {x}^{(e-1)} \ mod \ {x}^{8} + {x}^{4} + {x}^{3} + x + 1$
- \end{center}
- 
+
 
 \end{itemize}
 
@@ -892,6 +926,209 @@ yEd Graph Editor\footnote{http://www.yworks.com/en/index.html}.
 	\caption{UML diagram tried.}
 	\label{fig:Class}
 \end{figure} 
+
+
+\subsection { Poèítanie s prvkami v $GF({2}^{n})$ } 
+Pre poèítanie s prvkami v $GF({2}^{n})$ bola navrhnutá trieda GF2N. Táto trieda implementuje rozhranie GaloisFieldArithmetic,
+ktoré špecifikuje poskytovanú funkcionalitu tejto kninice pre poèítanie s prvkami v $GF({2}^{n})$. \\
+\mbox{\qquad } Pre poèítanie s prvkami 
+v $GF({2}^{n})$ je najskôr potrebné vytvori objekt triedy GF2N. V konštruktore musí by špecifikovanı redukènı polynóm pre koneèné
+pole, v ktorom chceme poèíta. Pre polynóm stupòa ${n}$ sa vytvorí pole GF(${2}^{n-1}$). Kadı prvok po¾a, ako aj jeho redukènı
+polynóm, je reprezentovanı primitívnym dátovım typom Long.	\\
+Trieda GF2N disponuje nasledujúcimi funkciami: \\
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  Pre polia $GF({2}^{n})$ sú tieto operácie totoné a sú implementované ako jednoduchı bitovı XOR.
+  
+  \item \textbf{Násobenie: } \\
+  Vyuíva bitové posuny na násobenie v poli a bitovı XOR na delenie redukènım polynómom.
+
+   \item \textbf{Umocòovanie prvku: } \\
+   Na poèítanie mocnín prvku bol zvolenı algoritmus 
+   Square and Multiply~\cite{Square}. Ten pri vıpoète prvku ${x}^{{2}^{n}-2}$ vyuíva nasledujúci rozklad: 
+   
+   \begin{center}
+     ${x}^{{2}^{n}-2}$ $=$ ${x}^{{2}({2}^{n-1}-1)}$ $=$ $(x^{(2^{n-1}-1)})^{2}$		
+	 $=$ $(x^{(2^{n-1}-2+1)})^{2}$ \\ 
+	 $=$ $(x \times x^{(2^{n-1}-2)})^{2}$
+	 $=$ $(x \times x^{2(2^{n-2}-1)})^{2}$ $=$ $(x \times (x^{(2^{n-2}-1)})^{2})^{2}$
+	 \\ 
+	 ··· \\
+	 $=$ $(x \times (x \times (x \times (...x \times (x \times x^{2})^{2}...)^{2}$
+    \end{center}
+	
+	\mbox{\qquad } Tento spôsob vıznamne zrıchli vıpoèet mocniny prvku. Pri vıpoète ${x}^{{2}^{n}-2}$ nie je
+	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
+	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kıch exponentoch je tento spôsob
+	mnohonásobne rıchlejší.
+	
+	\item \textbf{Delenie: } \\
+    Vyuíva implementáciu násobenia a inverzie prvku.
+  
+   \item \textbf{Inverzia prvku: } \\
+   Poèas vıvoja aplikácie bola inverzia poèítaná
+   viacerımi spôsobmi. Najskôr bola vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí~\cite{FiniteFieldWolfram}: 
+   \begin{align*}
+     {x}^{-1} = {x}^{{2}^{n}-2}. 
+   \end{align*}
+   Pri tomto spôsobe bolo potrebné mnohonásobné
+   umocòovanie daného prvku. To pôvodne prebiehalo štandardnım násobením, neskôr rıchlejšie vïaka 
+   implementácii algoritmu Square and Multiply. V súèasnej verzii vyuíva kninica na nájdenie inverzného prvku
+   Rozšírenı Euklidov algoritmus. \\
+   \mbox{\qquad } Tabu¾ka ~\ref{tab:inverse} zobrazuje èasovú nároènos tıchto algoritmov.
+   Na testovanie boli pouité koneèné polia $GF(2^{10})$, $GF(2^{30})$ a $GF(2^{60})$. Pre kadé z nich bola h¾adaná
+   inverzia náhodnıch prvkov 100 000 krát. Vısledky meraní sú v tabu¾ke zobrazené v sekundách.
+   
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie algoritmov pri h¾adaní inverzie v $GF{2}^{n}$.}
+\label{tab:inverse}
+\begin{tabular}{ |c|c|c|c| }
+\hline
+Redukènı polynóm &  $x + 1$ & ${x}^{30} + x + 1$ & ${x}^{60} + x + 1$  \\
+\hline
+Štandardné násobenie & $ 11,1 $ & $ N/A $ & $ N/A $   \\
+\hline
+Square and Multiply & $ 0,21 $ & $ 4,23 $ & $ 41,36 $   \\
+\hline
+Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
+\hline
+\end{tabular}
+\end {table}
+
+	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
+	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
+	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
+	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ pre väèšie polia
+	v praxi nepouitelnı.
+   
+   \item \textbf{Testovanie ireducibility polynómov: } \\
+   Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
+   Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
+   Na tento test je pouitá metóda Rabínov test ireducibility~\cite{Irreducible}, ktorá hovorí: 
+   
+   \textbf{Veta 4.1.1} \emph{(Rabínov test ireducibility)}.
+	Polynóm $f(x)$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:
+   \begin{align*}
+		gcd(f(x), x^{2^{{n}/{p_{i}}}} - x) = 1
+		\intertext{pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele èísla $n$.}
+		\intertext{Zároveò musí plati:}
+		 x^{2^{n}} - x \equiv 0 \ mod \ f.
+	\end{align*}
+	 
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s polynómami s prvkami v $GF({2}^{n})$ } 
+Pre poèítanie s polynómami s prvkami v $GF({2}^{n})$ bola navrhnutá trieda PolynomialGF2N. Jej verejné metódy
+sú popísané rozhraním GaloisFieldPolynomialArithmetic, ktoré je touto triedou implementované. Táto trieda pracuje
+s objektami typu Polynomial, ktoré slúia na objektovú reprezentáciu polynómov. Trieda PolynomialGF2N poskytuje
+nasledujúce funkcie: 
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  
+  \item \textbf{Násobenie a delenie: } \\
+  Násobenie a delenie polynómov. Delenie je moné aj so získaním zvyšku po delení.
+  
+  \item \textbf{Najväèší spoloènı delite¾: } \\
+   Trieda PolynomialGF2N poskytuje metódu gcd (skratka z anglického greatest common divisor), ktorá slúi na
+   vıpoèet najväèšieho spoloèného delite¾a dvoch polynómov. Pri vıpoète je pouitı
+   Euklidov algoritmus, ktorı vısledok získava postupnım delením polynómov a ich zvykov.
+   
+   \item \textbf{Inverzia polynómu: } \\
+   Pre vıpoèet inverzného polynómu s prvkami v poli $GF({2}^{n})$ je potrebné špecifikova 2 polynómy.
+   Polynóm $f(x)$ stupòa $n$, pre ktorı chceme spoèíta inverziu. Taktie je potrebné špecifikova polynóm $m(x)$
+   stupòa aspoò $n + 1$, modulo ktorı budeme inverznı polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
+   ktorı platí: 
+    \begin{align*}
+		(f(x) \cdot {f(x)}^{-1}) mod \ m(x) = 1.
+	\end{align*}
+	\mbox{\qquad } Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
+   
+   \item \textbf{Umocòovanie.} \\
+   Je implementované pomocou algoritmu Square and Multiply.
+   
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s vektormi s prvkami v $GF({2}^{n})$ } 
+S vektormi v koneènıch poliach v tejto kninici poèíta trieda VectorGF2N implementujúca rozhranie GaloisFieldVectorArithmetic. 
+Na objektovú reprezentáciu vektorov bola vytvorená trieda Vector. Pre poèítanie s vektormi sú implementované nasledujúce funkcie:
+\begin{enumerate}
+  \item \textbf{Sèítanie.} 
+  \item \textbf{Odèítanie.}
+  \item \textbf{Násobenie skalárom.} 
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s maticami s prvkami v $GF({2}^{n})$ }
+Na poèítanie s maticami s prvkami v $GF({2}^{n})$ bola vytvorená trieda \\ MatrixGF2N. Táto trieda poèíta s objektami typu Matrix
+a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasledujúce funkcie: 
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie.} 
+  
+  \item \textbf{Násobenie: }	\\
+  Implementované je násobenie matíc maticami, násobenie matíc vektormi, a taktie násobenie matíc skalárnymi hodnotami.
+  
+  \item \textbf{Inverzia: }  \\
+  Vıpoèet inverznej matice prebieha postupnımi transformáciami riadkov pôvodnej matice, ktoré sú aplikované aj na k nej 
+  vytvorenú jednotkovú maticu. Pôvodná matica je postupne upravovaná na jednotkovú maticu, zatia¾ èo z jednotkovej matice
+  vznikne vısledná inverzná matica.
+  
+  \item \textbf{Determinant: }  \\
+  Implementácia vıpoètu determinantu matíc vyuíva Laplaceov rozvoj~\cite{Laplace}. Ten hovorí, e pre maticu $n \times n$ sa jej determinant
+  dá vypoèíta ako: \\
+  
+  \begin{align*}
+     \det A = \sum\limits_{j=1}^n {(-1)^{i+j} a_{i,j} C_{i,j}}	
+  \end{align*}
+  kde:	\\
+  ${i}$ je index ¾ubovolne zvoleného riadku(alebo ståpca), pod¾a ktorého budeme rozvoj poèíta.	\\
+  ${j}$ je index ståpca (ak poèítame rozvoj pod¾a riadku) alebo riadku (ak poèítame rozvoj pod¾a ståpca).	\\
+  $a_{i,j}$ je prvok matice urèenı indexami ${i}$ a ${j}$.	\\
+  $C_{i,j}$ je kofaktor matice, teda determinant matice bez riadku a ståpca, na ktorom sa nachádza prvok $a_{i,j}$.  
+  
+  \mbox{\qquad } Metóda triedy MatrixGF2N na vıpoèet determinantu vyuíva Laplaceov rozvoj pod¾a prvého riadku matice.
+  
+  \item \textbf{Gaussova eliminácia: }  \\
+  Trieda MatrixGF2N ponúka metódu, ktorá pre vstupnú maticu vykoná Gaussovu elimináciu. Cie¾om Gaussovej eliminácie je
+  upravi vstupnú maticu do tzv. stupòovitého riadkového tvaru (z anglického row echelon form)~\cite{Echelon}, pre ktorı platí:
+  \begin{enumerate}  
+	\item Všetky nulové riadky sú na spodku matice.
+	\item Pivot kadého riadku matice je napravo od pivota riadku nad ním.
+	\item Pivot kadého nenulového riadku je 1.
+	\item Ståpec pod pivotom kadého riadku je nulovı.
+  \end{enumerate}
+  \mbox{\qquad } Aby boli vısledky mojej kninice totoné s kninicou NTL, je v mojej implementácii vynechanı bod (c).
+
+  \item \textbf{Riešenie lineárneho systému rovníc: }  \\
+   Trieda MatrixGF2N ponúka implementáciu riešenia lineárneho systému rovníc v koneènom poli $GF({2}^{n})$.
+   Pre maticu ${A}$ a vektor ${y}$ h¾adáme vektor ${x}$ tak, aby platilo: 
+   \begin{align*}
+     A \cdot x = y.
+  \end{align*}
+  
+  \item \textbf{Hodnos: }  \\
+  Vıpoèet poètu lineárne nezávislıch riadkov v matici.
+  
+  \item \textbf{Jadro: }  \\
+  Vısledkom metódy kernel pre vıpoèet jadra matice v triede MatrixGF2N je matica, 
+  ktorej súèin so vstupnou maticou vráti nulovú maticu.
+  
+  
+  \item \textbf{Obraz.}  \\
+  Vısledkom metódy image pre vıpoèet obrazu matice v triede MatrixGF2N je matica v stupòovitom riadkovom tvare, 
+  ktorá je vypoèítaná ako báza vektorového priestoru vstupnej matice.
+  
+  \item \textbf{Umocòovanie.}  \\
+  Je implementované pomocou algoritmu Square and Multiply.
+
+\end{enumerate}
 
 \subsection { Ukáka kódu }
 Pre lepšiu predstavu o pouívaní vytvorenej kninice obsahuje táto èas krátku ukáku kódu.
@@ -977,193 +1214,7 @@ Inverse of Matrix:
 [ 754, 780, 545 ]
 [ 267, 1002, 88 ]
 \end{verbatim}
-
-
-\subsection { Poèítanie s prvkami v $GF({2}^{n})$ } 
-Pre poèítanie s prvkami v $GF({2}^{n})$ bola navrhnutá trieda GF2N. Táto trieda implementuje rozhranie GaloisFieldArithmetic,
-ktoré špecifikuje poskytovanú funkcionalitu tejto kninice pre poèítanie s prvkami v $GF({2}^{n})$. Pre poèítanie s prvkami 
-v $GF({2}^{n})$ je najskôr potrebné vytvori objekt triedy GF2N. V konštruktore musí by špecifikovanı redukènı polynóm pre koneèné
-pole, v ktorom chceme poèíta. Pre polynóm stupòa ${n}$ sa vytvorí pole GF(${2}^{n-1}$). Kadı prvok po¾a, ako aj jeho redukènı
-polynóm, je reprezentovanı primitívnym dátovım typom Long.	\\
-Trieda GF2N disponuje nasledujúcimi funkciami: \\
-
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie: } \\
-  Pre polia $GF({2}^{n})$ sú tieto operácie totoné a sú implementované ako jednoduchı bitovı XOR.
   
-  \item \textbf{Násobenie: } \\
-  Vyuíva bitové posuny na násobenie v poli a bitovı XOR na delenie redukènım polynómom.
-
-   \item \textbf{Umocòovanie prvku: } \\
-   Na poèítanie mocnín prvku bol zvolenı algoritmus 
-   Square and Multiply~\cite{Square}. Ten pri vıpoète prvku ${x}^{{2}^{n}-2}$ vyuíva nasledujúci rozklad: 
-   
-   \begin{center}
-     ${x}^{{2}^{n}-2}$ $=$ ${x}^{{2}({2}^{n-1}-1)}$ $=$ $(x^{(2^{n-1}-1)})^{2}$		
-	 $=$ $(x^{(2^{n-1}-2+1)})^{2}$ \\ 
-	 $=$ $(x \times x^{(2^{n-1}-2)})^{2}$
-	 $=$ $(x \times x^{2(2^{n-2}-1)})^{2}$ $=$ $(x \times (x^{(2^{n-2}-1)})^{2})^{2}$
-	 \\ 
-	 ··· \\
-	 $=$ $(x \times (x \times (x \times (...x \times (x \times x^{2})^{2}...)^{2}$
-    \end{center}
-	
-	\mbox{\qquad } Tento spôsob vıznamne zrıchli vıpoèet mocniny prvku. Pri vıpoète ${x}^{{2}^{n}-2}$ nie je
-	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
-	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kıch exponentoch je tento spôsob
-	mnohonásobne rıchlejší.
-	
-	\item \textbf{Delenie: } \\
-    Vyuíva implementáciu násobenia a inverzie prvku.
-  
-   \item \textbf{Inverzia prvku: } \\
-   Poèas vıvoja aplikácie bola inverzia poèítaná
-   viacerımi spôsobmi. Najskôr bola vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí: 
-   ${x}^{-1} = {x}^{{2}^{n}-2}$ ~\cite{FiniteFieldWolfram}. Pri tomto spôsobe bolo potrebné mnohonásobné
-   umocòovanie daného prvku. To pôvodne prebiehalo štandardnım násobením, neskôr rıchlejšie vïaka 
-   implementácii algoritmu Square and Multiply. V súèasnej verzii vyuíva kninica na nájdenie inverzného prvku
-   Rozšírenı Euklidov algoritmus. \\
-   \mbox{\qquad } Tabu¾ka ~\ref{tab:inverse} zobrazuje èasovú nároènos tıchto algoritmov.
-   Na testovanie boli pouité koneèné polia $GF(2^{10})$, $GF(2^{30})$ a $GF(2^{60})$. Pre kadé z nich bola h¾adaná
-   inverzia náhodnıch prvkov 100 000 krát. Vısledky meraní sú v tabu¾ke zobrazené v sekundách.
-   
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie algoritmov pri h¾adaní inverzie v $GF{2}^{n}$.}
-\label{tab:inverse}
-\begin{tabular}{ |c|c|c|c| }
-\hline
-Redukènı polynóm &  $x + 1$ & ${x}^{30} + x + 1$ & ${x}^{60} + x + 1$  \\
-\hline
-Štandardné násobenie & $ 11,1 $ & $ N/A $ & $ N/A $   \\
-\hline
-Square and Multiply & $ 0,21 $ & $ 4,23 $ & $ 41,36 $   \\
-\hline
-Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
-\hline
-\end{tabular}
-\end {table}
-
-	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
-	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
-	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
-	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ pre väèšie polia
-	v praxi nepouitelnı.
-   
-   \item \textbf{Testovanie ireducibility polynómov: } \\
-   Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
-   Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
-   Na tento test je pouitá metóda Rabínov test ireducibility ~\cite{Irreducible}, ktorá hovorí: 
-   
-   \mbox{\qquad } Polynóm $f$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:	\\
-   $gcd(f, x^{2^{{n}/{p_{i}}}} - x) = 1$ pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele
-   èísla n. Zároveò musí plati: $x^{2^{n}} - x \equiv 0 \ mod \ f$.
-	 
-
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s polynómami s prvkami v $GF({2}^{n})$ } 
-Pre poèítanie s polynómami s prvkami v $GF({2}^{n})$ bola navrhnutá trieda PolynomialGF2N. Jej verejné metódy
-sú popísané rozhraním GaloisFieldPolynomialArithmetic, ktoré je touto triedou implementované. Táto trieda pracuje
-s objektami typu Polynomial, ktoré slúia na objektovú reprezentáciu polynómov. Trieda PolynomialGF2N poskytuje
-nasledujúce funkcie: 
-
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie: } \\
-  
-  \item \textbf{Násobenie a delenie: } \\
-  Násobenie a delenie polynómov. Delenie je moné aj so získaním zvyšku po delení.
-  
-  \item \textbf{Najväèší spoloènı delite¾: } \\
-   Trieda PolynomialGF2N poskytuje metódu gcd (skratka z anglického greatest common divisor), ktorá slúi na
-   vıpoèet najväèšieho spoloèného delite¾a dvoch polynómov. Pri vıpoète je pouitı
-   Euklidov algoritmus, ktorı vısledok získava postupnım delením polynómov a ich zvykov.
-   
-   \item \textbf{Inverzia polynómu: } \\
-   Pre vıpoèet inverzného polynómu s prvkami v poli $GF({2}^{n})$ je potrebné špecifikova 2 polynómy.
-   Polynóm $f$ stupòa $n$, pre ktorı chceme spoèíta inverziu. Taktie je potrebné špecifikova polynóm $m$
-   stupòa aspoò $n + 1$, modulo ktorı budeme inverznı polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
-   ktorı platí: $(f \times {f}^{-1}) mod \ m = 1$. Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
-   
-   \item \textbf{Umocòovanie.} \\
-   Je implementované pomocou algoritmu Square and Multiply.
-   
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s vektormi s prvkami v $GF({2}^{n})$ } 
-S vektormi v koneènıch poliach v tejto kninici poèíta trieda VectorGF2N implementujúca rozhranie GaloisFieldVectorArithmetic. 
-Na objektovú reprezentáciu vektorov bola vytvorená trieda Vector. Pre poèítanie s vektormi sú implementované nasledujúce funkcie:
-\begin{enumerate}
-  \item \textbf{Sèítanie.} 
-  \item \textbf{Odèítanie.}
-  \item \textbf{Násobenie skalárom.} 
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s maticami s prvkami v $GF({2}^{n})$ }
-Na poèítanie s maticami s prvkami v $GF({2}^{n})$ bola vytvorená trieda \\ MatrixGF2N. Táto trieda poèíta s objektami typu Matrix
-a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasledujúce funkcie: 
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie.} 
-  
-  \item \textbf{Násobenie: }	\\
-  Implementované je násobenie matíc maticami, násobenie matíc vektormi, a taktie násobenie matíc skalárnymi hodnotami.
-  
-  \item \textbf{Inverzia: }  \\
-  Vıpoèet inverznej matice prebieha postupnımi transformáciami riadkov pôvodnej matice, ktoré sú aplikované aj na k nej 
-  vytvorenú jednotkovú maticu. Pôvodná matica je postupne upravovaná na jednotkovú maticu, zatia¾ èo z jednotkovej matice
-  vznikne vısledná inverzná matica.
-  
-  \item \textbf{Determinant: }  \\
-  Implementácia vıpoètu determinantu matíc vyuíva Laplaceov rozvoj~\cite{Laplace}. Ten hovorí, e pre maticu $n \times n$ sa jej determinant
-  dá vypoèíta ako: \\
-  
-  \begin{center}
-     $\det A = \sum\limits_{j=1}^n {(-1)^{i+j} a_{i,j} C_{i,j}}$	\\
-  \end{center}
-  kde:	\\
-  ${i}$ je index ¾ubovolne zvoleného riadku(alebo ståpca), pod¾a ktorého budeme rozvoj poèíta.	\\
-  ${j}$ je index ståpca (ak poèítame rozvoj pod¾a riadku) alebo riadku (ak poèítame rozvoj pod¾a ståpca).	\\
-  $a_{i,j}$ je prvok matice urèenı indexami ${i}$ a ${j}$.	\\
-  $C_{i,j}$ je kofaktor matice, teda determinant matice bez riadku a ståpca, na ktorom sa nachádza prvok $a_{i,j}$.  
-  
-  \mbox{\qquad } Metóda triedy MatrixGF2N na vıpoèet determinantu vyuíva Laplaceov rozvoj pod¾a prvého riadku matice.
-  
-  \item \textbf{Gaussova eliminácia: }  \\
-  Trieda MatrixGF2N ponúka metódu, ktorá pre vstupnú maticu vykoná Gaussovu elimináciu. Po rade riadkovıch úprav
-  je vısledná matica v tzv. stupòovitom riadkovom tvare (z anglického row echelon form)~\cite{Echelon}, pre ktorı platí:
-  \begin{itemize}  
-	\item Všetky nulové riadky sú na spodku matice.
-	\item Pivot kadého riadku matice je napravo od pivota riadku nad ním.
-	\item Pivot kadého nenulového riadku je 1.
-	\item Ståpec pod pivotom kadého riadku je nulovı.
-  \end{itemize}
-
-  \item \textbf{Riešenie lineárneho systému rovníc: }  \\
-   Trieda MatrixGF2N ponúka implementáciu riešenia lineárneho systému rovníc v koneènom poli $GF({2}^{n})$.
-   Pre maticu ${A}$ a vektor ${y}$ h¾adáme vektor ${x}$ tak, aby platilo: $ A \times x = y$	
-  
-  \item \textbf{Hodnos: }  \\
-  Vıpoèet poètu lineárne nezávislıch riadkov v matici.
-  
-  \item \textbf{Jadro: }  \\
-  Vısledkom metódy kernel pre vıpoèet jadra matice v triede MatrixGF2N je matica, 
-  ktorej súèin so vstupnou maticou vráti nulovú maticu.
-  
-  
-  \item \textbf{Obraz.}  \\
-  Vısledkom metódy image pre vıpoèet obrazu matice v triede MatrixGF2N je matica v stupòovitom riadkovom tvare, 
-  ktorá je vypoèítaná ako báza vektorového priestoru vstupnej matice.
-  
-  \item \textbf{Umocòovanie.}  \\
-  Je implementované pomocou algoritmu Square and Multiply.
-
-\end{enumerate}  
 
 \section { AES }
 Súèasou praktickej èasti tejto bakalárskej práce bola aj implementácia šifrovacieho algoritmu AES. Niektoré 
@@ -1403,7 +1454,7 @@ kryptografiu nad eliptickımi krivkami.
 \item
 Zlepšenie objektového návrhu kninice. Pri práci na kninici v budúcnosti by bolo dobré zaèa úpravou tried
 a rozhraní do podoby, ktorá by zabezpeèovala lepšiu rozšíritelnos. Tento cie¾ by sa dal dosiahnu èastejším
-vyuívaním rozhraní, abstraktnıch tried a dediènosti.
+vyuívaním rozhraní, generickıch typov, abstraktnıch tried a dediènosti.
 Ako inšpirácia by mohol slúi balík linearalgebra kninice Bouncy Castle, ktorı tieto zásady dodruje. 
 
   
@@ -1439,6 +1490,26 @@ koneènıch poliach pouitelnı do rôznych ïalších projektov.
                            % polokami bibliografie 
 	
 \nocite{*}	
-%\printindex						   
+%\printindex	
+
+
+\begin{appendices}
+\chapter{Obsah priloeného DVD}
+Priloené DVD obsahuje:
+\begin{itemize}
+
+	\item 
+	\texttt{src/Computation\_with\_finite\_fields} - Zloka so zdrojovımi kódmi mojej aplikácie vo formáte NetBeans projektu.
+	\item 
+	\texttt{src/tests} - Zloka so zdrojovımi kódmi vykonanıch rıchlostnıch testov.
+	\item 
+	\texttt{text/bp.tex} - Zdrojovı textovı súbor tejto práce pre sadzací systém \LaTeX.
+	\item 
+	\texttt{text/bp.bib} - Zdrojovı textovı súbor bibliografie tejto práce pre nástroj \BibTeX.
+		
+\end{itemize}
+
+\end{appendices}
+					   
 
 \end{document}
