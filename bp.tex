@@ -93,8 +93,8 @@ Prehlasujem, e táto bakalárska práca je mojim pôvodnım autorskım dielom, ktoré 
 Všetky zdroje, pramene a literatúru, ktoré som pri vypracovaní pouíval alebo z nich èerpal, v práci riadne 
 citujem s uvedením úplného odkazu na príslušnı zdroj.
 \\	\\	\\	
-\hspace*{100mm} Jakub Lipèák
-\vspace*{120mm}
+\hspace*{110mm} Jakub Lipèák
+\vspace*{125mm}
 
 \textbf{Vedúci práce:} Mgr. Dušan Klinec
 %\AdvisorName
@@ -162,7 +162,7 @@ $F$ je mnoina prvkov po¾a spoloène s aditívnou ($+$) a multiplikatívnou $($·$)$
 Pre túto trojicu musia by splnené nasledujúce podmienky ~\cite{UCSD}:	\\
 \begin{enumerate}
 
-  \item $(F, +,$ ·$)$ musí by okruh\footnote{pre definíciu okruhu viï ... externı zdroj? alebo pridat definiciu do kapitoly?}.
+  \item $(F, +,$ ·$)$ musí by okruh\footnote{pre definíciu okruhu viï~\cite{UCSD}}.
   
   \item Multiplikatívna operácia musí by komutatívna: Pre všetky prvky $x, y \in F$ platí: $x$·$y = y$·$x$.
   
@@ -277,9 +277,9 @@ Pre skonštruovanie po¾a $GF({p}^{n})$ vyuijeme postup opísanı v sekcii ~\ref{se
 	\mbox{}\qquad Pre ve¾ké koneèné polia je ale tento spôsob neefektívny a pouíva sa postup vychádzajúci
 	z Bezoutovej rovnosti, ktorá hovorí~\cite{RoughMath}: \\
 	\textbf{Veta 2.2.1} \emph{(Bezoutova rovnos)}.
-	Nech $GF(p^n)$ je pole a prvky ${x, y \in GF(p^n)}$. Potom existuje ich najväèší spoloènı delite¾ $h$,
+	\textit{ Nech $GF(p^n)$ je pole a prvky ${x, y \in GF(p^n)}$. Potom existuje ich najväèší spoloènı delite¾ $h$,
 	ktorı je a na násobok nenulovım skalárom urèenı jednoznaène. Zároveò existujú prvky ${a, b \in GF(p^n)}$
-	také, e: ${a}$ · ${x} + {b}$ · ${y} = h$
+	také, e: ${a}$ · ${x} + {b}$ · ${y} = h$}	\\
 	 \\
 	\mbox{}\qquad Na nájdenie koeficientov Bezoutovej rovnosti ${a}$ a ${b}$ sa pouíva Rozšírenı Euklidov algoritmus.
 	Ten postupnım delením vstupnıch polynómov a ich zvyškov a ich následnımi úpravami získa tieto koeficienty aj
@@ -542,12 +542,14 @@ Vo vıh¾adávaní na GitHube bola kninica Apache Commons Math zaznamenaná a 286 1
 \label{chap:ChapAes}
 Súèasou tejto bakalárskej práce bola aj implementácia symetrického
 šifrovacieho algoritmu AES (Advanced Encryption Standard), ktorı
-vykonáva niektoré operácie v koneènom poli $GF({2}^{n})$.
-Táto kapitola obsahuje základné informácie o tomto
+vykonáva niektoré operácie v koneènom poli $GF({2}^{n})$.	\\
+\mbox{\qquad } Táto kapitola obsahuje základné informácie o tomto
 algoritme. Èiastoène je tu popísaná história tohto algoritmu a motivácia
 pre vznik nového šifrovacieho štandardu. Ïalej sa táto kapitola venuje
-popisu krokov potrebnıch pre šifrovanie a dešifrovanie, rôznym dåkam
+popisu krokov potrebnıch pre šifrovanie, rôznym dåkam
 šifrovacieho klúèa a taktie jeho expanzii vykonávanej v algoritme AES.
+V prílohe~\ref{chap:AesAppend} sú doplnené informácie o krokoch potrebnıch na
+dešifrovanie a o substituènıch tabu¾kách, ktoré tento algoritmus vyuíva.
 
 
 \section {História}
@@ -557,7 +559,6 @@ Spoloènos IBM vtedy vyvinula algoritmus DES (Data Encryption Standard), ktorı
 spåòal potrebné poiadavky. Americká organizácia NIST(National Institute of Standards and Technology) následne
 v roku 1976 vyhlásila tento algoritmus za národnı šifrovací štandard. DES sa tak stal prvım
 široko rozšírenım šifrovacím algoritmom ~\cite{SANSInstitute}. \\
-
 \mbox{\qquad } Koncom 20. storoèia u ale bolo známych nieko¾ko útokov, ktoré dokázali tento algoritmus
 efektívne prelomi s relatívne nízkymi nákladmi. Aj preto vznikla potreba vyvinú algoritmus,
 ktorı by bol schopnı takımto útokom odola. V roku 1997 vyhlásila organizácia NIST verejnú súa 
@@ -620,7 +621,7 @@ Prvé slovo kadého kroku expanzie je vypoèítané aplikovaním tıchto funkcií:
   \setcounter{enumi}{2}
   \item Na slovo ${w}$ sa aplikuje substitúcia slova (z anglického SubWord). Všetky bajty slova ${w}$ sú v tomto kroku 
 	nahradené novımi bajtami pod¾a substituènej tabu¾ky ~S-Box\footnote{Spôsob vıpoètu substituènıch tabu¾iek
-	je uvedenı v sekcii ~\ref{sec:SubstTables}}.
+	je uvedenı v ~\ref{sec:SubstTables}}.
 	
 	\item Ïalej sa na slovo ${w}$ aplikuje operácia XOR so slovom z tabu¾ky Rcon. 
 	V tejto tabu¾ke sú konštantné hodnoty a vyberajú sa pod¾a toho, v ktorom kroku expanzie sa práve nachádzame.
@@ -704,6 +705,555 @@ $$
 $$
 \end{center}
  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter { Implementácia }
+\label{chap:ChapImpl}
+Táto kapitola sa venuje implementaènej èasti tejto práce. Jej cie¾om bolo v jazyku Java navrhnú a implementova kninicu 
+pre poèítanie v koneènıch poliach. Ako praktická aplikácia kninice bol implementovanı
+symetrickı šifrovací algoritmus AES vyuívajúci funkcionalitu tejto kninice. \\
+\mbox{\qquad } Na vıvoj vıslednej aplikácie bolo pouité vıvojové prostredie Netbeans\footnote{https://netbeans.org/}
+a celı jej zdrojovı kód bol zdokumentovanı formou Javadoc-ovıch komentárov.
+Poèas celého vıvoja boli jednotlivé revízie aplikácie verzované v systéme 
+GitHub\footnote{sú dostupné na adrese: https://github.com/XLipcak/Computation-with-finite-fields}.
+V tejto èasti je predstavenı návrh, algoritmy a postupy vyuité pri implementácii vıslednej aplikácie. 
+
+\section { Kninica pre poèítanie v $GF({2}^{n})$ }
+Hlavnım cie¾om praktickej èasti tejto bakalárskej práce bolo implementova funkcionalitu pre poèítanie s prvkami v $GF({2}^{n})$,
+s vektormi s prvkami v $GF({2}^{n})$, s polynómami s prvkami v $GF({2}^{n})$, a taktie s maticami s prvkami v $GF({2}^{n})$.
+Ku kadej tejto štruktúre bolo implementovanıch nieko¾ko funkcií pre poèítanie s nimi. V nasledujúcej èasti budú tieto
+funkcie vymenované, niektoré z nich aj detailnejšie popísané. Ako inšpirácia pre túto kninicu slúila kninica NTL. Metódy
+sú preto navrhnuté tak, aby ich vıstupy boli totoné s vıstupmi podobnıch metód kninice NTL.	\\
+\mbox{\qquad } Kninica pre poèítanie v $GF({2}^{n})$ je v mojom projekte súèasou balíka gf2n. Obsahuje triedy,
+rozhrania a vınimky rozdelené do ïalších samostatnıch balíkov. Na chybové vstupy kninica reaguje
+pomocou vınimiek. Má definované svoje vlastné vınimky. Ich podoba bola inšpirovaná kninicou Apache Commons Math.	\\
+\mbox{\qquad } Pre lepšiu predstavu o pouívaní vytvorenej kninice obsahuje príloha ~\ref{chap:code} krátku ukáku kódu, ktorı
+vyuíva jej funkcionalitu.
+
+
+\subsection { Diagram tried } 
+Pre kninicu pre poèítanie v koneènıch poliach bol vytvorenı diagram tried v jazyku UML pomocou nástroja
+yEd Graph Editor\footnote{http://www.yworks.com/en/index.html}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=150mm]{ClassDiagram.jpg}
+	\caption{UML diagram tried.}
+	\label{fig:Class}
+\end{figure} 
+
+
+\subsection { Poèítanie s prvkami v $GF({2}^{n})$ } 
+Pre poèítanie s prvkami v $GF({2}^{n})$ bola navrhnutá trieda GF2N. Táto trieda implementuje rozhranie GaloisFieldArithmetic,
+ktoré špecifikuje poskytovanú funkcionalitu tejto kninice pre poèítanie s prvkami v $GF({2}^{n})$. \\
+\mbox{\qquad } Pre poèítanie s prvkami 
+v $GF({2}^{n})$ je najskôr potrebné vytvori objekt triedy GF2N. V konštruktore musí by špecifikovanı redukènı polynóm pre koneèné
+pole, v ktorom chceme poèíta. Pre polynóm stupòa ${n}$ sa vytvorí pole GF(${2}^{n-1}$). Kadı prvok po¾a, ako aj jeho redukènı
+polynóm, je reprezentovanı primitívnym dátovım typom Long.	\\
+Trieda GF2N disponuje nasledujúcimi funkciami: \\
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  Pre polia $GF({2}^{n})$ sú tieto operácie totoné a sú implementované ako jednoduchı bitovı XOR.
+  
+  \item \textbf{Násobenie: } \\
+  Vyuíva bitové posuny na násobenie v poli a bitovı XOR na delenie redukènım polynómom.
+
+   \item \textbf{Umocòovanie prvku: } \\
+   Na poèítanie mocnín prvku bol zvolenı algoritmus 
+   Square and Multiply~\cite{Square}. Ten pri vıpoète prvku ${x}^{{2}^{n}-2}$ vyuíva nasledujúci rozklad: 
+   
+   \begin{center}
+     ${x}^{{2}^{n}-2}$ $=$ ${x}^{{2}({2}^{n-1}-1)}$ $=$ $(x^{(2^{n-1}-1)})^{2}$		
+	 $=$ $(x^{(2^{n-1}-2+1)})^{2}$ \\ 
+	 $=$ $(x \times x^{(2^{n-1}-2)})^{2}$
+	 $=$ $(x \times x^{2(2^{n-2}-1)})^{2}$ $=$ $(x \times (x^{(2^{n-2}-1)})^{2})^{2}$
+	 \\ 
+	 ··· \\
+	 $=$ $(x \times (x \times (x \times (...x \times (x \times x^{2})^{2}...)^{2}$
+    \end{center}
+	
+	\mbox{\qquad } Tento spôsob vıznamne zrıchli vıpoèet mocniny prvku. Pri vıpoète ${x}^{{2}^{n}-2}$ nie je
+	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
+	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kıch exponentoch je tento spôsob
+	mnohonásobne rıchlejší.
+	
+	\item \textbf{Delenie: } \\
+    Vyuíva implementáciu násobenia a inverzie prvku.
+  
+   \item \textbf{Inverzia prvku: } \\
+   Poèas vıvoja aplikácie bola inverzia poèítaná
+   viacerımi spôsobmi. Najskôr bola vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí~\cite{FiniteFieldWolfram}: 
+   \begin{align*}
+     {x}^{-1} = {x}^{{2}^{n}-2}. 
+   \end{align*}
+   Pri tomto spôsobe bolo potrebné mnohonásobné
+   umocòovanie daného prvku. To pôvodne prebiehalo štandardnım násobením, neskôr rıchlejšie vïaka 
+   implementácii algoritmu Square and Multiply. V súèasnej verzii vyuíva kninica na nájdenie inverzného prvku
+   Rozšírenı Euklidov algoritmus. \\
+   \mbox{\qquad } Tabu¾ka ~\ref{tab:inverse} zobrazuje èasovú nároènos tıchto algoritmov.
+   Na testovanie boli pouité koneèné polia $GF(2^{10})$, $GF(2^{30})$ a $GF(2^{60})$. Pre kadé z nich bola h¾adaná
+   inverzia náhodnıch prvkov 100 000 krát. Vısledky meraní sú v tabu¾ke zobrazené v sekundách.
+   
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie algoritmov pri h¾adaní inverzie v $GF{2}^{n}$.}
+\label{tab:inverse}
+\begin{tabular}{ |c|c|c|c| }
+\hline
+Redukènı polynóm &  $x + 1$ & ${x}^{30} + x + 1$ & ${x}^{60} + x + 1$  \\
+\hline
+Štandardné násobenie & $ 11,1 $ & $ N/A $ & $ N/A $   \\
+\hline
+Square and Multiply & $ 0,21 $ & $ 4,23 $ & $ 41,36 $   \\
+\hline
+Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
+\hline
+\end{tabular}
+\end {table}
+
+	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
+	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
+	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
+	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ pre väèšie polia
+	v praxi nepouitelnı.
+   
+   \item \textbf{Testovanie ireducibility polynómov: } \\
+   Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
+   Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
+   Na tento test je pouitá metóda Rabínov test ireducibility~\cite{Irreducible}, ktorá hovorí: 
+   
+   \textbf{Veta 4.1.1} \emph{(Rabínov test ireducibility)}.
+	\textit{Polynóm $f(x)$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:
+   \begin{align*}
+		gcd(f(x), x^{2^{{n}/{p_{i}}}} - x) = 1
+		\intertext{pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele èísla $n$.}
+		\intertext{Zároveò musí plati:}
+		 x^{2^{n}} - x \equiv 0 \ mod \ f.
+	\end{align*}
+	 }
+	 
+	 \mbox{\qquad } Nevıhodou tejto metódy je, e pri testovaní ve¾kıch polynómov je potrebné poèíta
+	 s polynómami extrémne ve¾kıch stupòov. To spôsobuje exponenciálny nárast vıpoèetného èasu.
+	 Z tohto dôvodu je táto metóda vhodná len na pouitie pre polynómy nízkych stupòov a z rıchlostnıch
+	 testov opísanıch v èasti ~\ref{subsec:speedTest} je vynechaná.
+	 
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s polynómami s prvkami v $GF({2}^{n})$ } 
+Pre poèítanie s polynómami s prvkami v $GF({2}^{n})$ bola navrhnutá trieda PolynomialGF2N. Jej verejné metódy
+sú popísané rozhraním GaloisFieldPolynomialArithmetic, ktoré je touto triedou implementované. Táto trieda pracuje
+s objektami typu Polynomial, ktoré slúia na objektovú reprezentáciu polynómov. Trieda PolynomialGF2N poskytuje
+nasledujúce funkcie: 
+
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie: } \\
+  
+  \item \textbf{Násobenie a delenie: } \\
+  Násobenie a delenie polynómov. Delenie je moné aj so získaním zvyšku po delení.
+  
+  \item \textbf{Najväèší spoloènı delite¾: } \\
+   Trieda PolynomialGF2N poskytuje metódu gcd (skratka z anglického greatest common divisor), ktorá slúi na
+   vıpoèet najväèšieho spoloèného delite¾a dvoch polynómov. Pri vıpoète je pouitı
+   Euklidov algoritmus, ktorı vısledok získava postupnım delením polynómov a ich zvykov.
+   
+   \item \textbf{Inverzia polynómu: } \\
+   Pre vıpoèet inverzného polynómu s prvkami v poli $GF({2}^{n})$ je potrebné špecifikova 2 polynómy.
+   Polynóm $f(x)$ stupòa $n$, pre ktorı chceme spoèíta inverziu. Taktie je potrebné špecifikova polynóm $m(x)$
+   stupòa aspoò $n + 1$, modulo ktorı budeme inverznı polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
+   ktorı platí: 
+    \begin{align*}
+		(f(x) \cdot {f(x)}^{-1}) mod \ m(x) = 1.
+	\end{align*}
+	\mbox{\qquad } Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
+   
+   \item \textbf{Umocòovanie.} \\
+   Je implementované pomocou algoritmu Square and Multiply.
+   
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s vektormi s prvkami v $GF({2}^{n})$ } 
+S vektormi v koneènıch poliach v tejto kninici poèíta trieda VectorGF2N implementujúca rozhranie GaloisFieldVectorArithmetic. 
+Na objektovú reprezentáciu vektorov bola vytvorená trieda Vector. Pre poèítanie s vektormi sú implementované nasledujúce funkcie:
+\begin{enumerate}
+  \item \textbf{Sèítanie.} 
+  \item \textbf{Odèítanie.}
+  \item \textbf{Násobenie skalárom.} 
+\end{enumerate}
+
+
+
+\subsection { Poèítanie s maticami s prvkami v $GF({2}^{n})$ }
+Na poèítanie s maticami s prvkami v $GF({2}^{n})$ bola vytvorená trieda \\ MatrixGF2N. Táto trieda poèíta s objektami typu Matrix
+a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasledujúce funkcie: 
+\begin{enumerate}
+  \item \textbf{Sèítanie a odèítanie.} 
+  
+  \item \textbf{Násobenie: }	\\
+  Implementované je násobenie matíc maticami, násobenie matíc vektormi, a taktie násobenie matíc skalárnymi hodnotami.
+  
+  \item \textbf{Inverzia: }  \\
+  Vıpoèet inverznej matice prebieha postupnımi transformáciami riadkov pôvodnej matice, ktoré sú aplikované aj na k nej 
+  vytvorenú jednotkovú maticu. Pôvodná matica je postupne upravovaná na jednotkovú maticu, zatia¾ èo z jednotkovej matice
+  vznikne vısledná inverzná matica.
+  
+  \item \textbf{Determinant: }  \\
+  Implementácia vıpoètu determinantu matíc vyuíva Laplaceov rozvoj~\cite{Laplace}. Ten hovorí, e pre maticu $n \times n$ sa jej determinant
+  dá vypoèíta ako: \\
+  
+  \begin{align*}
+     \det A = \sum\limits_{j=1}^n {(-1)^{i+j} a_{i,j} C_{i,j}}	
+  \end{align*}
+  kde:	\\
+  ${i}$ je index ¾ubovolne zvoleného riadku(alebo ståpca), pod¾a ktorého budeme rozvoj poèíta.	\\
+  ${j}$ je index ståpca (ak poèítame rozvoj pod¾a riadku) alebo riadku (ak poèítame rozvoj pod¾a ståpca).	\\
+  $a_{i,j}$ je prvok matice urèenı indexami ${i}$ a ${j}$.	\\
+  $C_{i,j}$ je kofaktor matice, teda determinant matice bez riadku a ståpca, na ktorom sa nachádza prvok $a_{i,j}$.  
+  
+  \mbox{\qquad } Metóda triedy MatrixGF2N na vıpoèet determinantu vyuíva Laplaceov rozvoj pod¾a prvého riadku matice.
+  
+  \item \textbf{Gaussova eliminácia: }  \\
+  Trieda MatrixGF2N ponúka metódu, ktorá pre vstupnú maticu vykoná Gaussovu elimináciu. Cie¾om Gaussovej eliminácie je
+  upravi vstupnú maticu do tzv. stupòovitého riadkového tvaru (z anglického row echelon form)~\cite{Echelon}, pre ktorı platí:
+  \begin{enumerate}  
+	\item Všetky nulové riadky sú na spodku matice.
+	\item Pivot kadého riadku matice je napravo od pivota riadku nad ním.
+	\item Pivot kadého nenulového riadku je 1.
+	\item Ståpec pod pivotom kadého riadku je nulovı.
+  \end{enumerate}
+  \mbox{\qquad } Aby boli vısledky mojej kninice totoné s kninicou NTL, je v mojej implementácii vynechanı bod (c).
+
+  \item \textbf{Riešenie lineárneho systému rovníc: }  \\
+   Trieda MatrixGF2N ponúka implementáciu riešenia lineárneho systému rovníc v koneènom poli $GF({2}^{n})$.
+   Pre maticu ${A}$ a vektor ${y}$ h¾adáme vektor ${x}$ tak, aby platilo: 
+   \begin{align*}
+     A \cdot x = y.
+  \end{align*}
+  
+  \item \textbf{Hodnos: }  \\
+  Vıpoèet poètu lineárne nezávislıch riadkov v matici.
+  
+  \item \textbf{Jadro: }  \\
+  Vısledkom metódy kernel pre vıpoèet jadra matice v triede MatrixGF2N je matica, 
+  ktorej súèin so vstupnou maticou vráti nulovú maticu.
+  
+  
+  \item \textbf{Obraz.}  \\
+  Vısledkom metódy image pre vıpoèet obrazu matice v triede MatrixGF2N je matica v stupòovitom riadkovom tvare, 
+  ktorá je vypoèítaná ako báza vektorového priestoru vstupnej matice.
+  
+  \item \textbf{Umocòovanie.}  \\
+  Je implementované pomocou algoritmu Square and Multiply.
+
+\end{enumerate}
+  
+
+\section { AES }
+Súèasou praktickej èasti tejto bakalárskej práce bola aj implementácia šifrovacieho algoritmu AES. Niektoré 
+jeho operácie vykonávajú vıpoèty v koneènom poli $GF({2}^{n})$. Cie¾om teda nebola len správna implementácia
+tohto algoritmu, ale taktie praktické vyuitie kninice pre poèítanie v koneènıch poliach a overenie správnosti
+jej vıpoètov.	\\
+\mbox{\qquad } Pre tento úèel bola navrhnutá trieda AES, ktorá ponúka metódy pre šifrovanie a dešifrovanie
+dát s 128, 192, aj s 256-bitovım k¾úèom. 
+Pri vytváraní objektu tejto triedy je najskôr potrebné vytvori substituèné tabu¾ky vyuívané algoritmom AES.
+Jednou z moností by bolo uloenie konštantnıch hodnôt tıchto tabuliek do atribútov tejto triedy. Keïe ale
+bolo cie¾om aj overenie správnosti kninice pre poèítanie v koneènıch poliach, sú tieto tabu¾ky vypoèítané
+pri vzniku objektu typu AES pod¾a špecifikácie algoritmu AES.	\\
+\mbox{\qquad } Pri vytváraní objektu typu AES je taktie moné špecifikova mód blokovej šifry, ktorı bude
+pri šifrovaní a dešifrovaní dát pouitı. Trieda AES podporuje štyri módy: ECB, CBC, CFB, a OFB.
+Ak mód blokovej šifry špecifikovanı nie je, bude šifrovanie a dešifrovanie implicitne prebieha v jednoduchom
+ECB móde.
+
+
+\section { Testy }
+Po dokonèení implementácie vıslednej aplikácie bolo vytvorenıch nieko¾ko testov.
+Ich cie¾om je otestova správnos jej funkcionality a rıchlos jej vıpoètov. 
+
+
+\subsection { Validaèné testy }
+Validaèné testy slúia na overenie správnosti vıpoètov. Porovnávajú sa v nich oèakávané a vypoèítané vısledky aplikácie.
+Pre tento úèel bolo vytvorenıch nieko¾ko testovacích tried, ktoré sú súèasou Netbeans projektu.
+Všetky verejné metódy triedy AES aj kninice pre poèítanie v koneènıch poliach boli úspešne otestované tımito triedami.
+Na testovanie je pouitı testovací framework pre jednotkové testy JUnit.
+Pre kadú testovanú triedu je vytvorená aspoò jedna samostatná testovacia trieda.
+Testovacie triedy mojej aplikácie sú rozdelené do dvoch balíkov:
+
+\begin{enumerate}
+\item \textbf{Balík GaloisFieldsValidityTesting:}	\\
+Slúi na testovanie správnosti vıstupov kninice pre poèítanie v koneènıch poliach.
+Kadı test je rozdelenı na 2 èasti. Prvá èas pracuje s konštantnımi hodnotami a
+od kninice oèakáva správny vısledok od vopred známeho vırazu.
+Druhá èas pracuje s náhodnımi dátami.
+Testovacie dáta sú vygenerované pri kadom testovaní náhodne. Oèakávané vıstupy tıchto testov
+sú odvodené od matematickıch vlastností, ktoré musia by pre dané operácie vdy splnené.
+
+\item \textbf{Balík AESTesting:}	\\
+Slúi na testovanie správnosti vıstupov triedy AES. Pre kadı mód blokovej šifry je vytvorená
+samostatná testovacia trieda, ktorá šifrovanie v tomto móde testuje. Testovacie dáta sú
+pri kadom testovaní rovnaké. Jedná sa o  testovacie vektory z dôveryhodnıch zdrojov,
+ktoré pre zadanı k¾úè a blok dát (prípadne aj inicializaènı vektor v inom móde ako ECB)
+definujú, ako má vyzera vıslednı zašifrovanı text. Rovnako sa postupuje aj pri dešifrovaní dát.
+Ïalej tento balík testuje, èi sa náhodné texty po zašifrovaní a následnom dešifrovaní nezmenia.
+ 
+\end{enumerate}
+
+\subsection { Rıchlostné testy }
+\label{subsec:speedTest} 
+Súèasou testovania boli aj rıchlostné testy. Ich cie¾om bolo zisti rıchlostné rozdiely oproti kninici NTL a taktie
+zachyti èasovú nároènos pouitıch algoritmov so zväèšujúcimi sa vstupnımi dátami.	\\
+\mbox{\qquad } Hodnoty uvedené v tabu¾kách sú pre kadú metódu vısledkom cyklu s 1 000 000 iteráciami. 
+Na zaèiatku kadej iterácie boli vygenerované náhodné dáta, s ktorımi bola následne pouitá testovaná metóda. \\
+\mbox{\qquad } V nasledujúcej èasti sú zobrazené tabu¾ky, v ktorıch sú uvedené namerané hodnoty v tıchto testoch v sekundách.
+Mnou vyvinutá kninica je v nich oznaèená ako GF2N~LIB. \\
+
+
+\begin{enumerate}
+\item
+Testovanie poèítania s prvkami v $GF{2}^{n}$ bolo vykonané pre redukèné polynómy stupòa 1, 30 a 60.
+Pri umocòovaní prvkov bolo ako exponent zvolené èíslo 1000.
+
+%Tabulka testov s prvkami
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie kniníc pri poèítaní s prvkami v $GF{2}^{n}$.}
+\begin{tabular}{ |c|c|c||c|c||c|c| }
+\hline
+Redukènı polynóm & \multicolumn{2}{ c|| }{$x + 1$} & \multicolumn{2}{ c|| }{${x}^{30} + x + 1$} & \multicolumn{2}{ c| }{${x}^{60} + x + 1$}  \\
+\hline
+%\rowcolor{Gray}
+\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB}  \\
+\hline
+Sèítanie & 0,37 & \multicolumn{1}{c||}{0,21} & 0,37 & \multicolumn{1}{c||}{0,18} & 0,42 & 0,15 \\
+\hline
+Odèítanie & 0,37 & \multicolumn{1}{c||}{0,19} & 0,37 & \multicolumn{1}{c||}{0,16} & 0,42 & 0,13 \\
+\hline
+Násobenie & 0,37 & \multicolumn{1}{c||}{0,19} & 0,66 & \multicolumn{1}{c||}{1,12} & 0,94 & 1,16 \\
+\hline
+Delenie & 0,43 & \multicolumn{1}{c||}{0,16} & 1,48 & \multicolumn{1}{c||}{5,13} & 2,39 & 10,79 \\
+\hline
+Inverzia prvku & 0,22 & \multicolumn{1}{c||}{0,06} & 1,08 & \multicolumn{1}{c||}{3,76} & 1,69 & 6,48 \\
+\hline
+Mocnina prvku & 0,85 & \multicolumn{1}{c||}{0,18} & 3,62 & \multicolumn{1}{c||}{16,26} & 5,99 & 48,94 \\
+\hline
+\end{tabular}
+\end {table}
+
+\item
+Testovanie poèítania s vektormi s prvkami v $GF{2}^{n}$ bolo vykonané pre vektory s ve¾kosami 5, 30 a 50.
+Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
+
+%Tabulka testov s vektormi
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie kniníc pri poèítaní s vektormi.}
+\begin{tabular}{ |c|c|c||c|c||c|c| }
+\hline
+Ve¾kos vektora & \multicolumn{2}{ c|| }{$5$} & \multicolumn{2}{ c|| }{$30$}& \multicolumn{2}{ c| }{$50$}\\
+\hline
+%\rowcolor{Gray}
+\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} & \textbf{NTL}  & \textbf{GF2N LIB}  \\
+\hline
+Sèítanie & 1,68 & \multicolumn{1}{c||}{0,7} & 8,79 & \multicolumn{1}{c||}{2,55} & 15,49 & 4,59\\
+\hline
+Odèítanie & 1,67 & \multicolumn{1}{c||}{0,66} & 8,8 & \multicolumn{1}{c||}{2,4} & 15,01 & 3,92\\
+\hline
+Násobenie skalárom & 1,8 & \multicolumn{1}{c||}{0,54} & 5,99 & \multicolumn{1}{c||}{2,2}  & 14,37 & 3,8\\
+\hline
+\end{tabular}
+\end {table}
+
+\item
+Testovanie poèítania s polynómami s prvkami v $GF{2}^{n}$ bolo vykonané pre polynómy stupòa 5, 30 a 50.
+Pri delení a pri vıpoète najväèšieho spoloèného delite¾a bol prvı vstupnı polynóm stupòa dvakrát väèšieho, ako je uvedené v tabu¾ke.
+Pri vıpoète inverzného polynómu bol tento vıpoèet poèítanı modulo polynóm stupòa taktie dvakrát väèšieho, ako je uvedené v tabu¾ke.
+Pri umocòovaní polynómov bolo ako exponent zvolené èíslo 100.
+Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
+
+%Tabulka testov s polynomami
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie kniníc pri poèítaní s polynómami.}
+\begin{tabular}{ |c|c|c||c|c||c|c| }
+\hline
+Stupeò polynómov & \multicolumn{2}{ c|| }{$5$} & \multicolumn{2}{ c|| }{$30$}& \multicolumn{2}{ c| }{$50$}\\
+\hline
+%\rowcolor{Gray}
+\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} & \textbf{NTL}  & \textbf{GF2N LIB} \\
+\hline
+Sèítanie & 0,96 & \multicolumn{1}{c||}{0,73} & 3,19 & \multicolumn{1}{c||}{2,62} & 5,84 & 4,29\\
+\hline
+Odèítanie & 0,98 & \multicolumn{1}{c||}{0,63} & 3,19 & \multicolumn{1}{c||}{2,58} & 5,81 & 4,38\\
+\hline
+Násobenie & 2,35 & \multicolumn{1}{c||}{6,94} & 12,62 & \multicolumn{1}{c||}{163,91} & 23,43 & 453,7\\
+\hline
+Delenie & 3,67 & \multicolumn{1}{c||}{17,6} & 30,68 & \multicolumn{1}{c||}{43,4} & 91,15 & 73,5\\
+\hline
+GCD & 10,74 & \multicolumn{1}{c||}{37,97} & 147,36 & \multicolumn{1}{c||}{319,22} & 382,32 & 746\\
+\hline
+Inverzia & 26,41 & \multicolumn{1}{c||}{85,68} & 540,03 & \multicolumn{1}{c||}{975,59} & 2056 & 2766\\
+\hline
+Umocnenie & 40,72 & \multicolumn{1}{c||}{283,85} & 389,13 & \multicolumn{1}{c||}{13701} & 666,92 & 41248\\
+\hline
+\end{tabular}
+\end {table}
+
+\item
+Testovanie poèítania s maticami s prvkami v $GF{2}^{n}$ bolo vykonané pre štvorcové matice
+ve¾kosti $5 \times 5$, $10 \times 10$ a $15 \times 15$.
+Pri umocòovaní matíc bolo ako exponent zvolené èíslo 100.
+Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
+
+%Tabulka testov s maticami
+\begin {table}[H]
+\centering
+\caption {Rıchlostné porovnanie kniníc pri poèítaní s maticami.}
+\begin{tabular}{ |c|c|c||c|c||c|c| }
+\hline
+Ve¾kos matice & \multicolumn{2}{ c|| }{$5 \times 5$} & \multicolumn{2}{ c|| }{$10 \times 10$} & \multicolumn{2}{ c| }{$15 \times 15$}\\
+\hline
+%\rowcolor{Gray}
+\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} & \textbf{NTL}  & \textbf{GF2N LIB} \\
+\hline
+Sèítanie & 9,23 & \multicolumn{1}{c||}{4,73} & 35,8 & \multicolumn{1}{c||}{9,84} & 85,69 & 19,82\\
+\hline
+Odèítanie & 9,36 & \multicolumn{1}{c||}{3,55} & 36,62 & \multicolumn{1}{c||}{9,82} & 85,08 & 19,59\\
+\hline
+Násobenie & 17,41 & \multicolumn{1}{c||}{24,82} & 94,17 & \multicolumn{1}{c||}{173,92} & 268,74 & 567,68\\
+\hline
+Inverzia & 19,36 & \multicolumn{1}{c||}{109,63} & 111,29 & \multicolumn{1}{c||}{549,43} & 265,12 & 1526,67\\
+\hline
+Determinant & 12,59 & \multicolumn{1}{c||}{62,5} & 53,22 & \multicolumn{1}{c||}{1892500} & 135,73 & N/A\\
+\hline
+Gaussova elim. & 12,6 & \multicolumn{1}{c||}{19,1} & 56,29 & \multicolumn{1}{c||}{101,33} & 147,58 & 271,43\\
+\hline
+Lin. systém rovníc & 16,33 & \multicolumn{1}{c||}{43,28} & 59,89 & \multicolumn{1}{c||}{224,48} & 162,55 & 581\\
+\hline
+Obraz & 15,88 & \multicolumn{1}{c||}{33,6} & 65,46 & \multicolumn{1}{c||}{189,65} & 165,12 & 536,45\\
+\hline
+Jadro & 16,55 & \multicolumn{1}{c||}{19,51} & 63,38 & \multicolumn{1}{c||}{95,71} & 159,26 & 275,18\\
+\hline
+Umocnenie & 80,62 & \multicolumn{1}{c||}{191,69} & 499,33 & \multicolumn{1}{c||}{1469} & 1585 & 4929\\
+\hline
+\end{tabular}
+\end {table}
+
+\end{enumerate}
+
+
+Rıchlostné testovanie bolo vykonané pre získanie predstavy o rıchlosti mojej kninice oproti uznávanej,
+vysokorıchlostnej kninici NTL. Z vısledkov mono vyèíta, ktoré metódy by mohli pracova rıchlejšie pri zvolení iného prístupu.
+Na základe tıchto vısledkov je moné prispôsobi prácu na kninici v budúcnosti a 
+algoritmy s vysokou zloitosou nahradi rıchlejšími.
+
+\newpage
+
+\section { Moné rozšírenia }
+\label{sec:PossibleExpansions}
+Mnou vytvorenú aplikácia má nieko¾ko nedostatkov, ktoré by bolo dobré v budúcnosti vylepši èi odstráni.
+Taktie existuje rada rozšírení, ktoré by bolo vhodné do aplikácie doplni.	\\
+Toto sú námety na prácu do budúcna:	\\
+
+\begin{enumerate}
+\item 
+Zmena reprezentácie prvkov koneèného po¾a. Moja kninica reprezentuje prvok po¾a $GF({2}^{n})$
+pomocou primitívneho dátového typu Long. Znamená to ale, e maximálna hodnota takého prvku je
+${2}^{63} - 1$. To môe by v niektorıch prípadoch nedostatoèné. Preto by bolo dobré vytvori
+triedu, ktorá by si vo svojom atribúte udriavala kolekciu Longov a implementovala by pre òu
+základnú aritmetiku. Kninica by túto triedu mohla vyuíva na reprezentáciu prvkov po¾a, ktorıch
+ve¾kos by tak u nebola obmedzená. Ïalšie moné riešene by bolo vyuitie inej kninice na tento
+úèel, napríklad niektorú z dostupnıch portácii kninice GMP (opísanej v èasti ~\ref{subsec:GMP}) pre jazyk Java.
+
+\item  
+Vyuitie lepších a rıchlejších algoritmov. Porovnanie s kninicou NTL ukázali, e mnostvo metód
+by mohlo fungova rıchlejšie pri zvolení iného prístupu. Preto by bola do budúcna vhodná hlbšia
+analıza riešenıch problémov a nájdenie efektívnejších matematickıch postupov pre ich riešenie.
+Súèasné riešenia sa zameriavajú najmä na správnos vısledku, nie vdy aj na rıchlos cesty k nemu.	\\
+\mbox{\qquad } Mohlo by ís napríklad o pouitie algoritmu Karatsuba pri násobení polynómov.
+Ïalej by bolo vhodné poui inú metódu na poèítanie determinantu. Súèastnı Laplaceov rozvoj so
+zloitosou \textrm O$({2}^{n}n)$ ~\cite{DeterminantEfficient} by sa dal nahradi napríklad metódou LU dekompozície, 
+ktorej zloitos je \textrm O$({n}^{3})$ ~\cite{DeterminantEfficient}.
+
+
+\item
+Pridanie ïalšej funkcionality. Súèasná verzia kninice dokáe pracova s nieko¾kımi matematickımi objektami
+a pre kadı z nich zvláda nieko¾ko operácií. Ich poèet je ale obmedzenı a existuje mnostvo ïalších zaujímavıch
+funkcií, ktoré by bolo dobré v budúcnosti do kninice prida. Mohlo by sa jedna napríklad o generovanie
+ireducibilnıch polynómov, funkcie pre minimálne polynómy,
+modulárnu kompozíciu, faktorizáciu polynómov, a mnoho iného. Taktie by mohli by pridané ïalšie algoritmy
+(tak ako algoritmus AES), ktoré vyuívajú funkcionalitu kninice. Mohlo by ís napríklad o algoritmy pre
+kryptografiu nad eliptickımi krivkami.
+
+\item
+Zlepšenie objektového návrhu kninice. Pri práci na kninici v budúcnosti by bolo dobré zaèa úpravou tried
+a rozhraní do podoby, ktorá by zabezpeèovala lepšiu rozšíritelnos. Tento cie¾ by sa dal dosiahnu èastejším
+vyuívaním rozhraní, generickıch typov, abstraktnıch tried a dediènosti.
+Ako inšpirácia by mohol slúi balík linearalgebra kninice Bouncy Castle, ktorı tieto zásady dodruje. 
+
+  
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter { Záver }
+Cie¾om mojej bakalárskej práce bolo vytvori kninicu schopnú poèíta 
+v koneènıch poliach s rôznymi matematickımi štruktúrami. Ïalej bolo 
+cie¾om implementova šifrovací algoritmus AES, ktorı má funkcionalitu 
+tejto kninice vyuíva. \\
+\mbox{\qquad } Vısledná aplikácia je funkèná a pracuje pod¾a vopred stanovenıch 
+poiadaviek. Z porovnaní s ostatnımi kninicami ale vyplıva, e na 
+aplikácii je stále èo zlepšova. Vısledky rıchlostnıch porovnávacích 
+testov s kninicou NTL ukázali, e pre mnostvo funkcií existujú 
+lepšie a mnohonásobne rıchlejšie algoritmy. Taktie by bolo dobré do 
+aplikácie doplni navrhované vylepšenia zo sekcie ~\ref{sec:PossibleExpansions}. \\
+\mbox{\qquad } Napriek tımto nedostatkom je vısledkom mojej práce funkèná kninica, 
+ktorej pouitie je jednoduché. Jej vyuite¾nos je úspešne demonštrovaná funkènou implementáciou algoritmu AES.
+Pre jazyk Java existuje len ve¾mi málo 
+nástrojov s podobnou funkcionalitou. Po zapracovaní navrhovanıch 
+vylepšení by sa z nej mohol sta dobrı nástroj pre poèítanie v 
+koneènıch poliach pouitelnı do rôznych ïalších projektov. 
+
+
+\newpage
+
+\bibliography{bp_biblio} % soubor s citovanımi
+                           % polokami bibliografie 
+	
+\nocite{*}	
+%\printindex	
+
+
+\begin{appendices}
+\chapter{Obsah priloeného CD}
+Priloené CD obsahuje:
+\begin{itemize}
+
+	\item 
+	\texttt{src/Computation\_with\_finite\_fields} - Zloka so zdrojovımi kódmi mojej aplikácie vo formáte NetBeans projektu.
+	\item 
+	\texttt{src/tests} - Zloka so zdrojovımi kódmi vykonanıch rıchlostnıch testov.
+	\item 
+	\texttt{text/bp\_lipcak.tex} - Zdrojovı textovı súbor tejto práce pre sadzací systém \LaTeX.
+	\item 
+	\texttt{text/bp\_lipcak.bib} - Zdrojovı textovı súbor bibliografie tejto práce pre nástroj \BibTeX.
+	\item 
+	\texttt{text/bp\_lipcak.pdf} - Text bakalárskej práce vo formáte PDF.
+		
+\end{itemize}
+
+\chapter{AES - dešifrovanie a substituèné tabu¾ky}
+\label{chap:AesAppend}
 \section { Dešifrovanie }
 Dešifrovanie dát algoritmom AES prebieha podobne ako šifrovanie. 
 Najskôr sa vykoná operácia XOR medzi vstupnım blokom a šifrovacím k¾úèom.
@@ -888,250 +1438,9 @@ $$
 
 \end{itemize}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\chapter { Implementácia }
-\label{chap:ChapImpl}
-Táto kapitola sa venuje implementaènej èasti tejto práce. Jej cie¾om bolo v jazyku Java navrhnú a implementova kninicu 
-pre poèítanie v koneènıch poliach. Ako praktická aplikácia kninice bol implementovanı
-symetrickı šifrovací algoritmus AES vyuívajúci funkcionalitu tejto kninice. \\
-\mbox{\qquad } Na vıvoj vıslednej aplikácie bolo pouité vıvojové prostredie Netbeans\footnote{https://netbeans.org/}
-a celı jej zdrojovı kód bol zdokumentovanı formou Javadoc-ovıch komentárov.
-Poèas celého vıvoja boli jednotlivé revízie aplikácie verzované v systéme 
-GitHub\footnote{sú dostupné na adrese: https://github.com/XLipcak/Computation-with-finite-fields}.
-V tejto èasti je predstavenı návrh, algoritmy a postupy vyuité pri implementácii vıslednej aplikácie. 
-
-\section { Kninica pre poèítanie v $GF({2}^{n})$ }
-Hlavnım cie¾om praktickej èasti tejto bakalárskej práce bolo implementova funkcionalitu pre poèítanie s prvkami v $GF({2}^{n})$,
-s vektormi s prvkami v $GF({2}^{n})$, s polynómami s prvkami v $GF({2}^{n})$, a taktie s maticami s prvkami v $GF({2}^{n})$.
-Ku kadej tejto štruktúre bolo implementovanıch nieko¾ko funkcií pre poèítanie s nimi. V nasledujúcej èasti budú tieto
-funkcie vymenované, niektoré z nich aj detailnejšie popísané. Ako inšpirácia pre túto kninicu slúila kninica NTL. Metódy
-sú preto navrhnuté tak, aby ich vıstupy boli totoné s vıstupmi podobnıch metód kninice NTL.	\\
-\mbox{\qquad } Kninica pre poèítanie v $GF({2}^{n})$ je v mojom projekte súèasou balíka gf2n. Obsahuje triedy,
-rozhrania a vınimky rozdelené do ïalších samostatnıch balíkov. Na chybové vstupy kninica reaguje
-pomocou vınimiek. Má definované svoje vlastné vınimky. Ich podoba bola inšpirovaná kninicou Apache Commons Math.
-
-
-\subsection { Diagram tried } 
-Pre kninicu pre poèítanie v koneènıch poliach bol vytvorenı diagram tried v jazyku UML pomocou nástroja
-yEd Graph Editor\footnote{http://www.yworks.com/en/index.html}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=150mm]{ClassDiagram.jpg}
-	\caption{UML diagram tried.}
-	\label{fig:Class}
-\end{figure} 
-
-
-\subsection { Poèítanie s prvkami v $GF({2}^{n})$ } 
-Pre poèítanie s prvkami v $GF({2}^{n})$ bola navrhnutá trieda GF2N. Táto trieda implementuje rozhranie GaloisFieldArithmetic,
-ktoré špecifikuje poskytovanú funkcionalitu tejto kninice pre poèítanie s prvkami v $GF({2}^{n})$. \\
-\mbox{\qquad } Pre poèítanie s prvkami 
-v $GF({2}^{n})$ je najskôr potrebné vytvori objekt triedy GF2N. V konštruktore musí by špecifikovanı redukènı polynóm pre koneèné
-pole, v ktorom chceme poèíta. Pre polynóm stupòa ${n}$ sa vytvorí pole GF(${2}^{n-1}$). Kadı prvok po¾a, ako aj jeho redukènı
-polynóm, je reprezentovanı primitívnym dátovım typom Long.	\\
-Trieda GF2N disponuje nasledujúcimi funkciami: \\
-
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie: } \\
-  Pre polia $GF({2}^{n})$ sú tieto operácie totoné a sú implementované ako jednoduchı bitovı XOR.
-  
-  \item \textbf{Násobenie: } \\
-  Vyuíva bitové posuny na násobenie v poli a bitovı XOR na delenie redukènım polynómom.
-
-   \item \textbf{Umocòovanie prvku: } \\
-   Na poèítanie mocnín prvku bol zvolenı algoritmus 
-   Square and Multiply~\cite{Square}. Ten pri vıpoète prvku ${x}^{{2}^{n}-2}$ vyuíva nasledujúci rozklad: 
-   
-   \begin{center}
-     ${x}^{{2}^{n}-2}$ $=$ ${x}^{{2}({2}^{n-1}-1)}$ $=$ $(x^{(2^{n-1}-1)})^{2}$		
-	 $=$ $(x^{(2^{n-1}-2+1)})^{2}$ \\ 
-	 $=$ $(x \times x^{(2^{n-1}-2)})^{2}$
-	 $=$ $(x \times x^{2(2^{n-2}-1)})^{2}$ $=$ $(x \times (x^{(2^{n-2}-1)})^{2})^{2}$
-	 \\ 
-	 ··· \\
-	 $=$ $(x \times (x \times (x \times (...x \times (x \times x^{2})^{2}...)^{2}$
-    \end{center}
-	
-	\mbox{\qquad } Tento spôsob vıznamne zrıchli vıpoèet mocniny prvku. Pri vıpoète ${x}^{{2}^{n}-2}$ nie je
-	volané násobenie ${{2}^{n}-3}$ krát. Namiesto toho staèí vypoèíta najviac ${n-1}$ krát
-	druhú mocninu a ${n-2}$ krát násobenie prvkov. Pri ve¾kıch exponentoch je tento spôsob
-	mnohonásobne rıchlejší.
-	
-	\item \textbf{Delenie: } \\
-    Vyuíva implementáciu násobenia a inverzie prvku.
-  
-   \item \textbf{Inverzia prvku: } \\
-   Poèas vıvoja aplikácie bola inverzia poèítaná
-   viacerımi spôsobmi. Najskôr bola vyuitá vlastnos, e pre kadı prvok ${x} \in GF({2}^{n})$ platí~\cite{FiniteFieldWolfram}: 
-   \begin{align*}
-     {x}^{-1} = {x}^{{2}^{n}-2}. 
-   \end{align*}
-   Pri tomto spôsobe bolo potrebné mnohonásobné
-   umocòovanie daného prvku. To pôvodne prebiehalo štandardnım násobením, neskôr rıchlejšie vïaka 
-   implementácii algoritmu Square and Multiply. V súèasnej verzii vyuíva kninica na nájdenie inverzného prvku
-   Rozšírenı Euklidov algoritmus. \\
-   \mbox{\qquad } Tabu¾ka ~\ref{tab:inverse} zobrazuje èasovú nároènos tıchto algoritmov.
-   Na testovanie boli pouité koneèné polia $GF(2^{10})$, $GF(2^{30})$ a $GF(2^{60})$. Pre kadé z nich bola h¾adaná
-   inverzia náhodnıch prvkov 100 000 krát. Vısledky meraní sú v tabu¾ke zobrazené v sekundách.
-   
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie algoritmov pri h¾adaní inverzie v $GF{2}^{n}$.}
-\label{tab:inverse}
-\begin{tabular}{ |c|c|c|c| }
-\hline
-Redukènı polynóm &  $x + 1$ & ${x}^{30} + x + 1$ & ${x}^{60} + x + 1$  \\
-\hline
-Štandardné násobenie & $ 11,1 $ & $ N/A $ & $ N/A $   \\
-\hline
-Square and Multiply & $ 0,21 $ & $ 4,23 $ & $ 41,36 $   \\
-\hline
-Rozšírenı Euklidov algoritmus & $ 0,14 $ & $ 0,34 $ & $ 0,83 $   \\
-\hline
-\end{tabular}
-\end {table}
-
-	\mbox{\qquad } Z tıchto údajov je vidie, e Rozšírenı Euklidov algoritmus je vhodnı pre poèítanie
-	inverzie prvkov koneèného po¾a. Pri h¾adaní inverzie umocòovaním vıpoèetnı èas so zväèšujúcou sa
-	ve¾kosou po¾a prudko stúpa. Algoritmus Square and Multiply	je vırazne pomalší a algoritmus poèítania
-	štandardnım násobením je s èasovou zloitosou \textrm O$(2^{n})$ pre väèšie polia
-	v praxi nepouitelnı.
-   
-   \item \textbf{Testovanie ireducibility polynómov: } \\
-   Pri vytváraní koneèného po¾a $GF({2}^{n})$ je potrebné špecifikova ireducibilnı polynóm pre dané pole.
-   Trieda GF2N preto ponúka statickú metódu na test ireducibility polynómu s koeficientami v GF(${2}$). 
-   Na tento test je pouitá metóda Rabínov test ireducibility~\cite{Irreducible}, ktorá hovorí: 
-   
-   \textbf{Veta 4.1.1} \emph{(Rabínov test ireducibility)}.
-	Polynóm $f(x)$ s prvkami v GF(${2}$) stupòa $n$ je ireducibilnı len vtedy, ak platí:
-   \begin{align*}
-		gcd(f(x), x^{2^{{n}/{p_{i}}}} - x) = 1
-		\intertext{pre $1 \leq i \leq n$, kde $p_{1}, ..., p_{n}$ sú prvoèíselné delitele èísla $n$.}
-		\intertext{Zároveò musí plati:}
-		 x^{2^{n}} - x \equiv 0 \ mod \ f.
-	\end{align*}
-	 
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s polynómami s prvkami v $GF({2}^{n})$ } 
-Pre poèítanie s polynómami s prvkami v $GF({2}^{n})$ bola navrhnutá trieda PolynomialGF2N. Jej verejné metódy
-sú popísané rozhraním GaloisFieldPolynomialArithmetic, ktoré je touto triedou implementované. Táto trieda pracuje
-s objektami typu Polynomial, ktoré slúia na objektovú reprezentáciu polynómov. Trieda PolynomialGF2N poskytuje
-nasledujúce funkcie: 
-
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie: } \\
-  
-  \item \textbf{Násobenie a delenie: } \\
-  Násobenie a delenie polynómov. Delenie je moné aj so získaním zvyšku po delení.
-  
-  \item \textbf{Najväèší spoloènı delite¾: } \\
-   Trieda PolynomialGF2N poskytuje metódu gcd (skratka z anglického greatest common divisor), ktorá slúi na
-   vıpoèet najväèšieho spoloèného delite¾a dvoch polynómov. Pri vıpoète je pouitı
-   Euklidov algoritmus, ktorı vısledok získava postupnım delením polynómov a ich zvykov.
-   
-   \item \textbf{Inverzia polynómu: } \\
-   Pre vıpoèet inverzného polynómu s prvkami v poli $GF({2}^{n})$ je potrebné špecifikova 2 polynómy.
-   Polynóm $f(x)$ stupòa $n$, pre ktorı chceme spoèíta inverziu. Taktie je potrebné špecifikova polynóm $m(x)$
-   stupòa aspoò $n + 1$, modulo ktorı budeme inverznı polynóm poèíta. H¾adáme teda polynóm ${f}^{-1}$, pre
-   ktorı platí: 
-    \begin{align*}
-		(f(x) \cdot {f(x)}^{-1}) mod \ m(x) = 1.
-	\end{align*}
-	\mbox{\qquad } Na tento vıpoèet je pouitı Rozšírenı Euklidov algoritmus. 
-   
-   \item \textbf{Umocòovanie.} \\
-   Je implementované pomocou algoritmu Square and Multiply.
-   
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s vektormi s prvkami v $GF({2}^{n})$ } 
-S vektormi v koneènıch poliach v tejto kninici poèíta trieda VectorGF2N implementujúca rozhranie GaloisFieldVectorArithmetic. 
-Na objektovú reprezentáciu vektorov bola vytvorená trieda Vector. Pre poèítanie s vektormi sú implementované nasledujúce funkcie:
-\begin{enumerate}
-  \item \textbf{Sèítanie.} 
-  \item \textbf{Odèítanie.}
-  \item \textbf{Násobenie skalárom.} 
-\end{enumerate}
-
-
-
-\subsection { Poèítanie s maticami s prvkami v $GF({2}^{n})$ }
-Na poèítanie s maticami s prvkami v $GF({2}^{n})$ bola vytvorená trieda \\ MatrixGF2N. Táto trieda poèíta s objektami typu Matrix
-a implementuje rozhranie GaloisFieldMatrixArithmetic, súèasou ktorého sú nasledujúce funkcie: 
-\begin{enumerate}
-  \item \textbf{Sèítanie a odèítanie.} 
-  
-  \item \textbf{Násobenie: }	\\
-  Implementované je násobenie matíc maticami, násobenie matíc vektormi, a taktie násobenie matíc skalárnymi hodnotami.
-  
-  \item \textbf{Inverzia: }  \\
-  Vıpoèet inverznej matice prebieha postupnımi transformáciami riadkov pôvodnej matice, ktoré sú aplikované aj na k nej 
-  vytvorenú jednotkovú maticu. Pôvodná matica je postupne upravovaná na jednotkovú maticu, zatia¾ èo z jednotkovej matice
-  vznikne vısledná inverzná matica.
-  
-  \item \textbf{Determinant: }  \\
-  Implementácia vıpoètu determinantu matíc vyuíva Laplaceov rozvoj~\cite{Laplace}. Ten hovorí, e pre maticu $n \times n$ sa jej determinant
-  dá vypoèíta ako: \\
-  
-  \begin{align*}
-     \det A = \sum\limits_{j=1}^n {(-1)^{i+j} a_{i,j} C_{i,j}}	
-  \end{align*}
-  kde:	\\
-  ${i}$ je index ¾ubovolne zvoleného riadku(alebo ståpca), pod¾a ktorého budeme rozvoj poèíta.	\\
-  ${j}$ je index ståpca (ak poèítame rozvoj pod¾a riadku) alebo riadku (ak poèítame rozvoj pod¾a ståpca).	\\
-  $a_{i,j}$ je prvok matice urèenı indexami ${i}$ a ${j}$.	\\
-  $C_{i,j}$ je kofaktor matice, teda determinant matice bez riadku a ståpca, na ktorom sa nachádza prvok $a_{i,j}$.  
-  
-  \mbox{\qquad } Metóda triedy MatrixGF2N na vıpoèet determinantu vyuíva Laplaceov rozvoj pod¾a prvého riadku matice.
-  
-  \item \textbf{Gaussova eliminácia: }  \\
-  Trieda MatrixGF2N ponúka metódu, ktorá pre vstupnú maticu vykoná Gaussovu elimináciu. Cie¾om Gaussovej eliminácie je
-  upravi vstupnú maticu do tzv. stupòovitého riadkového tvaru (z anglického row echelon form)~\cite{Echelon}, pre ktorı platí:
-  \begin{enumerate}  
-	\item Všetky nulové riadky sú na spodku matice.
-	\item Pivot kadého riadku matice je napravo od pivota riadku nad ním.
-	\item Pivot kadého nenulového riadku je 1.
-	\item Ståpec pod pivotom kadého riadku je nulovı.
-  \end{enumerate}
-  \mbox{\qquad } Aby boli vısledky mojej kninice totoné s kninicou NTL, je v mojej implementácii vynechanı bod (c).
-
-  \item \textbf{Riešenie lineárneho systému rovníc: }  \\
-   Trieda MatrixGF2N ponúka implementáciu riešenia lineárneho systému rovníc v koneènom poli $GF({2}^{n})$.
-   Pre maticu ${A}$ a vektor ${y}$ h¾adáme vektor ${x}$ tak, aby platilo: 
-   \begin{align*}
-     A \cdot x = y.
-  \end{align*}
-  
-  \item \textbf{Hodnos: }  \\
-  Vıpoèet poètu lineárne nezávislıch riadkov v matici.
-  
-  \item \textbf{Jadro: }  \\
-  Vısledkom metódy kernel pre vıpoèet jadra matice v triede MatrixGF2N je matica, 
-  ktorej súèin so vstupnou maticou vráti nulovú maticu.
-  
-  
-  \item \textbf{Obraz.}  \\
-  Vısledkom metódy image pre vıpoèet obrazu matice v triede MatrixGF2N je matica v stupòovitom riadkovom tvare, 
-  ktorá je vypoèítaná ako báza vektorového priestoru vstupnej matice.
-  
-  \item \textbf{Umocòovanie.}  \\
-  Je implementované pomocou algoritmu Square and Multiply.
-
-\end{enumerate}
-
-\subsection { Ukáka kódu }
-Pre lepšiu predstavu o pouívaní vytvorenej kninice obsahuje táto èas krátku ukáku kódu.
+\chapter { Ukáka kódu }
+\label{chap:code}
+Táto èas obsahuje krátky zdrojovı kód v jazyku Java.
 Je to metóda main, ktorá slúi ako ukáka poèítania s prvkami, s polynómami a s maticami 
 v koneènıch poliach pomocou mojej kninice. Za òou nasleduje aj textovı vıstup tohto kódu.
 
@@ -1205,6 +1514,9 @@ v koneènıch poliach pomocou mojej kninice. Za òou nasleduje aj textovı vıstup t
 [ 423, 153, 111 ]
 [ 566, 365, 803 ]
 
+
+
+
 Inverse of Matrix: 
 [ 517, 636, 808 ]
 [ 198, 105, 357 ]
@@ -1214,300 +1526,6 @@ Inverse of Matrix:
 [ 754, 780, 545 ]
 [ 267, 1002, 88 ]
 \end{verbatim}
-  
-
-\section { AES }
-Súèasou praktickej èasti tejto bakalárskej práce bola aj implementácia šifrovacieho algoritmu AES. Niektoré 
-jeho operácie vykonávajú vıpoèty v koneènom poli $GF({2}^{n})$. Cie¾om teda nebola len správna implementácia
-tohto algoritmu, ale taktie praktické vyuitie kninice pre poèítanie v koneènıch poliach a overenie správnosti
-jej vıpoètov.	\\
-\mbox{\qquad } Pre tento úèel bola navrhnutá trieda AES, ktorá ponúka metódy pre šifrovanie a dešifrovanie
-dát s 128, 192, aj s 256-bitovım k¾úèom. 
-Pri vytváraní objektu tejto triedy je najskôr potrebné vytvori substituèné tabu¾ky vyuívané algoritmom AES.
-Jednou z moností by bolo uloenie konštantnıch hodnôt tıchto tabuliek do atribútov tejto triedy. Keïe ale
-bolo cie¾om aj overenie správnosti kninice pre poèítanie v koneènıch poliach, sú tieto tabu¾ky vypoèítané
-pri vzniku objektu typu AES pod¾a špecifikácie algoritmu AES.	\\
-\mbox{\qquad } Pri vytváraní objektu typu AES je taktie moné špecifikova mód blokovej šifry, ktorı bude
-pri šifrovaní a dešifrovaní dát pouitı. Trieda AES podporuje štyri módy: ECB, CBC, CFB, a OFB.
-Ak mód blokovej šifry špecifikovanı nie je, bude šifrovanie a dešifrovanie implicitne prebieha v jednoduchom
-ECB móde.
-
-
-\section { Testy }
-Po dokonèení implementácie vıslednej aplikácie bolo vytvorenıch nieko¾ko testov.
-Ich cie¾om je otestova správnos jej funkcionality a rıchlos jej vıpoètov. 
-
-
-\subsection { Validaèné testy }
-Validaèné testy slúia na overenie správnosti vıpoètov. Porovnávajú sa v nich oèakávané a vypoèítané vısledky aplikácie.
-Pre tento úèel bolo vytvorenıch nieko¾ko testovacích tried, ktoré sú súèasou Netbeans projektu.
-Všetky verejné metódy triedy AES aj kninice pre poèítanie v koneènıch poliach boli úspešne otestované tımito triedami.
-Na testovanie je pouitı testovací framework pre jednotkové testy JUnit.
-Pre kadú testovanú triedu je vytvorená aspoò jedna samostatná testovacia trieda.
-Testovacie triedy mojej aplikácie sú rozdelené do dvoch balíkov:
-
-\begin{enumerate}
-\item \textbf{Balík GaloisFieldsValidityTesting:}	\\
-Slúi na testovanie správnosti vıstupov kninice pre poèítanie v koneènıch poliach.
-Kadı test je rozdelenı na 2 èasti. Prvá èas pracuje s konštantnımi hodnotami a
-od kninice oèakáva správny vısledok od vopred známeho vırazu.
-Druhá èas pracuje s náhodnımi dátami.
-Testovacie dáta sú vygenerované pri kadom testovaní náhodne. Oèakávané vıstupy tıchto testov
-sú odvodené od matematickıch vlastností, ktoré musia by pre dané operácie vdy splnené.
-
-\item \textbf{Balík AESTesting:}	\\
-Slúi na testovanie správnosti vıstupov triedy AES. Pre kadı mód blokovej šifry je vytvorená
-samostatná testovacia trieda, ktorá šifrovanie v tomto móde testuje. Testovacie dáta sú
-pri kadom testovaní rovnaké. Jedná sa o  testovacie vektory z dôveryhodnıch zdrojov,
-ktoré pre zadanı k¾úè a blok dát (prípadne aj inicializaènı vektor v inom móde ako ECB)
-definujú, ako má vyzera vıslednı zašifrovanı text. Rovnako sa postupuje aj pri dešifrovaní dát.
-Ïalej tento balík testuje, èi sa náhodné texty po zašifrovaní a následnom dešifrovaní nezmenia.
- 
-\end{enumerate}
-
-\subsection { Rıchlostné testy }
-Súèasou testovania boli aj rıchlostné testy. Ich cie¾om bolo zisti rıchlostné rozdiely oproti kninici NTL.
-Porovnávané boli všetky verejné metódy mojej kninice. (pozn. zatial okrem testovania ireducibility) 
-Kadá z nich bola spustená 1 000 000 krát. 
-Vdy boli najskôr vygenerované náhodné testovacie dáta potrebné pre danú metódu.	\\
-\mbox{\qquad } V nasledujúcej èasti sú zobrazené tabu¾ky, v ktorıch sú uvedené namerané hodnoty v tıchto testoch v sekundách.
-Mnou vyvinutá kninica je v nich oznaèená ako GF2N~LIB: \\
-
-
-\begin{enumerate}
-\item
-Testovanie poèítania s prvkami v $GF{2}^{n}$ bolo vykonané pre redukèné polynómy stupòa 1, 30 a 60.
-Pri umocòovaní prvkov bolo ako exponent zvolené èíslo 1000.
-
-%Tabulka testov s prvkami
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie kniníc pri poèítaní s prvkami v $GF{2}^{n}$.}
-\begin{tabular}{ |c|c|c||c|c||c|c| }
-\hline
-Redukènı polynóm & \multicolumn{2}{ c|| }{$x + 1$} & \multicolumn{2}{ c|| }{${x}^{30} + x + 1$} & \multicolumn{2}{ c| }{${x}^{60} + x + 1$}  \\
-\hline
-%\rowcolor{Gray}
-\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB}  \\
-\hline
-Sèítanie & 0,11 & \multicolumn{1}{c||}{0,14} & 0,11 & \multicolumn{1}{c||}{0,18} & 0,11 & 0,15 \\
-\hline
-Odèítanie & 0,11 & \multicolumn{1}{c||}{0,14} & 0,11 & \multicolumn{1}{c||}{0,16} & 0,12 & 0,13 \\
-\hline
-Násobenie & 0,16 & \multicolumn{1}{c||}{0,15} & 0,39 & \multicolumn{1}{c||}{0,78} & 0,59 & 0,89 \\
-\hline
-Delenie & 0,3 & \multicolumn{1}{c||}{0,11} & 1,15 & \multicolumn{1}{c||}{29,71} & 1,92 & 294,16 \\
-\hline
-Inverzia prvku & 0,24 & \multicolumn{1}{c||}{0,14} & 0,93 & \multicolumn{1}{c||}{28,3} & 1,43 & 296,9 \\
-\hline
-Mocnina prvku & 0,73 & \multicolumn{1}{c||}{0,17} & 3,53 & \multicolumn{1}{c||}{3,26} & 5,4 & 7,78 \\
-\hline
-\end{tabular}
-\end {table}
-
-\item
-Testovanie poèítania s vektormi s prvkami v $GF{2}^{n}$ bolo vykonané pre vektory s ve¾kosami 5 a 30.
-Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
-
-%Tabulka testov s vektormi
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie kniníc pri poèítaní s vektormi.}
-\begin{tabular}{ |c|c|c||c|c| }
-\hline
-Ve¾kos vektora & \multicolumn{2}{ c|| }{$5$} & \multicolumn{2}{ c| }{$30$}\\
-\hline
-%\rowcolor{Gray}
-\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} \\
-\hline
-Sèítanie & 0,33 & \multicolumn{1}{c||}{0,43} & 1,31 & 9,94\\
-\hline
-Odèítanie & 0,32 & \multicolumn{1}{c||}{0,41} & 1,26 & 9,83\\
-\hline
-Násobenie skalárom & 1,08 & \multicolumn{1}{c||}{1,13} & 4,59 & 5,99\\
-\hline
-\end{tabular}
-\end {table}
-
-\item
-Testovanie poèítania s polynómami s prvkami v $GF{2}^{n}$ bolo vykonané pre polynómy stupòa 5 a 30.
-Pri delení a pri vıpoète najväèšieho spoloèného delite¾a bol prvı vstupnı polynóm stupòa dvakrát väèšieho ako je uvedené v tabu¾ke.
-Pri vıpoète inverzného polynómu bol tento vıpoèet poèítanı modulo polynóm stupòa taktie dvakrát väèšieho ako je uvedené v tabu¾ke.
-Pri umocòovaní polynómov bolo ako exponent zvolené èíslo 100.
-Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
-
-%Tabulka testov s polynomami
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie kniníc pri poèítaní s polynómami.}
-\begin{tabular}{ |c|c|c||c|c| }
-\hline
-Stupeò polynómov & \multicolumn{2}{ c|| }{$5$} & \multicolumn{2}{ c| }{$30$}\\
-\hline
-%\rowcolor{Gray}
-\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} \\
-\hline
-Sèítanie & 0,32 & \multicolumn{1}{c||}{0,39} & 1,14 & 9,78\\
-\hline
-Odèítanie & 0,3 & \multicolumn{1}{c||}{0,42} & 1,14 & 9,85\\
-\hline
-Násobenie & 1,64 & \multicolumn{1}{c||}{4,94} & 8,88 & 113,91\\
-\hline
-Delenie & 2,84 & \multicolumn{1}{c||}{22,24} & 26,27 & 56,07\\
-\hline
-GCD & 9,31 & \multicolumn{1}{c||}{48,97} & 152,02 & 347,12\\
-\hline
-Inverzia & 22,69 & \multicolumn{1}{c||}{76,68} & 713,22 & 1060,22\\
-\hline
-Umocnenie & 38,33 & \multicolumn{1}{c||}{6921} & 330,13 & 343470\\
-\hline
-\end{tabular}
-\end {table}
-
-\item
-Testovanie poèítania s maticami s prvkami v $GF{2}^{n}$ bolo vykonané pre štvorcové matice
-ve¾kosti $5 \times 5$ a $10 \times 10$.
-Pri umocòovaní matíc bolo ako exponent zvolené èíslo 100.
-Ako ireducibilnı polynóm bol zvolenı: ${x}^{10} + {x}^{3} + 1$.
-
-%Tabulka testov s maticami
-\begin {table}[H]
-\centering
-\caption {Rıchlostné porovnanie kniníc pri poèítaní s maticami.}
-\begin{tabular}{ |c|c|c||c|c| }
-\hline
-Ve¾kos matice & \multicolumn{2}{ c|| }{$5 \times 5$} & \multicolumn{2}{ c| }{$10 \times 10$}\\
-\hline
-%\rowcolor{Gray}
-\textbf{Kninica}  & \textbf{NTL}  & \textbf{GF2N LIB}  & \textbf{NTL}  & \textbf{GF2N LIB} \\
-\hline
-Sèítanie & 5,09 & \multicolumn{1}{c||}{4,11} & 17,8 & 15,39\\
-\hline
-Odèítanie & 5,15 & \multicolumn{1}{c||}{3,91} & 18,62 & 15,36\\
-\hline
-Násobenie & 12,05 & \multicolumn{1}{c||}{20,7} & 70,66 & 114,9\\
-\hline
-Inverzia & 18,36 & \multicolumn{1}{c||}{157,55} & 93,29 & 731,4\\
-\hline
-Determinant & 9,48 & \multicolumn{1}{c||}{62,5} & 42,22 & 1892500\\
-\hline
-Gaussova elim. & 9,6 & \multicolumn{1}{c||}{22,27} & 44,18 & 91,13\\
-\hline
-Lin. systém rovníc & 12,33 & \multicolumn{1}{c||}{55,28} & 47,89 & 237,32\\
-\hline
-Obraz & 11,98 & \multicolumn{1}{c||}{44,6} & 51,46 & 203,42\\
-\hline
-Jadro & 12,68 & \multicolumn{1}{c||}{24,5} & 53,96 & 89,71\\
-\hline
-Umocnenie & 67,16 & \multicolumn{1}{c||}{1372} & 446,92 & 10501\\
-\hline
-\end{tabular}
-\end {table}
-
-\end{enumerate}
-
-
-Rıchlostné testovanie bolo vykonané pre získanie predstavy o rıchlosti mojej kninice oproti uznávanej,
-vysokorıchlostnej kninici NTL. Testy boli vytvorené tak, aby zaznamenali èasovú zloitos pouitıch algoritmov
-pre rôzne vstupné dáta. Z vısledkov mono vyèíta, e vıpoèetnı èas niektorıch mojich algoritmov extrémne rıchlo narastá pri
-zväèšujúcich sa vstupnıch dátach. Na základe tıchto vısledkov je moné prispôsobi prácu na kninici v budúcnosti a 
-algoritmy s vysokou zloitosou nahradi rıchlejšími.
-
-
-
-\section { Moné rozšírenia }
-\label{sec:PossibleExpansions}
-Mnou vytvorenú aplikácia má nieko¾ko nedostatkov, ktoré by bolo dobré v budúcnosti vylepši èi odstráni.
-Taktie existuje rada rozšírení, ktoré by bolo vhodné do aplikácie doplni.	\\
-Toto sú námety na prácu do budúcna:	\\
-
-\begin{enumerate}
-\item 
-Zmena reprezentácie prvkov koneèného po¾a. Moja kninica reprezentuje prvok po¾a $GF({2}^{n})$
-pomocou primitívneho dátového typu Long. Znamená to ale, e maximálna hodnota takého prvku je
-${2}^{63} - 1$. To môe by v niektorıch prípadoch nedostatoèné. Preto by bolo dobré vytvori
-triedu, ktorá by si vo svojom atribúte udriavala kolekciu Longov a implementovala by pre òu
-základnú aritmetiku. Kninica by túto triedu mohla vyuíva na reprezentáciu prvkov po¾a, ktorıch
-ve¾kos by tak u nebola obmedzená. Ïalšie moné riešene by bolo vyuitie inej kninice na tento
-úèel, napríklad niektorú z dostupnıch portácii kninice GMP (opísanej v èasti ~\ref{subsec:GMP}) pre jazyk Java.
-
-\item  
-Vyuitie lepších a rıchlejších algoritmov. Porovnanie s kninicou NTL ukázali, e mnostvo metód
-by mohlo fungova rıchlejšie pri zvolení iného prístupu. Preto by bola do budúcna vhodná hlbšia
-analıza riešenıch problémov a nájdenie efektívnejších matematickıch postupov pre ich riešenie.
-Súèasné riešenia sa zameriavajú najmä na správnos vısledku, nie vdy aj na rıchlos cesty k nemu.	\\
-\mbox{\qquad } Mohlo by ís napríklad o pouitie algoritmu Karatsuba pri násobení polynómov.
-Ïalej by bolo vhodné poui inú metódu na poèítanie determinantu. Súèastnı Laplaceov rozvoj so
-zloitosou \textrm O$({2}^{n}n)$ ~\cite{DeterminantEfficient} by sa dal nahradi napríklad metódou LU dekompozície, 
-ktorej zloitos je \textrm O$({n}^{3})$ ~\cite{DeterminantEfficient}.
-
-
-\item
-Pridanie ïalšej funkcionality. Súèasná verzia kninice dokáe pracova s nieko¾kımi matematickımi objektami
-a pre kadı z nich zvláda nieko¾ko operácií. Ich poèet je ale obmedzenı a existuje mnostvo ïalších zaujímavıch
-funkcií, ktoré by bolo dobré v budúcnosti do kninice prida. Mohlo by sa jedna napríklad o generovanie
-ireducibilnıch polynómov, funkcie pre minimálne polynómy,
-modulárnu kompozíciu, faktorizáciu polynómov, a mnoho iného. Taktie by mohli by pridané ïalšie algoritmy
-(tak ako algoritmus AES), ktoré vyuívajú funkcionalitu kninice. Mohlo by ís napríklad o algoritmy pre
-kryptografiu nad eliptickımi krivkami.
-
-\item
-Zlepšenie objektového návrhu kninice. Pri práci na kninici v budúcnosti by bolo dobré zaèa úpravou tried
-a rozhraní do podoby, ktorá by zabezpeèovala lepšiu rozšíritelnos. Tento cie¾ by sa dal dosiahnu èastejším
-vyuívaním rozhraní, generickıch typov, abstraktnıch tried a dediènosti.
-Ako inšpirácia by mohol slúi balík linearalgebra kninice Bouncy Castle, ktorı tieto zásady dodruje. 
-
-  
-\end{enumerate}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapter 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter { Záver }
-Cie¾om mojej bakalárskej práce bolo vytvori kninicu schopnú poèíta 
-v koneènıch poliach s rôznymi matematickımi štruktúrami. Ïalej bolo 
-cie¾om implementova šifrovací algoritmus AES, ktorı má funkcionalitu 
-tejto kninice vyuíva. \\
-\mbox{\qquad } Vısledná aplikácia je funkèná a pracuje pod¾a vopred stanovenıch 
-poiadaviek. Z porovnaní s ostatnımi kninicami ale vyplıva, e na 
-aplikácii je stále èo zlepšova. Vısledky rıchlostnıch porovnávacích 
-testov s kninicou NTL ukázali, e pre mnostvo funkcií existujú 
-lepšie a mnohonásobne rıchlejšie algoritmy. Taktie by bolo dobré do 
-aplikácie doplni navrhované vylepšenia zo sekcie ~\ref{sec:PossibleExpansions}. \\
-\mbox{\qquad } Napriek tımto nedostatkom je vısledkom mojej práce funkèná kninica, 
-ktorej pouitie je jednoduché. Jej vyuite¾nos je úspešne demonštrovaná funkènou implementáciou algoritmu AES.
-Pre jazyk Java existuje len ve¾mi málo 
-nástrojov s podobnou funkcionalitou. Po zapracovaní navrhovanıch 
-vylepšení by sa z nej mohol sta dobrı nástroj pre poèítanie v 
-koneènıch poliach pouitelnı do rôznych ïalších projektov. 
-
-
-\newpage
-
-\bibliography{bp_biblio} % soubor s citovanımi
-                           % polokami bibliografie 
-	
-\nocite{*}	
-%\printindex	
-
-
-\begin{appendices}
-\chapter{Obsah priloeného DVD}
-Priloené DVD obsahuje:
-\begin{itemize}
-
-	\item 
-	\texttt{src/Computation\_with\_finite\_fields} - Zloka so zdrojovımi kódmi mojej aplikácie vo formáte NetBeans projektu.
-	\item 
-	\texttt{src/tests} - Zloka so zdrojovımi kódmi vykonanıch rıchlostnıch testov.
-	\item 
-	\texttt{text/bp.tex} - Zdrojovı textovı súbor tejto práce pre sadzací systém \LaTeX.
-	\item 
-	\texttt{text/bp.bib} - Zdrojovı textovı súbor bibliografie tejto práce pre nástroj \BibTeX.
-		
-\end{itemize}
 
 \end{appendices}
 					   
